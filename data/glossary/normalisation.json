@@ -1,0 +1,6566 @@
+{
+ "descripcion": "Registro de las decisiones de estructuración del inventario de the glossary: unificación de variantes formales y de sinónimos, lema en singular, notas conceptuales y formas que se cuentan para cada entrada. convert.py lo aplica al generar entries.json y normalizacion.html lo muestra. Las frecuencias no se guardan aquí: las calcula _dev/recount_variants.py y las escribe en frecuencias.json.",
+ "fecha": "2026-09-23",
+ "referencia": "Criterio de variación formal (Capítulo 3, p. 182) y Apéndice III de la tesis.",
+ "tipos": {
+  "variante_formal": {
+   "es": "Variantes formales",
+   "en": "Formal variants"
+  },
+  "sinonimia": {
+   "es": "Sinonimia y parasinonimia",
+   "en": "Synonymy and near-synonymy"
+  },
+  "lema_singular": {
+   "es": "Lema en singular",
+   "en": "Singular lemma"
+  }
+ },
+ "relaciones": {
+  "sigla": {
+   "es": "sigla",
+   "en": "acronym"
+  },
+  "forma_desarrollada": {
+   "es": "forma desarrollada",
+   "en": "full form"
+  },
+  "forma_extendida": {
+   "es": "sigla con núcleo",
+   "en": "acronym with head noun"
+  },
+  "traduccion": {
+   "es": "forma traducida",
+   "en": "translated form"
+  },
+  "variante_ortografica": {
+   "es": "variante ortográfica",
+   "en": "spelling variant"
+  },
+  "reduccion": {
+   "es": "forma reducida",
+   "en": "reduced form"
+  },
+  "variante_denominativa": {
+   "es": "variante denominativa",
+   "en": "denominative variant"
+  },
+  "sinonimo": {
+   "es": "sinónimo",
+   "en": "synonym"
+  },
+  "prestamo": {
+   "es": "préstamo",
+   "en": "loanword"
+  },
+  "lema": {
+   "es": "lema",
+   "en": "lemma"
+  },
+  "forma_completa": {
+   "es": "forma completa",
+   "en": "full form"
+  },
+  "forma_con_nucleo": {
+   "es": "forma con núcleo",
+   "en": "form with head noun"
+  }
+ },
+ "entradas": [
+  {
+   "slug": "bnc",
+   "fuente": "bnc",
+   "absorbe": [
+    "british_national_corpus"
+   ],
+   "tipo": "variante_formal",
+   "criterio": "Sigla y forma desarrollada del mismo corpus.",
+   "criterio_en": "Acronym and full form of the same corpus.",
+   "formas": {
+    "en": [
+     {
+      "forma": "BNC",
+      "relacion": "sigla",
+      "cuenta": [
+       "BNC"
+      ]
+     },
+     {
+      "forma": "British National Corpus",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "British National Corpus"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "BNC",
+      "relacion": "sigla",
+      "cuenta": [
+       "BNC"
+      ]
+     },
+     {
+      "forma": "British National Corpus",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "British National Corpus"
+      ]
+     },
+     {
+      "forma": "Corpus Nacional Británico",
+      "relacion": "traduccion",
+      "cuenta": [
+       "Corpus Nacional Británico"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "slug": "coca",
+   "fuente": "coca",
+   "absorbe": [
+    "corpus_of_contemporary_american_english"
+   ],
+   "tipo": "variante_formal",
+   "criterio": "Sigla y forma desarrollada del mismo corpus, con la traducción que figuraba en el glosario.",
+   "criterio_en": "Acronym and full form of the same corpus, with the translation previously listed in the glossary.",
+   "formas": {
+    "en": [
+     {
+      "forma": "COCA",
+      "relacion": "sigla",
+      "cuenta": [
+       "COCA"
+      ]
+     },
+     {
+      "forma": "Corpus of Contemporary American English",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Corpus of Contemporary American English"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "COCA",
+      "relacion": "sigla",
+      "cuenta": [
+       "COCA"
+      ]
+     },
+     {
+      "forma": "Corpus of Contemporary American English",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Corpus of Contemporary American English"
+      ]
+     },
+     {
+      "forma": "Corpus de Inglés Americano Contemporáneo",
+      "relacion": "traduccion",
+      "cuenta": [
+       "Corpus de Inglés Americano Contemporáneo",
+       "Corpus del Inglés Americano Contemporáneo"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "slug": "lob",
+   "fuente": "lob",
+   "absorbe": [
+    "lob_corpus"
+   ],
+   "tipo": "variante_formal",
+   "criterio": "Sigla, sigla con núcleo («LOB Corpus») y forma desarrollada (Lancaster-Oslo/Bergen Corpus, con sus variantes de puntuación). Se cuentan sin solapamiento: una aparición de «LOB Corpus» no se cuenta además como «LOB». En español, «LOB» aparece sola («el LOB») o junto a la forma desarrollada.",
+   "criterio_en": "Acronym, acronym with head noun («LOB Corpus») and full form (Lancaster-Oslo/Bergen Corpus, with its punctuation variants). Counted without overlap: an occurrence of «LOB Corpus» is not also counted as «LOB». In Spanish, «LOB» appears alone («el LOB») or next to the full form.",
+   "formas": {
+    "en": [
+     {
+      "forma": "LOB",
+      "relacion": "sigla",
+      "cuenta": [
+       "LOB"
+      ]
+     },
+     {
+      "forma": "LOB Corpus",
+      "relacion": "forma_extendida",
+      "cuenta": [
+       "LOB Corpus"
+      ]
+     },
+     {
+      "forma": "Lancaster-Oslo/Bergen Corpus",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Lancaster-Oslo/Bergen Corpus",
+       "Lancaster-Oslo/Bergen",
+       "Lancaster-Oslo-Bergen Corpus",
+       "Lancaster-Oslo-Bergen",
+       "Lancaster Oslo/Bergen",
+       "Lancaster Oslo-Bergen",
+       "Lancaster – Oslo/Bergen",
+       "Lancaster–Oslo/Bergen"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "LOB",
+      "relacion": "sigla",
+      "cuenta": [
+       "LOB",
+       "LOB Corpus"
+      ]
+     },
+     {
+      "forma": "Lancaster-Oslo/Bergen",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Lancaster-Oslo/Bergen Corpus",
+       "Lancaster-Oslo/Bergen",
+       "Lancaster-Oslo-Bergen Corpus",
+       "Lancaster-Oslo-Bergen",
+       "Lancaster Oslo/Bergen",
+       "Lancaster Oslo-Bergen",
+       "Lancaster – Oslo/Bergen",
+       "Lancaster–Oslo/Bergen"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "slug": "pos_tagging",
+   "fuente": "pos_tagging",
+   "absorbe": [
+    "part_of_speech_tagging"
+   ],
+   "tipo": "variante_formal",
+   "criterio": "Sigla y forma desarrollada, con sus variantes ortográficas (con y sin guion). En español, «etiquetado morfosintáctico» es la forma asentada; «etiquetado POS» aparece de forma puntual.",
+   "criterio_en": "Acronym and full form, with their spelling variants (hyphenated or not). In Spanish, «etiquetado morfosintáctico» is the established form; «etiquetado POS» appears occasionally.",
+   "formas": {
+    "en": [
+     {
+      "forma": "POS tagging",
+      "relacion": "sigla",
+      "cuenta": [
+       "POS tagging",
+       "POS-tagging"
+      ]
+     },
+     {
+      "forma": "part-of-speech tagging",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "part-of-speech tagging",
+       "part of speech tagging"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "etiquetado morfosintáctico",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "etiquetado morfosintáctico"
+      ]
+     },
+     {
+      "forma": "etiquetado POS",
+      "relacion": "sigla",
+      "cuenta": [
+       "etiquetado POS"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "slug": "speech_corpus",
+   "fuente": "speech_corpus",
+   "absorbe": [
+    "spoken_corpus"
+   ],
+   "tipo": "sinonimia",
+   "criterio": "Dos denominaciones inglesas para el mismo concepto: «speech corpus» tiene más ocurrencias, pero «spoken corpus» la usan muchos más documentos. En español ambas tenían ya el mismo equivalente, «corpus oral».",
+   "criterio_en": "Two English names for the same concept: «speech corpus» has more occurrences, but «spoken corpus» is used by many more documents. In Spanish both already had the same equivalent, «corpus oral».",
+   "formas": {
+    "en": [
+     {
+      "forma": "speech corpus",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "speech corpus",
+       "speech corpora"
+      ]
+     },
+     {
+      "forma": "spoken corpus",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "spoken corpus",
+       "spoken corpora"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "corpus oral",
+      "relacion": "lema",
+      "cuenta": [
+       "corpus oral",
+       "corpus orales"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "slug": "corpus_building",
+   "fuente": "corpus_building",
+   "absorbe": [
+    "corpus_compilation"
+   ],
+   "tipo": "sinonimia",
+   "criterio": "Sinónimos que designan el proceso de construir un corpus.",
+   "criterio_en": "Synonyms for the process of building a corpus.",
+   "formas": {
+    "en": [
+     {
+      "forma": "corpus building",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "corpus building"
+      ]
+     },
+     {
+      "forma": "corpus compilation",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "corpus compilation"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "construcción de corpus",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "construcción de corpus"
+      ]
+     },
+     {
+      "forma": "compilación de corpus",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "compilación de corpus"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "slug": "raw_frequency",
+   "fuente": "raw_frequency",
+   "absorbe": [
+    "absolute_frequency"
+   ],
+   "tipo": "sinonimia",
+   "criterio": "Sinónimos que designan el número de apariciones sin normalizar. La preferencia se invierte entre lenguas: en inglés predomina «raw frequency» y en español, «frecuencia absoluta».",
+   "criterio_en": "Synonyms for the unnormalised number of occurrences. The preference is reversed across languages: «raw frequency» prevails in English and «frecuencia absoluta» in Spanish.",
+   "formas": {
+    "en": [
+     {
+      "forma": "raw frequency",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "raw frequency",
+       "raw frequencies"
+      ]
+     },
+     {
+      "forma": "absolute frequency",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "absolute frequency",
+       "absolute frequencies"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "frecuencia absoluta",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "frecuencia absoluta",
+       "frecuencias absolutas"
+      ]
+     },
+     {
+      "forma": "frecuencia bruta",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "frecuencia bruta",
+       "frecuencias brutas"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "slug": "inter_annotator_agreement",
+   "fuente": "inter_annotator_agreement",
+   "absorbe": [
+    "inter_rater_reliability"
+   ],
+   "tipo": "sinonimia",
+   "criterio": "Parasinónimos: ambos designan la concordancia entre anotadores independientes; «rater» es más general que «annotator». En español se documenta «acuerdo entre anotadores» (también en «pruebas de acuerdo entre anotadores») y, puntualmente, el préstamo.",
+   "criterio_en": "Near-synonyms: both refer to agreement between independent annotators; «rater» is more general than «annotator». In Spanish, «acuerdo entre anotadores» is attested (also in «pruebas de acuerdo entre anotadores»), and the loanword occasionally.",
+   "formas": {
+    "en": [
+     {
+      "forma": "inter-annotator agreement",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "inter-annotator agreement",
+       "inter annotator agreement",
+       "interannotator agreement"
+      ]
+     },
+     {
+      "forma": "inter-rater reliability",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "inter-rater reliability",
+       "inter rater reliability",
+       "interrater reliability"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "acuerdo entre anotadores",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "acuerdo entre anotadores",
+       "acuerdo entre los anotadores"
+      ]
+     },
+     {
+      "forma": "inter-annotator agreement",
+      "relacion": "prestamo",
+      "cuenta": [
+       "inter-annotator agreement"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "slug": "word_class",
+   "fuente": "word_class",
+   "absorbe": [
+    "parts_of_speech"
+   ],
+   "tipo": "sinonimia",
+   "criterio": "Sinónimos. «Word class» y «clase de palabras» tienen más ocurrencias, pero «part of speech» y «categoría gramatical» las usan más documentos. Las formas adjetivas del tipo «part-of-speech tagging» no se cuentan aquí porque forman parte de otro término.",
+   "criterio_en": "Synonyms. «Word class» and «clase de palabras» have more occurrences, but «part of speech» and «categoría gramatical» are used by more documents. Adjectival uses such as «part-of-speech tagging» are not counted here because they belong to another term.",
+   "formas": {
+    "en": [
+     {
+      "forma": "word class",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "word class",
+       "word classes"
+      ]
+     },
+     {
+      "forma": "part of speech",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "part of speech",
+       "parts of speech"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "clase de palabras",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "clase de palabras",
+       "clases de palabras",
+       "clase de palabra",
+       "clases de palabra"
+      ]
+     },
+     {
+      "forma": "categoría gramatical",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "categoría gramatical",
+       "categorías gramaticales"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "slug": "frequency_list",
+   "fuente": "frequency_list",
+   "absorbe": [
+    "word_list"
+   ],
+   "tipo": "sinonimia",
+   "criterio": "Parasinónimos que designan la lista de formas de un corpus ordenada por frecuencia. «Wordlist» se trata como variante ortográfica de «word list». En español se documenta además el préstamo «wordlist», que el Apéndice III recoge como término del subcorpus español.",
+   "criterio_en": "Near-synonyms for the list of a corpus's word forms ordered by frequency. «Wordlist» is treated as a spelling variant of «word list». In Spanish the loanword «wordlist» is also attested; Appendix III lists it as a term of the Spanish subcorpus.",
+   "formas": {
+    "en": [
+     {
+      "forma": "frequency list",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "frequency list",
+       "frequency lists"
+      ]
+     },
+     {
+      "forma": "word list",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "word list",
+       "word lists",
+       "wordlist",
+       "wordlists"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "lista de frecuencias",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "lista de frecuencias",
+       "listas de frecuencias",
+       "lista de frecuencia",
+       "listas de frecuencia"
+      ]
+     },
+     {
+      "forma": "lista de palabras",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "lista de palabras",
+       "listas de palabras"
+      ]
+     },
+     {
+      "forma": "wordlist",
+      "relacion": "prestamo",
+      "cuenta": [
+       "wordlist",
+       "wordlists"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "slug": "query",
+   "fuente": "query",
+   "absorbe": [
+    "corpus_queries"
+   ],
+   "tipo": "sinonimia",
+   "criterio": "«Corpus query» es una variante especificada de «query» con el mismo referente dentro del dominio. Aviso: en español, «consulta» también tiene usos de lengua general, lo que infla su frecuencia.",
+   "criterio_en": "«Corpus query» is a specified variant of «query» with the same referent in the domain. Caveat: in Spanish, «consulta» also has general-language uses, which inflate its frequency.",
+   "formas": {
+    "en": [
+     {
+      "forma": "query",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "query",
+       "queries"
+      ]
+     },
+     {
+      "forma": "corpus query",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "corpus query",
+       "corpus queries"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "consulta",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "consulta",
+       "consultas"
+      ]
+     },
+     {
+      "forma": "consulta de corpus",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "consulta de corpus",
+       "consultas de corpus"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "slug": "concordance",
+   "fuente": "concordance",
+   "absorbe": [
+    "concordance_lines"
+   ],
+   "tipo": "sinonimia",
+   "criterio": "Una concordancia es el conjunto de sus líneas; «concordance lines» se usa en el corpus como sinónimo de la concordancia misma. KWIC se mantiene aparte porque designa un formato concreto de presentación.",
+   "criterio_en": "A concordance is the set of its lines; «concordance lines» is used in the corpus as a synonym of the concordance itself. KWIC is kept separate because it names a specific display format.",
+   "formas": {
+    "en": [
+     {
+      "forma": "concordance",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "concordance",
+       "concordances"
+      ]
+     },
+     {
+      "forma": "concordance line",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "concordance line",
+       "concordance lines"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "concordancia",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "concordancia",
+       "concordancias"
+      ]
+     },
+     {
+      "forma": "línea de concordancia",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "línea de concordancia",
+       "líneas de concordancia"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "slug": "hapax_legomenon",
+   "fuente": "hapax_legomena",
+   "absorbe": [],
+   "tipo": "lema_singular",
+   "criterio": "Lema en singular (hapax legomenon), con el plural como forma flexiva. La forma reducida «hapax» es una variante, no la principal.",
+   "criterio_en": "Singular lemma (hapax legomenon), with the plural as an inflected form. The reduced form «hapax» is a variant, not the main form.",
+   "formas": {
+    "en": [
+     {
+      "forma": "hapax legomenon",
+      "relacion": "forma_completa",
+      "cuenta": [
+       "hapax legomenon",
+       "hapax legomena"
+      ]
+     },
+     {
+      "forma": "hapax",
+      "relacion": "reduccion",
+      "cuenta": [
+       "hapax",
+       "hapaxes"
+      ],
+      "excluye": [
+       "hapax dislegomena",
+       "hapax dislegomenon"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "hapax legómeno",
+      "relacion": "forma_completa",
+      "cuenta": [
+       "hapax legómeno",
+       "hapax legómenos",
+       "hapax legómenon",
+       "hapax legómena"
+      ]
+     },
+     {
+      "forma": "hápax",
+      "relacion": "reduccion",
+      "cuenta": [
+       "hápax",
+       "hapax"
+      ],
+      "excluye": [
+       "hapax dislegómena",
+       "hapax dislegomena",
+       "hápax dislegómena"
+      ]
+     }
+    ]
+   },
+   "principal": {
+    "es": "hápax"
+   },
+   "motivo_principal": {
+    "es": "Excepción a la regla de las formas reducidas: «hápax» es la única forma documentada en el subcorpus español y es la forma académica (DLE).",
+    "en": "Exception to the reduced-form rule: «hápax» is the only form attested in the Spanish subcorpus and is the academic form (DLE)."
+   }
+  },
+  {
+   "slug": "mega_corpus",
+   "fuente": "mega_corpora",
+   "absorbe": [],
+   "tipo": "lema_singular",
+   "criterio": "Lema en singular. Se agrupan las variantes ortográficas (separado, con guion o junto). En español, la forma documentada es la prefijada «megacorpus», conforme a la norma de escritura de prefijos.",
+   "criterio_en": "Singular lemma. Spelling variants (open, hyphenated or closed) are grouped. In Spanish, the attested form is the prefixed «megacorpus», in line with the spelling rule for prefixes.",
+   "formas": {
+    "en": [
+     {
+      "forma": "mega corpus",
+      "relacion": "lema",
+      "cuenta": [
+       "mega corpus",
+       "mega corpora",
+       "mega-corpus",
+       "mega-corpora",
+       "megacorpus",
+       "megacorpora"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "megacorpus",
+      "relacion": "lema",
+      "cuenta": [
+       "megacorpus",
+       "mega corpus",
+       "mega-corpus",
+       "megacorpora",
+       "mega corpora"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "slug": "content_word",
+   "fuente": "content_words",
+   "absorbe": [],
+   "tipo": "lema_singular",
+   "criterio": "Lema en singular; el plural se cuenta como forma flexiva.",
+   "criterio_en": "Singular lemma; the plural is counted as an inflected form.",
+   "formas": {
+    "en": [
+     {
+      "forma": "content word",
+      "relacion": "lema",
+      "cuenta": [
+       "content word",
+       "content words"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "palabra de contenido",
+      "relacion": "lema",
+      "cuenta": [
+       "palabra de contenido",
+       "palabras de contenido"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "slug": "lexical_bundle",
+   "fuente": "lexical_bundles",
+   "absorbe": [],
+   "tipo": "lema_singular",
+   "criterio": "Lema en singular; el plural se cuenta como forma flexiva.",
+   "criterio_en": "Singular lemma; the plural is counted as an inflected form.",
+   "formas": {
+    "en": [
+     {
+      "forma": "lexical bundle",
+      "relacion": "lema",
+      "cuenta": [
+       "lexical bundle",
+       "lexical bundles"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "grupo léxico",
+      "relacion": "lema",
+      "cuenta": [
+       "grupo léxico",
+       "grupos léxicos"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "slug": "association_measure",
+   "fuente": "association_measures",
+   "absorbe": [],
+   "tipo": "lema_singular",
+   "criterio": "Lema en singular; el plural se cuenta como forma flexiva.",
+   "criterio_en": "Singular lemma; the plural is counted as an inflected form.",
+   "formas": {
+    "en": [
+     {
+      "forma": "association measure",
+      "relacion": "lema",
+      "cuenta": [
+       "association measure",
+       "association measures"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "medida de asociación",
+      "relacion": "lema",
+      "cuenta": [
+       "medida de asociación",
+       "medidas de asociación"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "slug": "annotation_tool",
+   "fuente": "annotation_tools",
+   "absorbe": [],
+   "tipo": "lema_singular",
+   "criterio": "Lema en singular; el plural se cuenta como forma flexiva.",
+   "criterio_en": "Singular lemma; the plural is counted as an inflected form.",
+   "formas": {
+    "en": [
+     {
+      "forma": "annotation tool",
+      "relacion": "lema",
+      "cuenta": [
+       "annotation tool",
+       "annotation tools"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "herramienta de anotación",
+      "relacion": "lema",
+      "cuenta": [
+       "herramienta de anotación",
+       "herramientas de anotación"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "slug": "descriptive_statistics",
+   "fuente": "descriptive_statistics",
+   "absorbe": [],
+   "tipo": "lema_singular",
+   "criterio": "En español, lema en singular («estadística descriptiva», nombre de la disciplina). En inglés se mantiene «descriptive statistics»: como nombre de disciplina, «statistics» es un sustantivo no contable en singular, y «descriptive statistic» designaría una sola medida.",
+   "criterio_en": "In Spanish, singular lemma («estadística descriptiva», the name of the discipline). In English «descriptive statistics» is kept: as the name of a discipline, «statistics» is an uncountable singular noun, and «descriptive statistic» would refer to a single measure.",
+   "formas": {
+    "en": [
+     {
+      "forma": "descriptive statistics",
+      "relacion": "lema",
+      "cuenta": [
+       "descriptive statistics"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "estadística descriptiva",
+      "relacion": "lema",
+      "cuenta": [
+       "estadística descriptiva",
+       "estadísticas descriptivas"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "slug": "inferential_statistics",
+   "fuente": "inferential_statistics",
+   "absorbe": [],
+   "tipo": "lema_singular",
+   "criterio": "En español, lema en singular («estadística inferencial»). En inglés se mantiene «inferential statistics», por la misma razón que «descriptive statistics».",
+   "criterio_en": "In Spanish, singular lemma («estadística inferencial»). In English «inferential statistics» is kept, for the same reason as «descriptive statistics».",
+   "formas": {
+    "en": [
+     {
+      "forma": "inferential statistics",
+      "relacion": "lema",
+      "cuenta": [
+       "inferential statistics"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "estadística inferencial",
+      "relacion": "lema",
+      "cuenta": [
+       "estadística inferencial",
+       "estadísticas inferenciales"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "slug": "metadata",
+   "fuente": "metadata",
+   "absorbe": [],
+   "tipo": "lema_singular",
+   "criterio": "En español, lema en singular («metadato», recogido en el DLE), con el plural como forma flexiva. En inglés, «metadata» funciona como sustantivo no contable y no tiene singular en uso.",
+   "criterio_en": "In Spanish, singular lemma («metadato», listed in the DLE), with the plural as an inflected form. In English, «metadata» works as an uncountable noun and has no singular in use.",
+   "formas": {
+    "en": [
+     {
+      "forma": "metadata",
+      "relacion": "lema",
+      "cuenta": [
+       "metadata"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "metadato",
+      "relacion": "lema",
+      "cuenta": [
+       "metadato",
+       "metadatos"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "slug": "annotation",
+   "fuente": "annotation",
+   "absorbe": [
+    "corpus_annotation"
+   ],
+   "tipo": "sinonimia",
+   "criterio": "«Corpus annotation» y «annotation» designan lo mismo dentro del dominio: la especificación «corpus» es redundante en el contexto de la disciplina.",
+   "criterio_en": "«Corpus annotation» and «annotation» refer to the same thing within the domain: the specifier «corpus» is redundant in the context of the discipline.",
+   "formas": {
+    "en": [
+     {
+      "forma": "annotation",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "annotation",
+       "annotations"
+      ]
+     },
+     {
+      "forma": "corpus annotation",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "corpus annotation",
+       "corpus annotations"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "anotación",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "anotación",
+       "anotaciones"
+      ]
+     },
+     {
+      "forma": "anotación de corpus",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "anotación de corpus",
+       "anotaciones de corpus",
+       "anotación del corpus",
+       "anotaciones del corpus"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "slug": "corpus_based",
+   "fuente": "corpus_based",
+   "absorbe": [],
+   "tipo": "sinonimia",
+   "criterio": "En español conviven la forma patrimonial «basado en corpus» (con su flexión de género y número) y el préstamo «corpus-based». Véase también la nota sobre su relación con «corpus-driven».",
+   "criterio_en": "In Spanish, the native form «basado en corpus» (inflected for gender and number) coexists with the loanword «corpus-based». See also the note on its relation to «corpus-driven».",
+   "formas": {
+    "en": [
+     {
+      "forma": "corpus-based",
+      "relacion": "lema",
+      "cuenta": [
+       "corpus-based"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "basado en corpus",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "basado en corpus",
+       "basada en corpus",
+       "basados en corpus",
+       "basadas en corpus"
+      ]
+     },
+     {
+      "forma": "corpus-based",
+      "relacion": "prestamo",
+      "cuenta": [
+       "corpus-based"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "slug": "corpus_driven",
+   "fuente": "corpus_driven",
+   "absorbe": [],
+   "tipo": "sinonimia",
+   "criterio": "«Dirigido por corpus», la forma que figuraba antes, no aparece en el subcorpus español. Se documentan el préstamo «corpus-driven», que es la forma más frecuente, y «guiado por corpus». La tesis ya identifica este término como laguna del español (§ 4.5).",
+   "criterio_en": "«Dirigido por corpus», the form listed before, is not attested in the Spanish subcorpus. The loanword «corpus-driven», the most frequent form, and «guiado por corpus» are attested. The thesis already identifies this term as a gap in Spanish (§ 4.5).",
+   "formas": {
+    "en": [
+     {
+      "forma": "corpus-driven",
+      "relacion": "lema",
+      "cuenta": [
+       "corpus-driven"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "corpus-driven",
+      "relacion": "prestamo",
+      "cuenta": [
+       "corpus-driven"
+      ]
+     },
+     {
+      "forma": "guiado por corpus",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "guiado por corpus",
+       "guiada por corpus",
+       "guiados por corpus",
+       "guiadas por corpus"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "slug": "keyword",
+   "fuente": "keyword",
+   "absorbe": [],
+   "tipo": "sinonimia",
+   "criterio": "En español conviven «palabra clave» y el préstamo «keyword», que el Apéndice III recoge como término del subcorpus español («keywords»).",
+   "criterio_en": "In Spanish, «palabra clave» coexists with the loanword «keyword», which Appendix III lists as a term of the Spanish subcorpus («keywords»).",
+   "formas": {
+    "en": [
+     {
+      "forma": "keyword",
+      "relacion": "lema",
+      "cuenta": [
+       "keyword",
+       "keywords"
+      ],
+      "excluye": [
+       "keyword in context",
+       "keywords in context"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "palabra clave",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "palabra clave",
+       "palabras clave",
+       "palabras claves"
+      ],
+      "excluye": [
+       "palabra clave en contexto",
+       "palabras clave en contexto"
+      ]
+     },
+     {
+      "forma": "keyword",
+      "relacion": "prestamo",
+      "cuenta": [
+       "keyword",
+       "keywords"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "slug": "ttr",
+   "fuente": "type_token_ratio",
+   "absorbe": [],
+   "tipo": "variante_formal",
+   "criterio": "Sigla y forma desarrollada. La sigla es más frecuente en los dos subcorpus, pero se concentra en muy pocos documentos. En español, la forma desarrollada se documenta como «relación entre (los) types y tokens» y como préstamo («type-token ratio», normalmente junto a la sigla); «relación tipo-token», el equivalente que figuraba antes, no aparece. El Apéndice III recoge «TTR» como término del subcorpus español.",
+   "criterio_en": "Acronym and full form. The acronym is more frequent in both subcorpora but concentrated in very few documents. In Spanish, the full form is attested as «relación entre (los) types y tokens» and as a loanword («type-token ratio», usually next to the acronym); «relación tipo-token», the equivalent listed before, is not attested. Appendix III lists «TTR» as a term of the Spanish subcorpus.",
+   "formas": {
+    "en": [
+     {
+      "forma": "TTR",
+      "relacion": "sigla",
+      "cuenta": [
+       "TTR",
+       "TTRs"
+      ]
+     },
+     {
+      "forma": "type-token ratio",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "type-token ratio",
+       "type-token ratios",
+       "type/token ratio",
+       "type/token ratios"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "TTR",
+      "relacion": "sigla",
+      "cuenta": [
+       "TTR"
+      ]
+     },
+     {
+      "forma": "relación entre types y tokens",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "relación entre types y tokens",
+       "relación entre los types y tokens",
+       "relación entre los types y los tokens",
+       "relación entre type y token",
+       "relación entre los type y token",
+       "cociente entre types y tokens",
+       "cociente types/tokens"
+      ]
+     },
+     {
+      "forma": "type-token ratio",
+      "relacion": "prestamo",
+      "cuenta": [
+       "type-token ratio",
+       "type/token ratio"
+      ]
+     },
+     {
+      "forma": "relación tipo-token",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "relación tipo-token",
+       "relación tipo/token"
+      ]
+     },
+     {
+      "forma": "ratio tipo-token",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "ratio tipo-token",
+       "ratio estandarizada tipo-token",
+       "ratio tipo/token"
+      ]
+     }
+    ]
+   },
+   "principal": {
+    "en": "type-token ratio",
+    "es": "relación entre types y tokens"
+   },
+   "motivo_principal": {
+    "es": "Decisión expresa: se prefiere la forma desarrollada, más transparente, aunque la sigla sea más frecuente. En español se usa la forma desarrollada documentada («relación entre types y tokens»).",
+    "en": "Explicit decision: the full form is preferred because it is more transparent, even though the acronym is more frequent. In Spanish, the attested full form («relación entre types y tokens») is used."
+   }
+  },
+  {
+   "slug": "lemmatisation",
+   "fuente": "lemmatisation",
+   "absorbe": [],
+   "tipo": "variante_formal",
+   "criterio": "Variante ortográfica británica (-isation) y estadounidense (-ization) del mismo término.",
+   "criterio_en": "British (-isation) and American (-ization) spelling variants of the same term.",
+   "formas": {
+    "en": [
+     {
+      "forma": "lemmatisation",
+      "relacion": "variante_ortografica",
+      "cuenta": [
+       "lemmatisation",
+       "lemmatisations"
+      ]
+     },
+     {
+      "forma": "lemmatization",
+      "relacion": "variante_ortografica",
+      "cuenta": [
+       "lemmatization",
+       "lemmatizations"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "lematización",
+      "relacion": "lema",
+      "cuenta": [
+       "lematización",
+       "lematizaciones"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "slug": "tokenization",
+   "fuente": "tokenisation",
+   "absorbe": [],
+   "tipo": "variante_formal",
+   "criterio": "Variante ortográfica estadounidense (-ization) y británica (-isation) del mismo término.",
+   "criterio_en": "American (-ization) and British (-isation) spelling variants of the same term.",
+   "formas": {
+    "en": [
+     {
+      "forma": "tokenization",
+      "relacion": "variante_ortografica",
+      "cuenta": [
+       "tokenization",
+       "tokenizations"
+      ]
+     },
+     {
+      "forma": "tokenisation",
+      "relacion": "variante_ortografica",
+      "cuenta": [
+       "tokenisation",
+       "tokenisations"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "tokenización",
+      "relacion": "lema",
+      "cuenta": [
+       "tokenización",
+       "tokenizaciones"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "slug": "normalized_frequency",
+   "fuente": "normalized_frequency",
+   "absorbe": [],
+   "tipo": "variante_formal",
+   "criterio": "Variante ortográfica estadounidense (-ized) y británica (-ised) del mismo término.",
+   "criterio_en": "American (-ized) and British (-ised) spelling variants of the same term.",
+   "formas": {
+    "en": [
+     {
+      "forma": "normalized frequency",
+      "relacion": "variante_ortografica",
+      "cuenta": [
+       "normalized frequency",
+       "normalized frequencies"
+      ]
+     },
+     {
+      "forma": "normalised frequency",
+      "relacion": "variante_ortografica",
+      "cuenta": [
+       "normalised frequency",
+       "normalised frequencies"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "frecuencia normalizada",
+      "relacion": "lema",
+      "cuenta": [
+       "frecuencia normalizada",
+       "frecuencias normalizadas"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "slug": "specialised_corpus",
+   "fuente": "specialized_corpus",
+   "absorbe": [],
+   "tipo": "variante_formal",
+   "criterio": "Variante ortográfica británica (-ised) y estadounidense (-ized) del mismo término.",
+   "criterio_en": "British (-ised) and American (-ized) spelling variants of the same term.",
+   "formas": {
+    "en": [
+     {
+      "forma": "specialised corpus",
+      "relacion": "variante_ortografica",
+      "cuenta": [
+       "specialised corpus",
+       "specialised corpora"
+      ]
+     },
+     {
+      "forma": "specialized corpus",
+      "relacion": "variante_ortografica",
+      "cuenta": [
+       "specialized corpus",
+       "specialized corpora"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "corpus especializado",
+      "relacion": "lema",
+      "cuenta": [
+       "corpus especializado",
+       "corpus especializados"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "slug": "chi_squared",
+   "fuente": "chi_squared",
+   "absorbe": [],
+   "tipo": "variante_formal",
+   "criterio": "Variantes formales de la misma prueba estadística; en inglés, «chi-square» es la forma que usan más documentos. En español, la tesis ya identifica «chi cuadrado», «ji cuadrado» y «χ cuadrado» como variantes denominativas (§ 3). «χ cuadrado» se cuenta como «chi cuadrado» escrito con la letra griega; el símbolo «χ2» de las fórmulas no se cuenta. «Test de chi-cuadrado», la forma que figuraba antes, no aparece en el subcorpus.",
+   "criterio_en": "Formal variants of the same statistical test; in English, «chi-square» is the form used by more documents. For Spanish, the thesis already identifies «chi cuadrado», «ji cuadrado» and «χ cuadrado» as denominative variants (§ 3). «χ cuadrado» is counted as «chi cuadrado» written with the Greek letter; the formula symbol «χ2» is not counted. «Test de chi-cuadrado», the form listed before, is not attested in the subcorpus.",
+   "formas": {
+    "en": [
+     {
+      "forma": "chi-squared",
+      "relacion": "variante_ortografica",
+      "cuenta": [
+       "chi-squared"
+      ]
+     },
+     {
+      "forma": "chi-square",
+      "relacion": "variante_ortografica",
+      "cuenta": [
+       "chi-square",
+       "chi square"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "chi cuadrado",
+      "relacion": "variante_ortografica",
+      "cuenta": [
+       "chi cuadrado",
+       "chi-cuadrado",
+       "χ cuadrado",
+       "test de chi-cuadrado",
+       "prueba de chi cuadrado"
+      ]
+     },
+     {
+      "forma": "ji cuadrado",
+      "relacion": "variante_ortografica",
+      "cuenta": [
+       "ji cuadrado",
+       "ji-cuadrado"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "slug": "learner_corpus",
+   "fuente": "learner_corpus",
+   "absorbe": [],
+   "tipo": "sinonimia",
+   "criterio": "En español conviven «corpus de aprendientes» y «corpus de aprendices» para el mismo concepto.",
+   "criterio_en": "In Spanish, «corpus de aprendientes» and «corpus de aprendices» coexist for the same concept.",
+   "formas": {
+    "en": [
+     {
+      "forma": "learner corpus",
+      "relacion": "lema",
+      "cuenta": [
+       "learner corpus",
+       "learner corpora"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "corpus de aprendientes",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "corpus de aprendientes"
+      ]
+     },
+     {
+      "forma": "corpus de aprendices",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "corpus de aprendices"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "slug": "dependency_parsing",
+   "fuente": "dependency_parsing",
+   "absorbe": [],
+   "tipo": "sinonimia",
+   "criterio": "En español se documentan «análisis de dependencias» y la forma más explícita «análisis sintáctico de dependencias».",
+   "criterio_en": "In Spanish, «análisis de dependencias» and the more explicit «análisis sintáctico de dependencias» are attested.",
+   "formas": {
+    "en": [
+     {
+      "forma": "dependency parsing",
+      "relacion": "lema",
+      "cuenta": [
+       "dependency parsing"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "análisis de dependencias",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "análisis de dependencias"
+      ]
+     },
+     {
+      "forma": "análisis sintáctico de dependencias",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "análisis sintáctico de dependencias"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "slug": "clustering",
+   "fuente": "clustering",
+   "absorbe": [],
+   "tipo": "sinonimia",
+   "criterio": "En español conviven el préstamo «clustering», «agrupamiento» (la forma que usa la propia tesis: «agrupamiento (clustering)»), «análisis de conglomerados» y «análisis de grupos». «Agrupamiento» también tiene usos generales: se ha revisado cada aparición y se excluye la única no técnica («agrupamiento humano»).",
+   "criterio_en": "In Spanish, the loanword «clustering» coexists with «agrupamiento» (the form used in the thesis itself: «agrupamiento (clustering)»), «análisis de conglomerados» and «análisis de grupos». «Agrupamiento» also has general uses: every occurrence was checked and the only non-technical one («agrupamiento humano») is excluded.",
+   "formas": {
+    "en": [
+     {
+      "forma": "clustering",
+      "relacion": "lema",
+      "cuenta": [
+       "clustering"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "clustering",
+      "relacion": "prestamo",
+      "cuenta": [
+       "clustering"
+      ]
+     },
+     {
+      "forma": "agrupamiento",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "agrupamiento",
+       "agrupamientos"
+      ],
+      "excluye": [
+       "agrupamiento humano"
+      ]
+     },
+     {
+      "forma": "análisis de conglomerados",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "análisis de conglomerados"
+      ]
+     },
+     {
+      "forma": "análisis de grupos",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "análisis de grupos"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "slug": "sample_size",
+   "fuente": "sample_size",
+   "absorbe": [],
+   "tipo": "sinonimia",
+   "criterio": "«Tamaño de muestra», la forma que figuraba antes, no aparece en el subcorpus español; se documentan «tamaño de la muestra» (también «tamaño de las muestras») y «tamaño muestral».",
+   "criterio_en": "«Tamaño de muestra», the form listed before, is not attested in the Spanish subcorpus; «tamaño de la muestra» (also «tamaño de las muestras») and «tamaño muestral» are attested.",
+   "formas": {
+    "en": [
+     {
+      "forma": "sample size",
+      "relacion": "lema",
+      "cuenta": [
+       "sample size",
+       "sample sizes"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "tamaño de la muestra",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "tamaño de la muestra",
+       "tamaños de la muestra",
+       "tamaño de las muestras",
+       "tamaños de las muestras"
+      ]
+     },
+     {
+      "forma": "tamaño muestral",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "tamaño muestral",
+       "tamaños muestrales"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "slug": "statistical_significance",
+   "fuente": "statistical_significance",
+   "absorbe": [],
+   "tipo": "sinonimia",
+   "criterio": "«Significancia estadística», la forma que figuraba antes, no aparece en el subcorpus español; se documentan «significatividad estadística» y «significación estadística».",
+   "criterio_en": "«Significancia estadística», the form listed before, is not attested in the Spanish subcorpus; «significatividad estadística» and «significación estadística» are attested.",
+   "formas": {
+    "en": [
+     {
+      "forma": "statistical significance",
+      "relacion": "lema",
+      "cuenta": [
+       "statistical significance"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "significatividad estadística",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "significatividad estadística"
+      ]
+     },
+     {
+      "forma": "significación estadística",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "significación estadística"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "slug": "alignment",
+   "fuente": "alignment",
+   "absorbe": [],
+   "tipo": "sinonimia",
+   "criterio": "En español se documentan «alineación» y su sinónimo «alineamiento» («alineamiento de corpus paralelos», «alineamiento de frases»). Se excluye «alineamiento dinámico en el tiempo», que designa otra técnica (del reconocimiento del habla). La forma «emparejamiento de segmentos», que usaba la definición anterior, no aparece en el corpus.",
+   "criterio_en": "In Spanish, «alineación» and its synonym «alineamiento» are attested («alineamiento de corpus paralelos», «alineamiento de frases»). «Alineamiento dinámico en el tiempo» is excluded, as it names another technique (from speech recognition). «Emparejamiento de segmentos», used in the former definition, is not attested in the corpus.",
+   "formas": {
+    "en": [
+     {
+      "forma": "alignment",
+      "relacion": "lema",
+      "cuenta": [
+       "alignment",
+       "alignments"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "alineación",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "alineación",
+       "alineaciones"
+      ]
+     },
+     {
+      "forma": "alineamiento",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "alineamiento",
+       "alineamientos"
+      ],
+      "excluye": [
+       "alineamiento dinámico en el tiempo",
+       "alineamiento dinámico"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "slug": "tagset",
+   "fuente": "tagset",
+   "absorbe": [],
+   "tipo": "sinonimia",
+   "criterio": "En español conviven «etiquetario», «conjunto de etiquetas» y el préstamo «tagset». Por el criterio de la denominación principal, se prefiere la forma española documentada.",
+   "criterio_en": "In Spanish, «etiquetario», «conjunto de etiquetas» and the loanword «tagset» coexist. By the main-form criterion, the attested Spanish form is preferred.",
+   "formas": {
+    "en": [
+     {
+      "forma": "tagset",
+      "relacion": "lema",
+      "cuenta": [
+       "tagset",
+       "tagsets"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "etiquetario",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "etiquetario",
+       "etiquetarios"
+      ]
+     },
+     {
+      "forma": "conjunto de etiquetas",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "conjunto de etiquetas",
+       "conjuntos de etiquetas"
+      ]
+     },
+     {
+      "forma": "tagset",
+      "relacion": "prestamo",
+      "cuenta": [
+       "tagset",
+       "tagsets"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "slug": "treebank",
+   "fuente": "treebank",
+   "absorbe": [],
+   "tipo": "sinonimia",
+   "criterio": "En español se documenta el préstamo «treebank», mucho más frecuente, y la forma española «corpus anotado sintácticamente» (también «corpus sintácticamente anotado»). Por el criterio de la denominación principal, se prefiere la forma española documentada; el préstamo figura como variante denominativa. «Banco de árboles», el equivalente que figuraba antes, no aparece en el corpus.",
+   "criterio_en": "In Spanish, the loanword «treebank», far more frequent, and the Spanish form «corpus anotado sintácticamente» (also «corpus sintácticamente anotado») are attested. By the main-form criterion, the attested Spanish form is preferred; the loanword is listed as a denominative variant. «Banco de árboles», the equivalent listed before, is not attested in the corpus.",
+   "formas": {
+    "en": [
+     {
+      "forma": "treebank",
+      "relacion": "lema",
+      "cuenta": [
+       "treebank",
+       "treebanks"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "corpus anotado sintácticamente",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "corpus anotado sintácticamente",
+       "corpus anotados sintácticamente",
+       "corpus sintácticamente anotado",
+       "corpus sintácticamente anotados"
+      ]
+     },
+     {
+      "forma": "treebank",
+      "relacion": "prestamo",
+      "cuenta": [
+       "treebank",
+       "treebanks"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "slug": "stem",
+   "fuente": "stem",
+   "absorbe": [],
+   "tipo": "sinonimia",
+   "criterio": "En español se documenta «raíz» para esta unidad (también en el contexto del stemming) y, de forma aislada, el préstamo «stem». «Raíz» también tiene usos generales y morfológicos (la raíz frente al tema), así que su frecuencia está inflada.",
+   "criterio_en": "In Spanish, «raíz» is attested for this unit (also in the context of stemming), and the loanword «stem» occasionally. «Raíz» also has general and morphological uses (root as opposed to stem), so its frequency is inflated.",
+   "formas": {
+    "en": [
+     {
+      "forma": "stem",
+      "relacion": "lema",
+      "cuenta": [
+       "stem",
+       "stems"
+      ],
+      "excluye": [
+       "stem from",
+       "stems from"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "raíz",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "raíz",
+       "raíces"
+      ],
+      "excluye": [
+       "a raíz de"
+      ]
+     },
+     {
+      "forma": "stem",
+      "relacion": "prestamo",
+      "cuenta": [
+       "stem",
+       "stems"
+      ],
+      "excluye": [
+       "stem from",
+       "stems from"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "slug": "dataset",
+   "fuente": "dataset",
+   "absorbe": [],
+   "tipo": "sinonimia",
+   "criterio": "En español se prefiere «conjunto de datos»; el préstamo «dataset» aparece de forma puntual.",
+   "criterio_en": "In Spanish, «conjunto de datos» is preferred; the loanword «dataset» appears occasionally.",
+   "formas": {
+    "en": [
+     {
+      "forma": "dataset",
+      "relacion": "lema",
+      "cuenta": [
+       "dataset",
+       "datasets"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "conjunto de datos",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "conjunto de datos",
+       "conjuntos de datos"
+      ]
+     },
+     {
+      "forma": "dataset",
+      "relacion": "prestamo",
+      "cuenta": [
+       "dataset",
+       "datasets"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "slug": "n_gram",
+   "fuente": "n_gram",
+   "absorbe": [],
+   "tipo": "variante_formal",
+   "criterio": "Variantes ortográficas (con y sin guion) y préstamo de la forma inglesa en los textos españoles.",
+   "criterio_en": "Spelling variants (with and without hyphen), and the English form used as a loanword in Spanish texts.",
+   "formas": {
+    "en": [
+     {
+      "forma": "n-gram",
+      "relacion": "variante_ortografica",
+      "cuenta": [
+       "n-gram",
+       "n-grams"
+      ]
+     },
+     {
+      "forma": "ngram",
+      "relacion": "variante_ortografica",
+      "cuenta": [
+       "ngram",
+       "ngrams"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "n-grama",
+      "relacion": "variante_ortografica",
+      "cuenta": [
+       "n-grama",
+       "n-gramas",
+       "ngrama",
+       "ngramas"
+      ]
+     },
+     {
+      "forma": "n-gram",
+      "relacion": "prestamo",
+      "cuenta": [
+       "n-gram",
+       "n-grams",
+       "ngram",
+       "ngrams"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "slug": "wildcard",
+   "fuente": "wildcard",
+   "absorbe": [],
+   "tipo": "sinonimia",
+   "criterio": "En español se usa «comodín»; el préstamo «wildcard» aparece de forma aislada.",
+   "criterio_en": "In Spanish, «comodín» is used; the loanword «wildcard» appears occasionally.",
+   "formas": {
+    "en": [
+     {
+      "forma": "wildcard",
+      "relacion": "lema",
+      "cuenta": [
+       "wildcard",
+       "wildcards"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "comodín",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "comodín",
+       "comodines"
+      ]
+     },
+     {
+      "forma": "wildcard",
+      "relacion": "prestamo",
+      "cuenta": [
+       "wildcard",
+       "wildcards"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "slug": "z_score",
+   "fuente": "z_score",
+   "absorbe": [],
+   "tipo": "sinonimia",
+   "criterio": "No se documenta ninguna forma en el subcorpus español. Se propone «puntuación z», calco habitual en la bibliografía estadística en español; el préstamo «z-score» tampoco aparece.",
+   "criterio_en": "No form is attested in the Spanish subcorpus. «Puntuación z», the usual calque in Spanish statistical literature, is proposed; the loanword «z-score» is not attested either.",
+   "formas": {
+    "en": [
+     {
+      "forma": "z-score",
+      "relacion": "lema",
+      "cuenta": [
+       "z-score",
+       "z-scores"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "puntuación z",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "puntuación z",
+       "puntuaciones z"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "slug": "collocational_strength",
+   "fuente": "collocational_strength",
+   "absorbe": [],
+   "tipo": "sinonimia",
+   "criterio": "En español no aparece «fuerza colocacional», pero sí «fuerza de (la) asociación» y «grado de asociación», referidas a la asociación entre las palabras de una colocación («la información mutua mide la fuerza de asociación entre dos palabras»).",
+   "criterio_en": "In Spanish, «fuerza colocacional» is not attested, but «fuerza de (la) asociación» and «grado de asociación» are, referring to the association between the words of a collocation («la información mutua mide la fuerza de asociación entre dos palabras»).",
+   "formas": {
+    "en": [
+     {
+      "forma": "collocational strength",
+      "relacion": "lema",
+      "cuenta": [
+       "collocational strength"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "fuerza de asociación",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "fuerza de asociación",
+       "fuerza de la asociación"
+      ]
+     },
+     {
+      "forma": "grado de asociación",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "grado de asociación"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "slug": "corpus_query_language",
+   "fuente": "corpus_query_language",
+   "absorbe": [],
+   "tipo": "sinonimia",
+   "criterio": "En español no aparece «lenguaje de consulta de corpus», pero sí «lenguaje de consulta» y «lenguaje de búsqueda de corpus», y el préstamo «Corpus Query Language», que es además el nombre del lenguaje de Sketch Engine (CQL).",
+   "criterio_en": "In Spanish, «lenguaje de consulta de corpus» is not attested, but «lenguaje de consulta» and «lenguaje de búsqueda de corpus» are, as well as the loanword «Corpus Query Language», which is also the name of the Sketch Engine language (CQL).",
+   "formas": {
+    "en": [
+     {
+      "forma": "corpus query language",
+      "relacion": "lema",
+      "cuenta": [
+       "corpus query language",
+       "corpus query languages"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "lenguaje de consulta",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "lenguaje de consulta",
+       "lenguajes de consulta"
+      ]
+     },
+     {
+      "forma": "lenguaje de búsqueda de corpus",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "lenguaje de búsqueda de corpus",
+       "lenguaje de búsqueda",
+       "lenguajes de búsqueda"
+      ]
+     },
+     {
+      "forma": "Corpus Query Language",
+      "relacion": "prestamo",
+      "cuenta": [
+       "Corpus Query Language"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "slug": "mean_score",
+   "fuente": "mean_score",
+   "absorbe": [],
+   "tipo": "sinonimia",
+   "criterio": "«Puntuación media», la forma que figuraba antes, no aparece en el subcorpus español; se documentan «media aritmética» y «valor medio» para este concepto. «Promedio» es más frecuente, pero tiene usos generales y no se incluye.",
+   "criterio_en": "«Puntuación media», the form listed before, is not attested in the Spanish subcorpus; «media aritmética» and «valor medio» are attested for this concept. «Promedio» is more frequent but has general uses and is not included.",
+   "formas": {
+    "en": [
+     {
+      "forma": "mean score",
+      "relacion": "lema",
+      "cuenta": [
+       "mean score",
+       "mean scores"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "media aritmética",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "media aritmética",
+       "medias aritméticas"
+      ]
+     },
+     {
+      "forma": "valor medio",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "valor medio",
+       "valores medios"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "slug": "monitor_corpus",
+   "fuente": "monitor_corpus",
+   "absorbe": [],
+   "tipo": "variante_formal",
+   "criterio": "En español, «monitor» se usa también solo, como reducción de «corpus monitor» («corpus abierto o monitor»). Por eso el Apéndice III recoge solo «corpus monitor».",
+   "criterio_en": "In Spanish, «monitor» is also used alone as a reduction of «corpus monitor» («corpus abierto o monitor»). This is why Appendix III lists only «corpus monitor».",
+   "formas": {
+    "en": [
+     {
+      "forma": "monitor corpus",
+      "relacion": "lema",
+      "cuenta": [
+       "monitor corpus",
+       "monitor corpora"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "corpus monitor",
+      "relacion": "forma_completa",
+      "cuenta": [
+       "corpus monitor"
+      ]
+     },
+     {
+      "forma": "monitor",
+      "relacion": "reduccion",
+      "cuenta": [
+       "monitor"
+      ],
+      "excluye": [
+       "monitor corpus",
+       "monitor corpora"
+      ],
+      "excluye_si": [
+       "(?i)\\b(?:el|del|al) monitor\\b"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "slug": "web_as_corpus",
+   "fuente": "web_as_corpus",
+   "absorbe": [],
+   "tipo": "sinonimia",
+   "criterio": "En el subcorpus español la denominación inglesa convive con la traducción «la web como corpus».",
+   "criterio_en": "In the Spanish subcorpus the English name coexists with the translation «la web como corpus».",
+   "formas": {
+    "en": [
+     {
+      "forma": "web as corpus",
+      "relacion": "lema",
+      "cuenta": [
+       "web as corpus",
+       "web-as-corpus"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "web como corpus",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "web como corpus"
+      ]
+     },
+     {
+      "forma": "web as corpus",
+      "relacion": "prestamo",
+      "cuenta": [
+       "web as corpus"
+      ]
+     }
+    ]
+   },
+   "origen": "es"
+  },
+  {
+   "slug": "web_for_corpus",
+   "fuente": "web_for_corpus",
+   "absorbe": [],
+   "tipo": "sinonimia",
+   "criterio": "La distinción entre web como corpus y web para corpus aparece en el subcorpus español; el subcorpus inglés no usa la segunda denominación.",
+   "criterio_en": "The distinction between web as corpus and web for corpus is drawn in the Spanish subcorpus; the English subcorpus does not use the second label.",
+   "formas": {
+    "en": [
+     {
+      "forma": "web for corpus",
+      "relacion": "lema",
+      "cuenta": [
+       "web for corpus",
+       "web-for-corpus"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "web para corpus",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "web para corpus",
+       "web para los corpus"
+      ]
+     },
+     {
+      "forma": "web for corpus",
+      "relacion": "prestamo",
+      "cuenta": [
+       "web for corpus"
+      ]
+     }
+    ]
+   },
+   "origen": "es"
+  },
+  {
+   "slug": "corpus_based_translation_studies",
+   "fuente": "corpus_based_translation_studies",
+   "absorbe": [],
+   "tipo": "sinonimia",
+   "criterio": "En español la sigla ETBC se introduce a partir de la forma desarrollada; «estudios de traducción con corpus» es la denominación alternativa de Corpas Pastor. Se mantiene como principal la forma desarrollada, como en «relación entre types y tokens».",
+   "criterio_en": "In Spanish, the acronym ETBC is introduced from the full form; «estudios de traducción con corpus» is Corpas Pastor's alternative label. The full form is kept as the main one, as with type-token ratio.",
+   "formas": {
+    "en": [
+     {
+      "forma": "corpus-based translation studies",
+      "relacion": "lema",
+      "cuenta": [
+       "corpus-based translation studies",
+       "corpus-based translation study"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "estudios de la traducción basados en corpus",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "estudios de la traducción basados en corpus",
+       "estudios de traducción basados en corpus"
+      ]
+     },
+     {
+      "forma": "ETBC",
+      "relacion": "sigla",
+      "cuenta": [
+       "ETBC"
+      ]
+     },
+     {
+      "forma": "estudios de traducción con corpus",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "estudios de traducción con corpus"
+      ]
+     }
+    ]
+   },
+   "origen": "es",
+   "principal": {
+    "es": "estudios de la traducción basados en corpus"
+   },
+   "motivo_principal": {
+    "es": "Decisión expresa: la sigla ETBC solo se usa en dos documentos y siempre tras la forma desarrollada, que es más transparente.",
+    "en": "Explicit decision: the acronym ETBC is used in only two documents and always after the full form, which is more transparent."
+   }
+  },
+  {
+   "slug": "lesk_algorithm",
+   "fuente": "lesk_algorithm",
+   "absorbe": [],
+   "tipo": "variante_formal",
+   "criterio": "No aparece en el subcorpus inglés.",
+   "criterio_en": "Not attested in the English subcorpus.",
+   "formas": {
+    "en": [
+     {
+      "forma": "Lesk",
+      "relacion": "lema",
+      "cuenta": [
+       "Lesk"
+      ]
+     },
+     {
+      "forma": "Lesk algorithm",
+      "relacion": "forma_con_nucleo",
+      "cuenta": [
+       "Lesk algorithm",
+       "Lesk's algorithm"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "Lesk",
+      "relacion": "lema",
+      "cuenta": [
+       "Lesk"
+      ]
+     },
+     {
+      "forma": "algoritmo de Lesk",
+      "relacion": "forma_con_nucleo",
+      "cuenta": [
+       "algoritmo de Lesk"
+      ]
+     }
+    ]
+   },
+   "origen": "es",
+   "principal": {
+    "en": "Lesk",
+    "es": "Lesk"
+   },
+   "motivo_principal": {
+    "es": "Decisión expresa de la autora: el recurso se cita por el nombre propio «Lesk».",
+    "en": "Explicit decision by the author: the resource is cited by the proper name «Lesk»."
+   }
+  },
+  {
+   "slug": "frequency_per_million_words",
+   "fuente": "frequency_per_million_words",
+   "absorbe": [],
+   "tipo": "variante_formal",
+   "criterio": "La sigla pmw es frecuente en inglés pero se concentra en pocos documentos; se mantiene como principal la forma desarrollada, como en type-token ratio.",
+   "criterio_en": "The acronym pmw is frequent in English but concentrated in few documents; the full form is kept as the main one, as with type-token ratio.",
+   "formas": {
+    "en": [
+     {
+      "forma": "frequency per million words",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "frequency per million words",
+       "per million words",
+       "words per million"
+      ]
+     },
+     {
+      "forma": "pmw",
+      "relacion": "sigla",
+      "cuenta": [
+       "pmw"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "frecuencia por millón de palabras",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "frecuencia por millón de palabras",
+       "por millón de palabras"
+      ]
+     }
+    ]
+   },
+   "origen": "es",
+   "principal": {
+    "en": "frequency per million words"
+   },
+   "motivo_principal": {
+    "es": "Decisión expresa: se prefiere la forma desarrollada, más transparente, como en type-token ratio.",
+    "en": "Explicit decision: the full form is preferred because it is more transparent, as with type-token ratio."
+   }
+  },
+  {
+   "slug": "universal_pos",
+   "fuente": "universal_pos",
+   "absorbe": [],
+   "tipo": "variante_formal",
+   "criterio": "Formas documentadas de la unidad en cada subcorpus.",
+   "criterio_en": "Attested forms of the unit in each subcorpus.",
+   "formas": {
+    "en": [
+     {
+      "forma": "Universal POS",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Universal POS",
+       "universal part-of-speech tags",
+       "universal part-of-speech"
+      ]
+     },
+     {
+      "forma": "UPOS",
+      "relacion": "sigla",
+      "cuenta": [
+       "UPOS"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "Universal POS",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Universal POS",
+       "universal PoS"
+      ]
+     }
+    ]
+   },
+   "origen": "es",
+   "principal": {
+    "en": "Universal POS"
+   },
+   "motivo_principal": {
+    "es": "Decisión expresa: se mantiene «Universal POS», la forma con que se presenta en los dos subcorpus, frente a la sigla UPOS.",
+    "en": "Explicit decision: «Universal POS», the form used in both subcorpora, is kept rather than the acronym UPOS."
+   }
+  },
+  {
+   "slug": "type",
+   "fuente": "type",
+   "absorbe": [],
+   "tipo": "sinonimia",
+   "criterio": "En inglés, «type» es sobre todo una palabra general («types of», «text types», «this type»). Solo se cuenta en el sentido de type frente a token: cerca de «token», en «word type(s)», «type frequency», «number of types»…; no se cuenta «type-token», que pertenece a la relación entre types y tokens.",
+   "criterio_en": "In English, «type» is also a very frequent general word (text type, type of corpus), so its frequency is highly inflated. In Spanish, the pair is usually expressed with the loanwords (types y tokens) or in «tipo-token».",
+   "formas": {
+    "en": [
+     {
+      "forma": "type",
+      "relacion": "lema",
+      "cuenta": [
+       "type",
+       "types"
+      ],
+      "excluye_si": [
+       "(?i)\\btypes?\\s+of\\b",
+       "(?i)\\b(?:this|that|these|those|same|different|various|other|particular|specific|certain|each|every|any|all|new|one|two|three|four|several|many|what|which|whatever|some|main|major|basic|similar|another)\\s+types?\\b",
+       "(?i)\\b(?:text|data|document|corpus|corpora|file|register|genre|sentence|font|personality|structure|construction|clause|verb|noun|speech|discourse|error|question|task|study|annotation|tag|interaction|source)\\s+types?\\b",
+       "(?i)\\btypes?\\s*[-/]\\s*tokens?\\b",
+       "(?i)\\b(?:you|we|then|simply|just|to|can)\\s+type\\b",
+       "(?i)\\btype\\s+(?:in|into)\\b",
+       "\\b[Tt]ype\\s+(?:I|II)\\b",
+       "(?i)\\btypes?\\s+tokens?\\s+ratios?\\b"
+      ],
+      "solo_si": [
+       "(?i)\\btypes?\\b[^.]{0,80}\\btokens?\\b",
+       "(?i)\\btokens?\\b[^.]{0,80}\\btypes?\\b",
+       "(?i)\\bword\\s+types?\\b",
+       "(?i)\\btype\\s+frequenc\\w*",
+       "(?i)\\b(?:number|numbers|count|counts)\\s+of\\s+(?:word\\s+)?types\\b",
+       "(?i)\\btype\\s+counts?\\b",
+       "(?i)\\b(?:new|distinct|unique)\\s+types\\b"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "tipo",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "tipo-token",
+       "tipos y tokens",
+       "tipo/token"
+      ]
+     },
+     {
+      "forma": "type",
+      "relacion": "prestamo",
+      "cuenta": [
+       "types y tokens",
+       "type y token",
+       "type/token",
+       "types/tokens"
+      ]
+     }
+    ]
+   },
+   "origen": "en"
+  },
+  {
+   "slug": "web_crawling",
+   "fuente": "web_crawling",
+   "absorbe": [],
+   "tipo": "sinonimia",
+   "criterio": "En español solo se documenta el préstamo; «rastreo» aparece en su sentido general.",
+   "criterio_en": "In Spanish only the loanword is attested; «rastreo» appears in its general sense.",
+   "formas": {
+    "en": [
+     {
+      "forma": "web crawling",
+      "relacion": "lema",
+      "cuenta": [
+       "web crawling",
+       "crawling"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "web crawling",
+      "relacion": "prestamo",
+      "cuenta": [
+       "web crawling",
+       "crawling"
+      ]
+     }
+    ]
+   },
+   "origen": "en"
+  },
+  {
+   "slug": "gold_standard",
+   "fuente": "gold_standard",
+   "absorbe": [],
+   "tipo": "sinonimia",
+   "criterio": "En español, un texto usa también la sigla GS; no se cuenta porque es ambigua.",
+   "criterio_en": "In Spanish, the acronym GS is also used in one text; it is not counted because it is ambiguous.",
+   "formas": {
+    "en": [
+     {
+      "forma": "gold standard",
+      "relacion": "lema",
+      "cuenta": [
+       "gold standard",
+       "gold-standard",
+       "gold standards"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "estándar de oro",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "estándar de oro"
+      ]
+     },
+     {
+      "forma": "gold standard",
+      "relacion": "prestamo",
+      "cuenta": [
+       "gold standard"
+      ]
+     }
+    ]
+   },
+   "origen": "en"
+  },
+  {
+   "slug": "concordancer",
+   "fuente": "concordancer",
+   "absorbe": [],
+   "tipo": "sinonimia",
+   "criterio": "Formas documentadas de la unidad en cada subcorpus.",
+   "criterio_en": "Attested forms of the unit in each subcorpus.",
+   "formas": {
+    "en": [
+     {
+      "forma": "concordancer",
+      "relacion": "lema",
+      "cuenta": [
+       "concordancer",
+       "concordancers"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "programa de concordancias",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "programa de concordancias",
+       "programas de concordancias"
+      ]
+     }
+    ]
+   },
+   "origen": "en"
+  },
+  {
+   "slug": "word_sense_disambiguation",
+   "fuente": "word_sense_disambiguation",
+   "absorbe": [],
+   "tipo": "sinonimia",
+   "criterio": "Formas documentadas de la unidad en cada subcorpus.",
+   "criterio_en": "Attested forms of the unit in each subcorpus.",
+   "formas": {
+    "en": [
+     {
+      "forma": "word sense disambiguation",
+      "relacion": "lema",
+      "cuenta": [
+       "word sense disambiguation"
+      ]
+     },
+     {
+      "forma": "WSD",
+      "relacion": "sigla",
+      "cuenta": [
+       "WSD"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "desambiguación semántica",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "desambiguación semántica"
+      ]
+     },
+     {
+      "forma": "desambiguación léxica",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "desambiguación léxica"
+      ]
+     },
+     {
+      "forma": "word sense disambiguation",
+      "relacion": "prestamo",
+      "cuenta": [
+       "word sense disambiguation"
+      ]
+     }
+    ]
+   },
+   "origen": "en",
+   "principal": {
+    "en": "word sense disambiguation"
+   },
+   "motivo_principal": {
+    "es": "Decisión expresa: se mantiene la forma desarrollada frente a la sigla WSD, que en el corpus aparece de forma aislada.",
+    "en": "Explicit decision: the full form is kept rather than the acronym WSD, which appears only occasionally in the corpus."
+   }
+  },
+  {
+   "slug": "text_mining",
+   "fuente": "text_mining",
+   "absorbe": [],
+   "tipo": "sinonimia",
+   "criterio": "Formas documentadas de la unidad en cada subcorpus.",
+   "criterio_en": "Attested forms of the unit in each subcorpus.",
+   "formas": {
+    "en": [
+     {
+      "forma": "text mining",
+      "relacion": "lema",
+      "cuenta": [
+       "text mining"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "minería de textos",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "minería de textos",
+       "minería de texto"
+      ]
+     },
+     {
+      "forma": "text mining",
+      "relacion": "prestamo",
+      "cuenta": [
+       "text mining"
+      ]
+     }
+    ]
+   },
+   "origen": "en"
+  },
+  {
+   "slug": "formulaic_language",
+   "fuente": "formulaic_language",
+   "absorbe": [],
+   "tipo": "sinonimia",
+   "criterio": "Formas documentadas de la unidad en cada subcorpus.",
+   "criterio_en": "Attested forms of the unit in each subcorpus.",
+   "formas": {
+    "en": [
+     {
+      "forma": "formulaic language",
+      "relacion": "lema",
+      "cuenta": [
+       "formulaic language"
+      ]
+     },
+     {
+      "forma": "formulaic sequence",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "formulaic sequence",
+       "formulaic sequences"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "lenguaje formulaico",
+      "relacion": "lema",
+      "cuenta": [
+       "lenguaje formulaico"
+      ]
+     }
+    ]
+   },
+   "origen": "en"
+  },
+  {
+   "slug": "multiword_expression",
+   "fuente": "multiword_expression",
+   "absorbe": [],
+   "tipo": "sinonimia",
+   "criterio": "Formas documentadas de la unidad en cada subcorpus.",
+   "criterio_en": "Attested forms of the unit in each subcorpus.",
+   "formas": {
+    "en": [
+     {
+      "forma": "multiword expression",
+      "relacion": "lema",
+      "cuenta": [
+       "multiword expression",
+       "multiword expressions",
+       "multi-word expression",
+       "multi-word expressions"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "expresión multipalabra",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "expresión multipalabra",
+       "expresiones multipalabra",
+       "expresiones multipalabras"
+      ]
+     },
+     {
+      "forma": "unidad multipalabra",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "unidad multipalabra",
+       "unidades multipalabra"
+      ]
+     },
+     {
+      "forma": "unidad pluriverbal",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "unidad pluriverbal",
+       "unidades pluriverbales"
+      ]
+     }
+    ]
+   },
+   "origen": "en"
+  },
+  {
+   "slug": "crea",
+   "fuente": "crea",
+   "absorbe": [],
+   "tipo": "variante_formal",
+   "criterio": "Formas documentadas de la unidad en cada subcorpus.",
+   "criterio_en": "Attested forms of the unit in each subcorpus.",
+   "formas": {
+    "en": [
+     {
+      "forma": "CREA",
+      "relacion": "sigla",
+      "cuenta": [
+       "CREA"
+      ]
+     },
+     {
+      "forma": "Corpus de Referencia del Español Actual",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Corpus de Referencia del Español Actual"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "CREA",
+      "relacion": "sigla",
+      "cuenta": [
+       "CREA"
+      ]
+     },
+     {
+      "forma": "Corpus de Referencia del Español Actual",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Corpus de Referencia del Español Actual"
+      ]
+     }
+    ]
+   },
+   "origen": "es"
+  },
+  {
+   "slug": "corde",
+   "fuente": "corde",
+   "absorbe": [],
+   "tipo": "variante_formal",
+   "criterio": "Formas documentadas de la unidad en cada subcorpus.",
+   "criterio_en": "Attested forms of the unit in each subcorpus.",
+   "formas": {
+    "en": [
+     {
+      "forma": "CORDE",
+      "relacion": "sigla",
+      "cuenta": [
+       "CORDE"
+      ]
+     },
+     {
+      "forma": "Corpus Diacrónico del Español",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Corpus Diacrónico del Español"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "CORDE",
+      "relacion": "sigla",
+      "cuenta": [
+       "CORDE"
+      ]
+     },
+     {
+      "forma": "Corpus Diacrónico del Español",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Corpus Diacrónico del Español"
+      ]
+     }
+    ]
+   },
+   "origen": "es"
+  },
+  {
+   "slug": "cdh",
+   "fuente": "cdh",
+   "absorbe": [],
+   "tipo": "variante_formal",
+   "criterio": "Formas documentadas de la unidad en cada subcorpus.",
+   "criterio_en": "Attested forms of the unit in each subcorpus.",
+   "formas": {
+    "en": [
+     {
+      "forma": "CDH",
+      "relacion": "sigla",
+      "cuenta": [
+       "CDH"
+      ]
+     },
+     {
+      "forma": "Corpus del Nuevo Diccionario Histórico",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Corpus del Nuevo Diccionario Histórico"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "CDH",
+      "relacion": "sigla",
+      "cuenta": [
+       "CDH"
+      ]
+     },
+     {
+      "forma": "Corpus del Nuevo Diccionario Histórico",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Corpus del Nuevo Diccionario Histórico",
+       "Corpus del nuevo diccionario histórico del español"
+      ]
+     }
+    ]
+   },
+   "origen": "es"
+  },
+  {
+   "slug": "preseea",
+   "fuente": "preseea",
+   "absorbe": [],
+   "tipo": "variante_formal",
+   "criterio": "Formas documentadas de la unidad en cada subcorpus.",
+   "criterio_en": "Attested forms of the unit in each subcorpus.",
+   "formas": {
+    "en": [
+     {
+      "forma": "PRESEEA",
+      "relacion": "sigla",
+      "cuenta": [
+       "PRESEEA"
+      ]
+     },
+     {
+      "forma": "Proyecto para el Estudio Sociolingüístico del Español de España y de América",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Proyecto para el Estudio Sociolingüístico del Español de España y de América"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "PRESEEA",
+      "relacion": "sigla",
+      "cuenta": [
+       "PRESEEA"
+      ]
+     },
+     {
+      "forma": "Proyecto para el Estudio Sociolingüístico del Español de España y de América",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Proyecto para el Estudio Sociolingüístico del Español de España y de América"
+      ]
+     }
+    ]
+   },
+   "origen": "es"
+  },
+  {
+   "slug": "caes",
+   "fuente": "caes",
+   "absorbe": [],
+   "tipo": "variante_formal",
+   "criterio": "Formas documentadas de la unidad en cada subcorpus.",
+   "criterio_en": "Attested forms of the unit in each subcorpus.",
+   "formas": {
+    "en": [
+     {
+      "forma": "CAES",
+      "relacion": "sigla",
+      "cuenta": [
+       "CAES"
+      ]
+     },
+     {
+      "forma": "Corpus de Aprendices de Español",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Corpus de Aprendices de Español"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "CAES",
+      "relacion": "sigla",
+      "cuenta": [
+       "CAES"
+      ]
+     },
+     {
+      "forma": "Corpus de Aprendices de Español",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Corpus de Aprendices de Español"
+      ]
+     }
+    ]
+   },
+   "origen": "es"
+  },
+  {
+   "slug": "corpes_xxi",
+   "fuente": "corpes_xxi",
+   "absorbe": [],
+   "tipo": "variante_formal",
+   "criterio": "Formas documentadas de la unidad en cada subcorpus.",
+   "criterio_en": "Attested forms of the unit in each subcorpus.",
+   "formas": {
+    "en": [
+     {
+      "forma": "CORPES XXI",
+      "relacion": "sigla",
+      "cuenta": [
+       "CORPES XXI"
+      ]
+     },
+     {
+      "forma": "Corpus del Español del Siglo XXI",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Corpus del Español del Siglo XXI",
+       "Corpus del Español del siglo XXI"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "CORPES XXI",
+      "relacion": "sigla",
+      "cuenta": [
+       "CORPES XXI"
+      ]
+     },
+     {
+      "forma": "Corpus del Español del Siglo XXI",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Corpus del Español del Siglo XXI",
+       "Corpus del Español del siglo XXI"
+      ]
+     }
+    ]
+   },
+   "origen": "es"
+  },
+  {
+   "slug": "iula",
+   "fuente": "iula",
+   "absorbe": [],
+   "tipo": "variante_formal",
+   "criterio": "Formas documentadas de la unidad en cada subcorpus.",
+   "criterio_en": "Attested forms of the unit in each subcorpus.",
+   "formas": {
+    "en": [
+     {
+      "forma": "IULA",
+      "relacion": "sigla",
+      "cuenta": [
+       "IULA"
+      ]
+     },
+     {
+      "forma": "Corpus Técnico del IULA",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Corpus Técnico del IULA"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "IULA",
+      "relacion": "sigla",
+      "cuenta": [
+       "IULA"
+      ]
+     },
+     {
+      "forma": "Corpus Técnico del IULA",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Corpus Técnico del IULA",
+       "Corpus CT-IULA",
+       "CT-IULA"
+      ]
+     }
+    ]
+   },
+   "origen": "es"
+  },
+  {
+   "slug": "valesco",
+   "fuente": "valesco",
+   "absorbe": [],
+   "tipo": "variante_formal",
+   "criterio": "Formas documentadas de la unidad en cada subcorpus.",
+   "criterio_en": "Attested forms of the unit in each subcorpus.",
+   "formas": {
+    "en": [
+     {
+      "forma": "Val.Es.Co",
+      "relacion": "sigla",
+      "cuenta": [
+       "Val.Es.Co"
+      ]
+     },
+     {
+      "forma": "Corpus de Conversaciones Coloquiales",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Corpus de Conversaciones Coloquiales"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "Val.Es.Co",
+      "relacion": "sigla",
+      "cuenta": [
+       "Val.Es.Co",
+       "Val.Es.Co."
+      ]
+     },
+     {
+      "forma": "Corpus de Conversaciones Coloquiales",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Corpus de Conversaciones Coloquiales"
+      ]
+     }
+    ]
+   },
+   "origen": "es"
+  },
+  {
+   "slug": "cemc",
+   "fuente": "cemc",
+   "absorbe": [],
+   "tipo": "variante_formal",
+   "criterio": "Formas documentadas de la unidad en cada subcorpus.",
+   "criterio_en": "Attested forms of the unit in each subcorpus.",
+   "formas": {
+    "en": [
+     {
+      "forma": "CEMC",
+      "relacion": "sigla",
+      "cuenta": [
+       "CEMC"
+      ]
+     },
+     {
+      "forma": "Corpus del Español Mexicano Contemporáneo",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Corpus del Español Mexicano Contemporáneo"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "CEMC",
+      "relacion": "sigla",
+      "cuenta": [
+       "CEMC"
+      ]
+     },
+     {
+      "forma": "Corpus del Español Mexicano Contemporáneo",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Corpus del Español Mexicano Contemporáneo"
+      ]
+     }
+    ]
+   },
+   "origen": "es"
+  },
+  {
+   "slug": "cobuild",
+   "fuente": "cobuild",
+   "absorbe": [],
+   "tipo": "variante_formal",
+   "criterio": "Formas documentadas de la unidad en cada subcorpus.",
+   "criterio_en": "Attested forms of the unit in each subcorpus.",
+   "formas": {
+    "en": [
+     {
+      "forma": "COBUILD",
+      "relacion": "sigla",
+      "cuenta": [
+       "COBUILD"
+      ]
+     },
+     {
+      "forma": "Collins Birmingham University International Language Database",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Collins Birmingham University International Language Database"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "COBUILD",
+      "relacion": "sigla",
+      "cuenta": [
+       "COBUILD"
+      ]
+     },
+     {
+      "forma": "Collins Birmingham University International Language Database",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Collins Birmingham University International Language Database"
+      ]
+     }
+    ]
+   },
+   "origen": "es"
+  },
+  {
+   "slug": "charta",
+   "fuente": "charta",
+   "absorbe": [],
+   "tipo": "variante_formal",
+   "criterio": "Formas documentadas de la unidad en cada subcorpus.",
+   "criterio_en": "Attested forms of the unit in each subcorpus.",
+   "formas": {
+    "en": [
+     {
+      "forma": "CHARTA",
+      "relacion": "sigla",
+      "cuenta": [
+       "CHARTA"
+      ]
+     },
+     {
+      "forma": "Corpus Hispánico y Americano en la Red: Textos Antiguos",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Corpus Hispánico y Americano en la Red: Textos Antiguos"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "CHARTA",
+      "relacion": "sigla",
+      "cuenta": [
+       "CHARTA"
+      ]
+     },
+     {
+      "forma": "Corpus Hispánico y Americano en la Red: Textos Antiguos",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Corpus Hispánico y Americano en la Red: Textos Antiguos"
+      ]
+     }
+    ]
+   },
+   "origen": "es"
+  },
+  {
+   "slug": "corlec",
+   "fuente": "corlec",
+   "absorbe": [],
+   "tipo": "variante_formal",
+   "criterio": "Formas documentadas de la unidad en cada subcorpus.",
+   "criterio_en": "Attested forms of the unit in each subcorpus.",
+   "formas": {
+    "en": [
+     {
+      "forma": "CORLEC",
+      "relacion": "sigla",
+      "cuenta": [
+       "CORLEC"
+      ]
+     },
+     {
+      "forma": "Corpus Oral de Referencia de la Lengua Española Contemporánea",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Corpus Oral de Referencia de la Lengua Española Contemporánea"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "CORLEC",
+      "relacion": "sigla",
+      "cuenta": [
+       "CORLEC"
+      ]
+     },
+     {
+      "forma": "Corpus Oral de Referencia de la Lengua Española Contemporánea",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Corpus Oral de Referencia de la Lengua Española Contemporánea"
+      ]
+     }
+    ]
+   },
+   "origen": "es"
+  },
+  {
+   "slug": "seu",
+   "fuente": "seu",
+   "absorbe": [],
+   "tipo": "variante_formal",
+   "criterio": "Formas documentadas de la unidad en cada subcorpus.",
+   "criterio_en": "Attested forms of the unit in each subcorpus.",
+   "formas": {
+    "en": [
+     {
+      "forma": "SEU",
+      "relacion": "sigla",
+      "cuenta": [
+       "SEU"
+      ]
+     },
+     {
+      "forma": "Survey of English Usage",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Survey of English Usage"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "SEU",
+      "relacion": "sigla",
+      "cuenta": [
+       "SEU"
+      ]
+     },
+     {
+      "forma": "Survey of English Usage",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Survey of English Usage"
+      ]
+     }
+    ]
+   },
+   "origen": "es"
+  },
+  {
+   "slug": "cedel2",
+   "fuente": "cedel2",
+   "absorbe": [],
+   "tipo": "variante_formal",
+   "criterio": "Formas documentadas de la unidad en cada subcorpus.",
+   "criterio_en": "Attested forms of the unit in each subcorpus.",
+   "formas": {
+    "en": [
+     {
+      "forma": "CEDEL2",
+      "relacion": "sigla",
+      "cuenta": [
+       "CEDEL2"
+      ]
+     },
+     {
+      "forma": "Corpus Escrito del Español como L2",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Corpus Escrito del Español como L2",
+       "Corpus Escrito de Español L2"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "CEDEL2",
+      "relacion": "sigla",
+      "cuenta": [
+       "CEDEL2"
+      ]
+     },
+     {
+      "forma": "Corpus Escrito del Español como L2",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Corpus Escrito del Español como L2",
+       "Corpus Escrito de Español L2"
+      ]
+     }
+    ]
+   },
+   "origen": "es"
+  },
+  {
+   "slug": "codea",
+   "fuente": "codea",
+   "absorbe": [],
+   "tipo": "variante_formal",
+   "criterio": "Formas documentadas de la unidad en cada subcorpus.",
+   "criterio_en": "Attested forms of the unit in each subcorpus.",
+   "formas": {
+    "en": [
+     {
+      "forma": "CODEA+",
+      "relacion": "sigla",
+      "cuenta": [
+       "CODEA+",
+       "CODEA"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "CODEA+",
+      "relacion": "sigla",
+      "cuenta": [
+       "CODEA+",
+       "CODEA"
+      ]
+     },
+     {
+      "forma": "Corpus de Documentos Españoles Anteriores a 1800",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Corpus de Documentos Españoles Anteriores a 1800",
+       "Corpus de documentos españoles anteriores a 1700"
+      ]
+     }
+    ]
+   },
+   "origen": "es"
+  },
+  {
+   "slug": "cleae",
+   "fuente": "cleae",
+   "absorbe": [],
+   "tipo": "variante_formal",
+   "criterio": "Formas documentadas de la unidad en cada subcorpus.",
+   "criterio_en": "Attested forms of the unit in each subcorpus.",
+   "formas": {
+    "en": [
+     {
+      "forma": "CLEAE",
+      "relacion": "sigla",
+      "cuenta": [
+       "CLEAE"
+      ]
+     },
+     {
+      "forma": "Corpus Longitudinal de Español de Aprendientes Estonios",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Corpus Longitudinal de Español de Aprendientes Estonios"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "CLEAE",
+      "relacion": "sigla",
+      "cuenta": [
+       "CLEAE"
+      ]
+     },
+     {
+      "forma": "Corpus Longitudinal de Español de Aprendientes Estonios",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Corpus Longitudinal de Español de Aprendientes Estonios"
+      ]
+     }
+    ]
+   },
+   "origen": "es"
+  },
+  {
+   "slug": "europarl",
+   "fuente": "europarl",
+   "absorbe": [],
+   "tipo": "variante_formal",
+   "criterio": "Formas documentadas de la unidad en cada subcorpus.",
+   "criterio_en": "Attested forms of the unit in each subcorpus.",
+   "formas": {
+    "en": [
+     {
+      "forma": "Europarl",
+      "relacion": "sigla",
+      "cuenta": [
+       "Europarl"
+      ]
+     },
+     {
+      "forma": "European Parliament Proceedings Parallel Corpus",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "European Parliament Proceedings Parallel Corpus"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "Europarl",
+      "relacion": "sigla",
+      "cuenta": [
+       "Europarl"
+      ]
+     },
+     {
+      "forma": "European Parliament Proceedings Parallel Corpus",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "European Parliament Proceedings Parallel Corpus"
+      ]
+     }
+    ]
+   },
+   "origen": "es"
+  },
+  {
+   "slug": "splloc",
+   "fuente": "splloc",
+   "absorbe": [],
+   "tipo": "variante_formal",
+   "criterio": "Formas documentadas de la unidad en cada subcorpus.",
+   "criterio_en": "Attested forms of the unit in each subcorpus.",
+   "formas": {
+    "en": [
+     {
+      "forma": "SPLLOC",
+      "relacion": "sigla",
+      "cuenta": [
+       "SPLLOC"
+      ]
+     },
+     {
+      "forma": "Spanish Learner Language Oral Corpora",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Spanish Learner Language Oral Corpora"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "SPLLOC",
+      "relacion": "sigla",
+      "cuenta": [
+       "SPLLOC"
+      ]
+     },
+     {
+      "forma": "Spanish Learner Language Oral Corpora",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Spanish Learner Language Oral Corpora"
+      ]
+     }
+    ]
+   },
+   "origen": "es"
+  },
+  {
+   "slug": "must",
+   "fuente": "must",
+   "absorbe": [],
+   "tipo": "variante_formal",
+   "criterio": "Formas documentadas de la unidad en cada subcorpus.",
+   "criterio_en": "Attested forms of the unit in each subcorpus.",
+   "formas": {
+    "en": [
+     {
+      "forma": "MUST",
+      "relacion": "sigla",
+      "cuenta": [
+       "MUST"
+      ]
+     },
+     {
+      "forma": "Multilingual Student Translation",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Multilingual Student Translation"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "MUST",
+      "relacion": "sigla",
+      "cuenta": [
+       "MUST"
+      ]
+     },
+     {
+      "forma": "MUltilingual Student Translation",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "MUltilingual Student Translation"
+      ]
+     }
+    ]
+   },
+   "origen": "es",
+   "principal": {
+    "en": "MUST"
+   },
+   "motivo_principal": {
+    "es": "Decisión expresa de la autora: la sigla es la forma principal también en inglés.",
+    "en": "Explicit decision by the author: the acronym is the main form in English too."
+   }
+  },
+  {
+   "slug": "ode",
+   "fuente": "ode",
+   "absorbe": [],
+   "tipo": "variante_formal",
+   "criterio": "Formas documentadas de la unidad en cada subcorpus.",
+   "criterio_en": "Attested forms of the unit in each subcorpus.",
+   "formas": {
+    "en": [
+     {
+      "forma": "ODE",
+      "relacion": "sigla",
+      "cuenta": [
+       "ODE"
+      ]
+     },
+     {
+      "forma": "Oralia Diacrónica del Español",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Oralia Diacrónica del Español"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "ODE",
+      "relacion": "sigla",
+      "cuenta": [
+       "ODE"
+      ]
+     },
+     {
+      "forma": "Oralia Diacrónica del Español",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Oralia Diacrónica del Español"
+      ]
+     }
+    ]
+   },
+   "origen": "es"
+  },
+  {
+   "slug": "llc",
+   "fuente": "llc",
+   "absorbe": [],
+   "tipo": "variante_formal",
+   "criterio": "Formas documentadas de la unidad en cada subcorpus.",
+   "criterio_en": "Attested forms of the unit in each subcorpus.",
+   "formas": {
+    "en": [
+     {
+      "forma": "LLC",
+      "relacion": "sigla",
+      "cuenta": [
+       "LLC"
+      ]
+     },
+     {
+      "forma": "London-Lund Corpus",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "London-Lund Corpus",
+       "London-Lund Corpus of Spoken English",
+       "London Lund Corpus"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "LLC",
+      "relacion": "sigla",
+      "cuenta": [
+       "LLC"
+      ]
+     },
+     {
+      "forma": "London-Lund Corpus",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "London-Lund Corpus",
+       "London-Lund Corpus of Spoken English",
+       "London Lund Corpus"
+      ]
+     }
+    ]
+   },
+   "origen": "es"
+  },
+  {
+   "slug": "sse",
+   "fuente": "sse",
+   "absorbe": [],
+   "tipo": "variante_formal",
+   "criterio": "Formas documentadas de la unidad en cada subcorpus.",
+   "criterio_en": "Attested forms of the unit in each subcorpus.",
+   "formas": {
+    "en": [
+     {
+      "forma": "SSE",
+      "relacion": "sigla",
+      "cuenta": [
+       "SSE"
+      ]
+     },
+     {
+      "forma": "Survey of Spoken English",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Survey of Spoken English"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "SSE",
+      "relacion": "sigla",
+      "cuenta": [
+       "SSE"
+      ]
+     },
+     {
+      "forma": "Survey of Spoken English",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Survey of Spoken English"
+      ]
+     }
+    ]
+   },
+   "origen": "es"
+  },
+  {
+   "slug": "spt",
+   "fuente": "spt",
+   "absorbe": [],
+   "tipo": "variante_formal",
+   "criterio": "Formas documentadas de la unidad en cada subcorpus.",
+   "criterio_en": "Attested forms of the unit in each subcorpus.",
+   "formas": {
+    "en": [
+     {
+      "forma": "SPT",
+      "relacion": "sigla",
+      "cuenta": [
+       "SPT"
+      ]
+     },
+     {
+      "forma": "Spanish Corpus Proficiency Level Training",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Spanish Corpus Proficiency Level Training",
+       "Spanish Proficiency Training"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "SPT",
+      "relacion": "sigla",
+      "cuenta": [
+       "SPT"
+      ]
+     },
+     {
+      "forma": "Spanish Corpus Proficiency Level Training",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Spanish Corpus Proficiency Level Training",
+       "Spanish Proficiency Training"
+      ]
+     }
+    ]
+   },
+   "origen": "es"
+  },
+  {
+   "slug": "corlexin",
+   "fuente": "corlexin",
+   "absorbe": [],
+   "tipo": "variante_formal",
+   "criterio": "Formas documentadas de la unidad en cada subcorpus.",
+   "criterio_en": "Attested forms of the unit in each subcorpus.",
+   "formas": {
+    "en": [
+     {
+      "forma": "CorLexIn",
+      "relacion": "sigla",
+      "cuenta": [
+       "CorLexIn"
+      ]
+     },
+     {
+      "forma": "Corpus Léxico de Inventarios",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Corpus Léxico de Inventarios"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "CorLexIn",
+      "relacion": "sigla",
+      "cuenta": [
+       "CorLexIn"
+      ]
+     },
+     {
+      "forma": "Corpus Léxico de Inventarios",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Corpus Léxico de Inventarios"
+      ]
+     }
+    ]
+   },
+   "origen": "es"
+  },
+  {
+   "slug": "ecpc",
+   "fuente": "ecpc",
+   "absorbe": [],
+   "tipo": "variante_formal",
+   "criterio": "Formas documentadas de la unidad en cada subcorpus.",
+   "criterio_en": "Attested forms of the unit in each subcorpus.",
+   "formas": {
+    "en": [
+     {
+      "forma": "ECPC",
+      "relacion": "sigla",
+      "cuenta": [
+       "ECPC"
+      ]
+     },
+     {
+      "forma": "European Comparable and Parallel Corpora of Parliamentary Speeches Archive",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "European Comparable and Parallel Corpora of Parliamentary Speeches Archive"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "ECPC",
+      "relacion": "sigla",
+      "cuenta": [
+       "ECPC"
+      ]
+     },
+     {
+      "forma": "European Comparable and Parallel Corpora of Parliamentary Speeches Archive",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "European Comparable and Parallel Corpora of Parliamentary Speeches Archive"
+      ]
+     }
+    ]
+   },
+   "origen": "es"
+  },
+  {
+   "slug": "gentt",
+   "fuente": "gentt",
+   "absorbe": [],
+   "tipo": "variante_formal",
+   "criterio": "Formas documentadas de la unidad en cada subcorpus.",
+   "criterio_en": "Attested forms of the unit in each subcorpus.",
+   "formas": {
+    "en": [
+     {
+      "forma": "GENTT",
+      "relacion": "sigla",
+      "cuenta": [
+       "GENTT"
+      ]
+     },
+     {
+      "forma": "Géneros Textuales para la Traducción",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Géneros Textuales para la Traducción"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "GENTT",
+      "relacion": "sigla",
+      "cuenta": [
+       "GENTT"
+      ]
+     },
+     {
+      "forma": "Géneros Textuales para la Traducción",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Géneros Textuales para la Traducción"
+      ]
+     }
+    ]
+   },
+   "origen": "es"
+  },
+  {
+   "slug": "mellange",
+   "fuente": "mellange",
+   "absorbe": [],
+   "tipo": "variante_formal",
+   "criterio": "Formas documentadas de la unidad en cada subcorpus.",
+   "criterio_en": "Attested forms of the unit in each subcorpus.",
+   "formas": {
+    "en": [
+     {
+      "forma": "MeLLANGE",
+      "relacion": "sigla",
+      "cuenta": [
+       "MeLLANGE"
+      ]
+     },
+     {
+      "forma": "Multilingual eLearning in LANGuage Engineering",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Multilingual eLearning in LANGuage Engineering"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "MeLLANGE",
+      "relacion": "sigla",
+      "cuenta": [
+       "MeLLANGE"
+      ]
+     },
+     {
+      "forma": "Multilingual eLearning in LANGuage Engineering",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Multilingual eLearning in LANGuage Engineering"
+      ]
+     }
+    ]
+   },
+   "origen": "es"
+  },
+  {
+   "slug": "bidtea",
+   "fuente": "bidtea",
+   "absorbe": [],
+   "tipo": "variante_formal",
+   "criterio": "Formas documentadas de la unidad en cada subcorpus.",
+   "criterio_en": "Attested forms of the unit in each subcorpus.",
+   "formas": {
+    "en": [
+     {
+      "forma": "BiDTEA",
+      "relacion": "sigla",
+      "cuenta": [
+       "BiDTEA"
+      ]
+     },
+     {
+      "forma": "Biblioteca Digital de Textos del Español Antiguo",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Biblioteca Digital de Textos del Español Antiguo"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "BiDTEA",
+      "relacion": "sigla",
+      "cuenta": [
+       "BiDTEA"
+      ]
+     },
+     {
+      "forma": "Biblioteca Digital de Textos del Español Antiguo",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Biblioteca Digital de Textos del Español Antiguo"
+      ]
+     }
+    ]
+   },
+   "origen": "es"
+  },
+  {
+   "slug": "cate",
+   "fuente": "cate",
+   "absorbe": [],
+   "tipo": "variante_formal",
+   "criterio": "Formas documentadas de la unidad en cada subcorpus.",
+   "criterio_en": "Attested forms of the unit in each subcorpus.",
+   "formas": {
+    "en": [
+     {
+      "forma": "CATE",
+      "relacion": "sigla",
+      "cuenta": [
+       "CATE"
+      ]
+     },
+     {
+      "forma": "Corpus de Aprendices Taiwaneses de Español",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Corpus de Aprendices Taiwaneses de Español"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "CATE",
+      "relacion": "sigla",
+      "cuenta": [
+       "CATE"
+      ]
+     },
+     {
+      "forma": "Corpus de Aprendices Taiwaneses de Español",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Corpus de Aprendices Taiwaneses de Español"
+      ]
+     }
+    ]
+   },
+   "origen": "es"
+  },
+  {
+   "slug": "letrac",
+   "fuente": "letrac",
+   "absorbe": [],
+   "tipo": "variante_formal",
+   "criterio": "Formas documentadas de la unidad en cada subcorpus.",
+   "criterio_en": "Attested forms of the unit in each subcorpus.",
+   "formas": {
+    "en": [
+     {
+      "forma": "LETRAC",
+      "relacion": "sigla",
+      "cuenta": [
+       "LETRAC"
+      ]
+     },
+     {
+      "forma": "Language Engineering for Translators Curricula",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Language Engineering for Translators Curricula"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "LETRAC",
+      "relacion": "sigla",
+      "cuenta": [
+       "LETRAC"
+      ]
+     },
+     {
+      "forma": "Language Engineering for Translators Curricula",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Language Engineering for Translators Curricula"
+      ]
+     }
+    ]
+   },
+   "origen": "es"
+  },
+  {
+   "slug": "corane",
+   "fuente": "corane",
+   "absorbe": [],
+   "tipo": "variante_formal",
+   "criterio": "Formas documentadas de la unidad en cada subcorpus.",
+   "criterio_en": "Attested forms of the unit in each subcorpus.",
+   "formas": {
+    "en": [
+     {
+      "forma": "CORANE",
+      "relacion": "sigla",
+      "cuenta": [
+       "CORANE"
+      ]
+     },
+     {
+      "forma": "Corpus para el Análisis de Errores de Aprendices de E/LE",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Corpus para el Análisis de Errores de Aprendices de E/LE"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "CORANE",
+      "relacion": "sigla",
+      "cuenta": [
+       "CORANE"
+      ]
+     },
+     {
+      "forma": "Corpus para el Análisis de Errores de Aprendices de E/LE",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Corpus para el Análisis de Errores de Aprendices de E/LE"
+      ]
+     }
+    ]
+   },
+   "origen": "es"
+  },
+  {
+   "slug": "cows_l2h",
+   "fuente": "cows_l2h",
+   "absorbe": [],
+   "tipo": "variante_formal",
+   "criterio": "Formas documentadas de la unidad en cada subcorpus.",
+   "criterio_en": "Attested forms of the unit in each subcorpus.",
+   "formas": {
+    "en": [
+     {
+      "forma": "COWS-L2H",
+      "relacion": "sigla",
+      "cuenta": [
+       "COWS-L2H"
+      ]
+     },
+     {
+      "forma": "Corpus of Written Spanish of L2 and Heritage Speakers",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Corpus of Written Spanish of L2 and Heritage Speakers"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "COWS-L2H",
+      "relacion": "sigla",
+      "cuenta": [
+       "COWS-L2H"
+      ]
+     },
+     {
+      "forma": "Corpus of Written Spanish of L2 and Heritage Speakers",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Corpus of Written Spanish of L2 and Heritage Speakers"
+      ]
+     }
+    ]
+   },
+   "origen": "es"
+  },
+  {
+   "slug": "langsnap",
+   "fuente": "langsnap",
+   "absorbe": [],
+   "tipo": "variante_formal",
+   "criterio": "Formas documentadas de la unidad en cada subcorpus.",
+   "criterio_en": "Attested forms of the unit in each subcorpus.",
+   "formas": {
+    "en": [
+     {
+      "forma": "LANGSNAP",
+      "relacion": "sigla",
+      "cuenta": [
+       "LANGSNAP"
+      ]
+     },
+     {
+      "forma": "Languages and Social Networks Abroad Project",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Languages and Social Networks Abroad Project"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "LANGSNAP",
+      "relacion": "sigla",
+      "cuenta": [
+       "LANGSNAP"
+      ]
+     },
+     {
+      "forma": "Languages and Social Networks Abroad Project",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Languages and Social Networks Abroad Project"
+      ]
+     }
+    ]
+   },
+   "origen": "es"
+  },
+  {
+   "slug": "corespi",
+   "fuente": "corespi",
+   "absorbe": [],
+   "tipo": "variante_formal",
+   "criterio": "Formas documentadas de la unidad en cada subcorpus.",
+   "criterio_en": "Attested forms of the unit in each subcorpus.",
+   "formas": {
+    "en": [
+     {
+      "forma": "CORESPI",
+      "relacion": "sigla",
+      "cuenta": [
+       "CORESPI"
+      ]
+     },
+     {
+      "forma": "Corpus del Español de los Italianos",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Corpus del Español de los Italianos"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "CORESPI",
+      "relacion": "sigla",
+      "cuenta": [
+       "CORESPI"
+      ]
+     },
+     {
+      "forma": "Corpus del Español de los Italianos",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Corpus del Español de los Italianos"
+      ]
+     }
+    ]
+   },
+   "origen": "es"
+  },
+  {
+   "slug": "eleactar",
+   "fuente": "eleactar",
+   "absorbe": [],
+   "tipo": "variante_formal",
+   "criterio": "Formas documentadas de la unidad en cada subcorpus.",
+   "criterio_en": "Attested forms of the unit in each subcorpus.",
+   "formas": {
+    "en": [
+     {
+      "forma": "ELEACTAR",
+      "relacion": "sigla",
+      "cuenta": [
+       "ELEACTAR"
+      ]
+     },
+     {
+      "forma": "Corpus Tartuense de Español Estudiantil Académico",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Corpus Tartuense de Español Estudiantil Académico"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "ELEACTAR",
+      "relacion": "sigla",
+      "cuenta": [
+       "ELEACTAR"
+      ]
+     },
+     {
+      "forma": "Corpus Tartuense de Español Estudiantil Académico",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Corpus Tartuense de Español Estudiantil Académico"
+      ]
+     }
+    ]
+   },
+   "origen": "es"
+  },
+  {
+   "slug": "trados",
+   "fuente": "trados",
+   "absorbe": [],
+   "tipo": "variante_formal",
+   "criterio": "Formas documentadas de la unidad en cada subcorpus.",
+   "criterio_en": "Attested forms of the unit in each subcorpus.",
+   "formas": {
+    "en": [
+     {
+      "forma": "Trados",
+      "relacion": "lema",
+      "cuenta": [
+       "Trados"
+      ]
+     },
+     {
+      "forma": "SDL Trados Studio",
+      "relacion": "forma_extendida",
+      "cuenta": [
+       "SDL Trados Studio",
+       "SDL Trados",
+       "Trados Studio"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "Trados",
+      "relacion": "lema",
+      "cuenta": [
+       "Trados"
+      ]
+     },
+     {
+      "forma": "SDL Trados Studio",
+      "relacion": "forma_extendida",
+      "cuenta": [
+       "SDL Trados Studio",
+       "SDL Trados",
+       "Trados Studio"
+      ]
+     }
+    ]
+   },
+   "origen": "es"
+  },
+  {
+   "slug": "mallet",
+   "fuente": "mallet",
+   "absorbe": [],
+   "tipo": "variante_formal",
+   "criterio": "Formas documentadas de la unidad en cada subcorpus.",
+   "criterio_en": "Attested forms of the unit in each subcorpus.",
+   "formas": {
+    "en": [
+     {
+      "forma": "MALLET",
+      "relacion": "sigla",
+      "cuenta": [
+       "MALLET"
+      ]
+     },
+     {
+      "forma": "MAchine Learning for LanguagE Toolkit",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "MAchine Learning for LanguagE Toolkit"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "MALLET",
+      "relacion": "sigla",
+      "cuenta": [
+       "MALLET"
+      ]
+     },
+     {
+      "forma": "MAchine Learning for LanguagE Toolkit",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "MAchine Learning for LanguagE Toolkit"
+      ]
+     }
+    ]
+   },
+   "origen": "es"
+  },
+  {
+   "slug": "cqp",
+   "fuente": "cqp",
+   "absorbe": [],
+   "tipo": "variante_formal",
+   "criterio": "Formas documentadas de la unidad en cada subcorpus.",
+   "criterio_en": "Attested forms of the unit in each subcorpus.",
+   "formas": {
+    "en": [
+     {
+      "forma": "CQP",
+      "relacion": "sigla",
+      "cuenta": [
+       "CQP"
+      ]
+     },
+     {
+      "forma": "Corpus Query Processor",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Corpus Query Processor"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "CQP",
+      "relacion": "sigla",
+      "cuenta": [
+       "CQP"
+      ]
+     },
+     {
+      "forma": "Corpus Query Processor",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Corpus Query Processor"
+      ]
+     }
+    ]
+   },
+   "origen": "es"
+  },
+  {
+   "slug": "transit",
+   "fuente": "transit",
+   "absorbe": [],
+   "tipo": "variante_formal",
+   "criterio": "Formas documentadas de la unidad en cada subcorpus.",
+   "criterio_en": "Attested forms of the unit in each subcorpus.",
+   "formas": {
+    "en": [
+     {
+      "forma": "Transit",
+      "relacion": "lema",
+      "cuenta": [
+       "Transit"
+      ]
+     },
+     {
+      "forma": "Star Transit",
+      "relacion": "forma_extendida",
+      "cuenta": [
+       "Star Transit",
+       "STAR Transit"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "Transit",
+      "relacion": "lema",
+      "cuenta": [
+       "Transit"
+      ]
+     },
+     {
+      "forma": "Star Transit",
+      "relacion": "forma_extendida",
+      "cuenta": [
+       "Star Transit",
+       "STAR Transit"
+      ]
+     }
+    ]
+   },
+   "origen": "es"
+  },
+  {
+   "slug": "gdex",
+   "fuente": "gdex",
+   "absorbe": [],
+   "tipo": "variante_formal",
+   "criterio": "Formas documentadas de la unidad en cada subcorpus.",
+   "criterio_en": "Attested forms of the unit in each subcorpus.",
+   "formas": {
+    "en": [
+     {
+      "forma": "GDEX",
+      "relacion": "sigla",
+      "cuenta": [
+       "GDEX"
+      ]
+     },
+     {
+      "forma": "Good Dictionary Examples",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Good Dictionary Examples"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "GDEX",
+      "relacion": "sigla",
+      "cuenta": [
+       "GDEX"
+      ]
+     },
+     {
+      "forma": "Good Dictionary Examples",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Good Dictionary Examples"
+      ]
+     }
+    ]
+   },
+   "origen": "es"
+  },
+  {
+   "slug": "kwic",
+   "fuente": "kwic",
+   "absorbe": [],
+   "tipo": "variante_formal",
+   "criterio": "Sigla y forma desarrollada inglesas, que se usan también en español. En el subcorpus español aparece además el equivalente «palabra clave en contexto», con su sigla «PCEC» (un solo documento).",
+   "criterio_en": "English acronym and full form, also used in Spanish. The Spanish subcorpus also has the equivalent «palabra clave en contexto», with its acronym «PCEC» (a single document).",
+   "formas": {
+    "en": [
+     {
+      "forma": "KWIC",
+      "relacion": "sigla",
+      "cuenta": [
+       "KWIC"
+      ]
+     },
+     {
+      "forma": "Key Word in Context",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Key Word in Context",
+       "Keyword in Context",
+       "Key-Word-In-Context",
+       "Key Words in Context",
+       "Keywords in Context"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "KWIC",
+      "relacion": "sigla",
+      "cuenta": [
+       "KWIC"
+      ]
+     },
+     {
+      "forma": "Key Word in Context",
+      "relacion": "forma_desarrollada",
+      "cuenta": [
+       "Key Word in Context",
+       "Keyword in Context",
+       "Key-Word-In-Context",
+       "Key Words in Context",
+       "Keywords in Context"
+      ]
+     },
+     {
+      "forma": "palabra clave en contexto",
+      "relacion": "sinonimo",
+      "cuenta": [
+       "palabra clave en contexto",
+       "palabras clave en contexto"
+      ]
+     },
+     {
+      "forma": "PCEC",
+      "relacion": "sigla",
+      "cuenta": [
+       "PCEC"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "slug": "stemming",
+   "fuente": "stemming",
+   "absorbe": [],
+   "tipo": "sinonimia",
+   "criterio": "Entrada añadida en el glosario (no está en el Apéndice III). En español solo se documenta el préstamo «stemming» (Martí y Taulé, 2022). En inglés se excluyen los usos del verbo («stemming from», «stemming its decline»).",
+   "criterio_en": "Entry added in the glossary (not in Appendix III). In Spanish only the loanword «stemming» is attested (Martí and Taulé, 2022). In English, uses of the verb («stemming from», «stemming its decline») are excluded.",
+   "formas": {
+    "en": [
+     {
+      "forma": "stemming",
+      "relacion": "lema",
+      "cuenta": [
+       "stemming"
+      ],
+      "excluye": [
+       "stemming from",
+       "stemming its"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "stemming",
+      "relacion": "prestamo",
+      "cuenta": [
+       "stemming"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "slug": "sample",
+   "fuente": "sample",
+   "absorbe": [],
+   "tipo": "lema_singular",
+   "criterio": "En español no se cuenta el verbo «mostrar» («Hoffmann muestra que…», «como muestra»).",
+   "criterio_en": "",
+   "formas": {
+    "en": [
+     {
+      "forma": "sample",
+      "relacion": "lema",
+      "cuenta": [
+       "sample",
+       "samples"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "muestra",
+      "relacion": "lema",
+      "cuenta": [
+       "muestra",
+       "muestras"
+      ],
+      "excluye_si": [
+       "(?i)\\b(?:se|lo|la|le|les|nos|me|te)\\s+muestra\\b",
+       "(?i)(?<!\\bla )(?<!\\buna )(?<!\\besta )(?<!\\besa )(?<!\\bcada )(?<!\\bnuestra )(?<!\\bsu )(?<!\\bdicha )(?<!\\bmisma )\\bmuestra\\s+(?:que|como|cuan|cual|el|los|las|un|unos|unas|tambien|claramente|ademas|aqui|esto|ello|sus|bien|mejor|hasta|solo|algunos|algunas|dos|tres|diferencias|resultados)\\b",
+       "(?i)\\bcomo\\s+muestra\\b"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "slug": "recall",
+   "fuente": "recall",
+   "absorbe": [],
+   "tipo": "lema_singular",
+   "criterio": "En inglés no se cuenta el verbo «recall» («we recall that…»), la revista ReCALL ni las listas de palabras.",
+   "criterio_en": "",
+   "formas": {
+    "en": [
+     {
+      "forma": "recall",
+      "relacion": "lema",
+      "cuenta": [
+       "recall"
+      ],
+      "excluye_si": [
+       "(?i)\\b(?:I|we|you|they|he|she|to|can|may|might|will|would|should|could|cannot|reader|readers|participants|subjects|easily|also)\\s+recall\\b",
+       "(?i)\\brecall\\s+(?:that|how|what|when|where|why|our|their|his|her|this|these|those)\\b",
+       "ReCALL",
+       "(?i)\\brecall\\s+(?:recognise|recognize|recollect)\\b",
+       "(?i)\\b(?:rational|read|realise|realistic|realize|reasonable)\\s+recall\\b"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "exhaustividad",
+      "relacion": "lema",
+      "cuenta": [
+       "exhaustividad"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "slug": "population",
+   "fuente": "population",
+   "absorbe": [],
+   "tipo": "lema_singular",
+   "criterio": "No se cuenta el sentido demográfico («la población española», «world population»).",
+   "criterio_en": "",
+   "formas": {
+    "en": [
+     {
+      "forma": "population",
+      "relacion": "lema",
+      "cuenta": [
+       "population",
+       "populations"
+      ],
+      "excluye_si": [
+       "(?i)\\b(?:world|general|human|urban|rural|immigrant|indigenous|local|native|elderly|student)\\s+populations?\\b",
+       "(?i)\\bpopulation\\s+growth\\b",
+       "(?i)\\bpopulations?\\s+of\\s+(?:the\\s+)?(?:world|country|countries|city|cities|region|state|nation)\\b"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "población",
+      "relacion": "lema",
+      "cuenta": [
+       "población",
+       "poblaciones"
+      ],
+      "excluye_si": [
+       "(?i)\\bpoblacion(?:es)?\\s+(?:espanola|indigena|urbana|rural|mundial|mexicana|total del pais|joven|activa|inmigrante|hispanohablante|de\\s+origen)\\b",
+       "(?i)\\bel\\s+20\\s*%\\s+de\\s+la\\s+poblacion\\b",
+       "(?i)\\b(?:habitantes|censo)\\b[^.]{0,40}\\bpoblacion\\b"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "slug": "genre",
+   "fuente": "genre",
+   "absorbe": [],
+   "tipo": "lema_singular",
+   "criterio": "En español no se cuentan el género gramatical, la identidad de género ni los nombres de corpus («Género/histórico»).",
+   "criterio_en": "",
+   "formas": {
+    "en": [
+     {
+      "forma": "genre",
+      "relacion": "lema",
+      "cuenta": [
+       "genre",
+       "genres"
+      ]
+     }
+    ],
+    "es": [
+     {
+      "forma": "género",
+      "relacion": "lema",
+      "cuenta": [
+       "género",
+       "géneros"
+      ],
+      "excluye_si": [
+       "(?i)\\bgeneros?\\s+(?:gramatical(?:es)?|masculino|femenino|neutro|humano)\\b",
+       "(?i)\\b(?:identidad|violencia|igualdad|perspectiva|estudios|brecha|marcas?|concordancia|flexion|morfemas?)\\s+de\\s+genero\\b",
+       "(?i)\\bgenero\\s+y\\s+(?:numero|edad|sexo)\\b",
+       "(?i)\\b(?:sexo|edad|numero)\\s+y\\s+genero\\b",
+       "Genero/hist",
+       "(?i)\\bgenero\\s*:\\s*(?:hombre|mujer|masculino|femenino)"
+      ]
+     }
+    ]
+   }
+  }
+ ],
+ "no_unificados": [
+  {
+   "slugs": [
+    "relative_frequency",
+    "normalized_frequency"
+   ],
+   "motivo": "A menudo se usan como sinónimos, pero la frecuencia relativa es una proporción sobre el total y la normalizada se expresa por una base fija (por ejemplo, por millón de palabras).",
+   "motivo_en": "They are often used as synonyms, but relative frequency is a proportion of the total, while normalised frequency is expressed on a fixed base (e.g. per million words)."
+  },
+  {
+   "slugs": [
+    "diachronic_corpus",
+    "historical_corpus"
+   ],
+   "motivo": "Un corpus histórico puede ser sincrónico (textos de una sola etapa pasada); un corpus diacrónico abarca varias etapas.",
+   "motivo_en": "A historical corpus can be synchronic (texts from a single past period); a diachronic corpus spans several periods."
+  },
+  {
+   "slugs": [
+    "annotation",
+    "corpus_annotation"
+   ],
+   "motivo": "Casi equivalentes, pero «annotation» es el núcleo del que dependen muchos compuestos del glosario (semantic annotation, annotation scheme…). Pendiente de decisión.",
+   "motivo_en": "Almost equivalent, but «annotation» is the core on which many compound terms in the glossary depend (semantic annotation, annotation scheme…). Decision pending."
+  },
+  {
+   "slugs": [
+    "keyword",
+    "keyword_analysis",
+    "keyness"
+   ],
+   "motivo": "Designan la unidad, el procedimiento y la propiedad, respectivamente.",
+   "motivo_en": "They refer to the unit, the procedure and the property, respectively."
+  },
+  {
+   "slugs": [
+    "concordance",
+    "kwic"
+   ],
+   "motivo": "KWIC es un formato concreto de presentación de la concordancia.",
+   "motivo_en": "KWIC is a specific display format of the concordance."
+  },
+  {
+   "slugs": [
+    "parsing",
+    "dependency_parsing"
+   ],
+   "motivo": "Relación de hiperonimia: el análisis de dependencias es un tipo de análisis sintáctico.",
+   "motivo_en": "Hyponymy: dependency parsing is a type of parsing."
+  },
+  {
+   "slugs": [
+    "stopword",
+    "function_word"
+   ],
+   "motivo": "Las palabras vacías son una lista operativa para excluir en el procesamiento; las palabras funcionales son una clase gramatical.",
+   "motivo_en": "Stopwords are an operational list to exclude in processing; function words are a grammatical class."
+  },
+  {
+   "slugs": [
+    "general_corpus",
+    "reference_corpus",
+    "national_corpus"
+   ],
+   "motivo": "Tipos de corpus que se solapan pero responden a criterios distintos: alcance, función y ámbito.",
+   "motivo_en": "Types of corpus that overlap but answer to different criteria: scope, function and domain."
+  }
+ ],
+ "criterio_variante_denominativa": {
+  "es": "Un sinónimo o préstamo se marca como consolidado en la comunidad experta cuando su frecuencia es al menos la mitad de la de la denominación principal, o cuando lo usan al menos 5 de los 50 documentos de su subcorpus (10 %). Siguiendo DOCUTERM, la variación denominativa se reserva para las variantes formales de contenido idéntico (siglas, formas desarrolladas, variantes ortográficas).",
+  "en": "A synonym or loanword is marked as established in the expert community when its frequency is at least half that of the main form, or when at least 5 of the 50 documents in its subcorpus use it (10%). Following DOCUTERM, denominative variation is reserved for formal variants with identical content (acronyms, full forms, spelling variants).",
+  "umbral_ratio": 0.5,
+  "umbral_documentos": 5,
+  "aplica_a": [
+   "sinonimo",
+   "prestamo",
+   "variante_denominativa"
+  ]
+ },
+ "notas": [
+  {
+   "slugs": [
+    "corpus_based",
+    "corpus_driven"
+   ],
+   "es": "No todos los autores distinguen los dos enfoques. En sentido estricto se oponen: el enfoque basado en corpus contrasta con los datos hipótesis o categorías previas, mientras que el guiado por corpus deja que las categorías emerjan de los datos. Pero «basado en corpus» también se usa como hiperónimo de cualquier investigación que emplea corpus, y en ese uso abarca el enfoque guiado por corpus.",
+   "en": "Not all authors distinguish the two approaches. In the strict sense they are opposed: the corpus-based approach tests prior hypotheses or categories against the data, whereas the corpus-driven approach lets categories emerge from the data. But «corpus-based» is also used as a hypernym for any research that uses corpora, and in that use it covers the corpus-driven approach."
+  },
+  {
+   "slugs": [
+    "stopword",
+    "function_word"
+   ],
+   "es": "Las listas de palabras vacías se componen sobre todo de palabras funcionales (artículos, preposiciones, conjunciones), y en el subcorpus español el filtrado de palabras vacías se describe a veces como «omitir las palabras funcionales» (Sierra Martínez, 2015). No son sinónimos: las palabras vacías son una lista operativa, que puede incluir también palabras de contenido muy frecuentes; las palabras funcionales, una clase gramatical.",
+   "en": "Stopword lists consist mostly of function words (articles, prepositions, conjunctions), and in the Spanish subcorpus stopword filtering is sometimes described as «omitting function words» (Sierra Martínez, 2015). They are not synonyms: stopwords are an operational list, which may also include very frequent content words; function words are a grammatical class."
+  },
+  {
+   "slugs": [
+    "computational_corpus_linguistics",
+    "corpus_based_computational_linguistics"
+   ],
+   "es": "Distinción propia de algunos autores, no de uso general: procede de Parodi (2008, 2010) y solo se documenta en 2 de los 50 documentos del subcorpus español (Fernández Martín, 2015; Bernal Chávez y Hincapié Moreno, 2018), que advierten de que ambas denominaciones suelen confundirse. En el subcorpus inglés no se documenta.",
+   "en": "A distinction made by some authors, not in general use: it goes back to Parodi (2008, 2010) and is attested in only 2 of the 50 documents of the Spanish subcorpus (Fernández Martín, 2015; Bernal Chávez and Hincapié Moreno, 2018), who warn that the two names are often confused. It is not attested in the English subcorpus."
+  }
+ ],
+ "formas_contadas": {
+  "_nota": "Formas que se cuentan para las entradas que no tienen una decisión de normalización: el lema y sus formas flexivas. La primera forma de cada lista es el lema.",
+  "accuracy": {
+   "en": [
+    "accuracy"
+   ],
+   "es": [
+    "exactitud"
+   ]
+  },
+  "annotated_corpus": {
+   "en": [
+    "annotated corpus",
+    "annotated corpora"
+   ],
+   "es": [
+    "corpus anotado",
+    "corpus anotados"
+   ]
+  },
+  "annotation_scheme": {
+   "en": [
+    "annotation scheme",
+    "annotation schemes"
+   ],
+   "es": [
+    "esquema de anotación",
+    "esquemas de anotación"
+   ]
+  },
+  "balanced_corpus": {
+   "en": [
+    "balanced corpus",
+    "balanced corpora"
+   ],
+   "es": [
+    "corpus equilibrado",
+    "corpus equilibrados"
+   ]
+  },
+  "colligation": {
+   "en": [
+    "colligation",
+    "colligations"
+   ],
+   "es": [
+    "coligación",
+    "coligaciones"
+   ]
+  },
+  "collocate": {
+   "en": [
+    "collocate",
+    "collocates"
+   ],
+   "es": [
+    "colocado",
+    "colocados"
+   ]
+  },
+  "collocation": {
+   "en": [
+    "collocation",
+    "collocations"
+   ],
+   "es": [
+    "colocación",
+    "colocaciones"
+   ]
+  },
+  "comparable_corpus": {
+   "en": [
+    "comparable corpus",
+    "comparable corpora"
+   ],
+   "es": [
+    "corpus comparable",
+    "corpus comparables"
+   ]
+  },
+  "computational_linguistics": {
+   "en": [
+    "computational linguistics"
+   ],
+   "es": [
+    "lingüística computacional"
+   ]
+  },
+  "confidence_interval": {
+   "en": [
+    "confidence interval",
+    "confidence intervals"
+   ],
+   "es": [
+    "intervalo de confianza",
+    "intervalos de confianza"
+   ]
+  },
+  "corpus": {
+   "en": [
+    "corpus",
+    "corpora"
+   ],
+   "es": [
+    "corpus",
+    "córpora"
+   ]
+  },
+  "corpus_design": {
+   "en": [
+    "corpus design",
+    "corpus designs"
+   ],
+   "es": [
+    "diseño de corpus",
+    "diseños de corpus"
+   ]
+  },
+  "corpus_linguistics": {
+   "en": [
+    "corpus linguistics"
+   ],
+   "es": [
+    "lingüística de corpus"
+   ]
+  },
+  "corpus_size": {
+   "en": [
+    "corpus size",
+    "corpus sizes"
+   ],
+   "es": [
+    "tamaño del corpus",
+    "tamaños del corpus"
+   ]
+  },
+  "diachronic_corpus": {
+   "en": [
+    "diachronic corpus",
+    "diachronic corpora"
+   ],
+   "es": [
+    "corpus diacrónico",
+    "corpus diacrónicos"
+   ]
+  },
+  "dispersion": {
+   "en": [
+    "dispersion"
+   ],
+   "es": [
+    "dispersión"
+   ]
+  },
+  "effect_size": {
+   "en": [
+    "effect size",
+    "effect sizes"
+   ],
+   "es": [
+    "tamaño del efecto",
+    "tamaños del efecto"
+   ]
+  },
+  "encoding": {
+   "en": [
+    "encoding",
+    "encodings"
+   ],
+   "es": [
+    "codificación",
+    "codificaciones"
+   ]
+  },
+  "frequency": {
+   "en": [
+    "frequency",
+    "frequencies"
+   ],
+   "es": [
+    "frecuencia",
+    "frecuencias"
+   ]
+  },
+  "function_word": {
+   "en": [
+    "function word",
+    "function words"
+   ],
+   "es": [
+    "palabra funcional",
+    "palabras funcionales"
+   ]
+  },
+  "general_corpus": {
+   "en": [
+    "general corpus",
+    "general corpora"
+   ],
+   "es": [
+    "corpus general",
+    "corpus generales"
+   ]
+  },
+  "grammar": {
+   "en": [
+    "grammar",
+    "grammars"
+   ],
+   "es": [
+    "gramática",
+    "gramáticas"
+   ]
+  },
+  "header": {
+   "en": [
+    "header",
+    "headers"
+   ],
+   "es": [
+    "encabezado",
+    "encabezados"
+   ]
+  },
+  "historical_corpus": {
+   "en": [
+    "historical corpus",
+    "historical corpora"
+   ],
+   "es": [
+    "corpus histórico",
+    "corpus históricos"
+   ]
+  },
+  "html": {
+   "en": [
+    "HTML"
+   ],
+   "es": [
+    "HTML"
+   ]
+  },
+  "inline_annotation": {
+   "en": [
+    "inline annotation",
+    "inline annotations"
+   ],
+   "es": [
+    "anotación en línea",
+    "anotaciones en línea"
+   ]
+  },
+  "keyness": {
+   "en": [
+    "keyness"
+   ],
+   "es": [
+    "keyness"
+   ]
+  },
+  "keyword_analysis": {
+   "en": [
+    "keyword analysis",
+    "keyword analyses"
+   ],
+   "es": [
+    "análisis de palabras clave"
+   ]
+  },
+  "lemma": {
+   "en": [
+    "lemma",
+    "lemmas",
+    "lemmata"
+   ],
+   "es": [
+    "lema",
+    "lemas"
+   ]
+  },
+  "lexeme": {
+   "en": [
+    "lexeme",
+    "lexemes"
+   ],
+   "es": [
+    "lexema",
+    "lexemas"
+   ]
+  },
+  "log_likelihood": {
+   "en": [
+    "log-likelihood"
+   ],
+   "es": [
+    "log-verosimilitud"
+   ]
+  },
+  "markup_language": {
+   "en": [
+    "markup language",
+    "markup languages"
+   ],
+   "es": [
+    "lenguaje de marcado",
+    "lenguajes de marcado"
+   ]
+  },
+  "monolingual_corpus": {
+   "en": [
+    "monolingual corpus",
+    "monolingual corpora"
+   ],
+   "es": [
+    "corpus monolingüe",
+    "corpus monolingües"
+   ]
+  },
+  "morphological_annotation": {
+   "en": [
+    "morphological annotation",
+    "morphological annotations"
+   ],
+   "es": [
+    "anotación morfológica",
+    "anotaciones morfológicas"
+   ]
+  },
+  "multilingual_corpus": {
+   "en": [
+    "multilingual corpus",
+    "multilingual corpora"
+   ],
+   "es": [
+    "corpus multilingüe",
+    "corpus multilingües"
+   ]
+  },
+  "multimodal_corpus": {
+   "en": [
+    "multimodal corpus",
+    "multimodal corpora"
+   ],
+   "es": [
+    "corpus multimodal",
+    "corpus multimodales"
+   ]
+  },
+  "mutual_information": {
+   "en": [
+    "mutual information"
+   ],
+   "es": [
+    "información mutua"
+   ]
+  },
+  "named_entity_recognition": {
+   "en": [
+    "named entity recognition"
+   ],
+   "es": [
+    "reconocimiento de entidades nombradas"
+   ]
+  },
+  "national_corpus": {
+   "en": [
+    "national corpus",
+    "national corpora"
+   ],
+   "es": [
+    "corpus nacional",
+    "corpus nacionales"
+   ]
+  },
+  "natural_language_processing": {
+   "en": [
+    "natural language processing"
+   ],
+   "es": [
+    "procesamiento del lenguaje natural"
+   ]
+  },
+  "node_word": {
+   "en": [
+    "node word",
+    "node words"
+   ],
+   "es": [
+    "palabra nodo",
+    "palabras nodo"
+   ]
+  },
+  "occurrence": {
+   "en": [
+    "occurrence",
+    "occurrences"
+   ],
+   "es": [
+    "ocurrencia",
+    "ocurrencias"
+   ]
+  },
+  "parallel_corpus": {
+   "en": [
+    "parallel corpus",
+    "parallel corpora"
+   ],
+   "es": [
+    "corpus paralelo",
+    "corpus paralelos"
+   ]
+  },
+  "parsing": {
+   "en": [
+    "parsing"
+   ],
+   "es": [
+    "análisis sintáctico"
+   ]
+  },
+  "phraseology": {
+   "en": [
+    "phraseology"
+   ],
+   "es": [
+    "fraseología"
+   ]
+  },
+  "plain_text": {
+   "en": [
+    "plain text"
+   ],
+   "es": [
+    "texto plano"
+   ]
+  },
+  "probability": {
+   "en": [
+    "probability",
+    "probabilities"
+   ],
+   "es": [
+    "probabilidad",
+    "probabilidades"
+   ]
+  },
+  "reference_corpus": {
+   "en": [
+    "reference corpus",
+    "reference corpora"
+   ],
+   "es": [
+    "corpus de referencia"
+   ]
+  },
+  "regular_expression": {
+   "en": [
+    "regular expression",
+    "regular expressions"
+   ],
+   "es": [
+    "expresión regular",
+    "expresiones regulares"
+   ]
+  },
+  "relative_frequency": {
+   "en": [
+    "relative frequency",
+    "relative frequencies"
+   ],
+   "es": [
+    "frecuencia relativa",
+    "frecuencias relativas"
+   ]
+  },
+  "representativeness": {
+   "en": [
+    "representativeness"
+   ],
+   "es": [
+    "representatividad"
+   ]
+  },
+  "sampling_frame": {
+   "en": [
+    "sampling frame",
+    "sampling frames"
+   ],
+   "es": [
+    "marco de muestreo",
+    "marcos de muestreo"
+   ]
+  },
+  "segmentation": {
+   "en": [
+    "segmentation"
+   ],
+   "es": [
+    "segmentación"
+   ]
+  },
+  "semantic_annotation": {
+   "en": [
+    "semantic annotation",
+    "semantic annotations"
+   ],
+   "es": [
+    "anotación semántica",
+    "anotaciones semánticas"
+   ]
+  },
+  "semantic_prosody": {
+   "en": [
+    "semantic prosody",
+    "semantic prosodies"
+   ],
+   "es": [
+    "prosodia semántica",
+    "prosodias semánticas"
+   ]
+  },
+  "sgml": {
+   "en": [
+    "SGML"
+   ],
+   "es": [
+    "SGML"
+   ]
+  },
+  "standard_deviation": {
+   "en": [
+    "standard deviation",
+    "standard deviations"
+   ],
+   "es": [
+    "desviación estándar",
+    "desviaciones estándar"
+   ]
+  },
+  "stopword": {
+   "en": [
+    "stopword",
+    "stopwords"
+   ],
+   "es": [
+    "palabra vacía",
+    "palabras vacías"
+   ]
+  },
+  "subcorpus": {
+   "en": [
+    "subcorpus",
+    "subcorpora"
+   ],
+   "es": [
+    "subcorpus",
+    "subcórpora"
+   ]
+  },
+  "synchronic": {
+   "en": [
+    "synchronic"
+   ],
+   "es": [
+    "sincrónico",
+    "sincrónica",
+    "sincrónicos",
+    "sincrónicas"
+   ]
+  },
+  "syntactic_annotation": {
+   "en": [
+    "syntactic annotation",
+    "syntactic annotations"
+   ],
+   "es": [
+    "anotación sintáctica",
+    "anotaciones sintácticas"
+   ]
+  },
+  "t_score": {
+   "en": [
+    "t-score",
+    "t-scores"
+   ],
+   "es": [
+    "puntuación t",
+    "puntuaciones t"
+   ]
+  },
+  "tagger": {
+   "en": [
+    "tagger",
+    "taggers"
+   ],
+   "es": [
+    "etiquetador",
+    "etiquetadores"
+   ]
+  },
+  "tei": {
+   "en": [
+    "TEI"
+   ],
+   "es": [
+    "TEI"
+   ]
+  },
+  "text_type": {
+   "en": [
+    "text type",
+    "text types"
+   ],
+   "es": [
+    "tipo de texto",
+    "tipos de texto"
+   ]
+  },
+  "token": {
+   "en": [
+    "token",
+    "tokens"
+   ],
+   "es": [
+    "token",
+    "tokens"
+   ]
+  },
+  "training_corpus": {
+   "en": [
+    "training corpus",
+    "training corpora"
+   ],
+   "es": [
+    "corpus de entrenamiento"
+   ]
+  },
+  "unicode": {
+   "en": [
+    "Unicode"
+   ],
+   "es": [
+    "Unicode"
+   ]
+  },
+  "utf_8": {
+   "en": [
+    "UTF-8"
+   ],
+   "es": [
+    "UTF-8"
+   ]
+  },
+  "web_corpus": {
+   "en": [
+    "web corpus",
+    "web corpora"
+   ],
+   "es": [
+    "corpus web"
+   ]
+  },
+  "word_frequency": {
+   "en": [
+    "word frequency",
+    "word frequencies"
+   ],
+   "es": [
+    "frecuencia de palabras",
+    "frecuencias de palabras"
+   ]
+  },
+  "written_corpus": {
+   "en": [
+    "written corpus",
+    "written corpora"
+   ],
+   "es": [
+    "corpus escrito",
+    "corpus escritos"
+   ]
+  },
+  "xml": {
+   "en": [
+    "XML"
+   ],
+   "es": [
+    "XML"
+   ]
+  },
+  "antconc": {
+   "en": [
+    "AntConc"
+   ],
+   "es": [
+    "AntConc"
+   ]
+  },
+  "bank_of_english": {
+   "en": [
+    "Bank of English"
+   ],
+   "es": [
+    "Bank of English"
+   ]
+  },
+  "bncweb": {
+   "en": [
+    "BNCWeb"
+   ],
+   "es": [
+    "BNCWeb"
+   ]
+  },
+  "brown_corpus": {
+   "en": [
+    "Brown Corpus"
+   ],
+   "es": [
+    "Brown Corpus",
+    "corpus Brown",
+    "corpus de Brown"
+   ]
+  },
+  "claws": {
+   "en": [
+    "CLAWS"
+   ],
+   "es": [
+    "CLAWS"
+   ]
+  },
+  "coha": {
+   "en": [
+    "COHA"
+   ],
+   "es": [
+    "COHA"
+   ]
+  },
+  "cqpweb": {
+   "en": [
+    "CQPweb"
+   ],
+   "es": [
+    "CQPweb"
+   ]
+  },
+  "cwb": {
+   "en": [
+    "CWB"
+   ],
+   "es": [
+    "CWB"
+   ]
+  },
+  "glowbe": {
+   "en": [
+    "GloWbE"
+   ],
+   "es": [
+    "GloWbE"
+   ]
+  },
+  "helsinki_corpus": {
+   "en": [
+    "Helsinki Corpus"
+   ],
+   "es": [
+    "Helsinki Corpus",
+    "corpus de Helsinki",
+    "corpus Helsinki"
+   ]
+  },
+  "international_corpus_of_english": {
+   "en": [
+    "International Corpus of English"
+   ],
+   "es": [
+    "International Corpus of English",
+    "Corpus Internacional de Inglés"
+   ]
+  },
+  "micase": {
+   "en": [
+    "MICASE"
+   ],
+   "es": [
+    "MICASE",
+    "Corpus de habla académica de Michigan"
+   ]
+  },
+  "nltk": {
+   "en": [
+    "NLTK"
+   ],
+   "es": [
+    "NLTK"
+   ]
+  },
+  "now_corpus": {
+   "en": [
+    "NOW Corpus",
+    "NOW"
+   ],
+   "es": [
+    "NOW Corpus",
+    "corpus NOW",
+    "NOW"
+   ]
+  },
+  "penn_treebank": {
+   "en": [
+    "Penn Treebank"
+   ],
+   "es": [
+    "Penn Treebank"
+   ]
+  },
+  "perl": {
+   "en": [
+    "Perl"
+   ],
+   "es": [
+    "Perl"
+   ]
+  },
+  "sketch_engine": {
+   "en": [
+    "Sketch Engine"
+   ],
+   "es": [
+    "Sketch Engine"
+   ]
+  },
+  "treetagger": {
+   "en": [
+    "TreeTagger"
+   ],
+   "es": [
+    "TreeTagger"
+   ]
+  },
+  "wordsmith_tools": {
+   "en": [
+    "WordSmith Tools"
+   ],
+   "es": [
+    "WordSmith Tools"
+   ]
+  },
+  "balance": {
+   "en": [
+    "balance"
+   ],
+   "es": [
+    "equilibrio"
+   ]
+  },
+  "computational_corpus_linguistics": {
+   "en": [
+    "computational corpus linguistics"
+   ],
+   "es": [
+    "lingüística de corpus computacional"
+   ]
+  },
+  "corpus_based_computational_linguistics": {
+   "en": [
+    "corpus-based computational linguistics"
+   ],
+   "es": [
+    "lingüística computacional de corpus"
+   ]
+  },
+  "virtual_corpus": {
+   "en": [
+    "virtual corpus",
+    "virtual corpora"
+   ],
+   "es": [
+    "corpus virtual",
+    "corpus virtuales"
+   ]
+  },
+  "bilingual_corpus": {
+   "en": [
+    "bilingual corpus",
+    "bilingual corpora"
+   ],
+   "es": [
+    "corpus bilingüe",
+    "corpus bilingües"
+   ]
+  },
+  "sampling_unit": {
+   "en": [
+    "sampling unit",
+    "sampling units"
+   ],
+   "es": [
+    "unidad de muestra",
+    "unidades de muestra"
+   ]
+  },
+  "synchronic_corpus": {
+   "en": [
+    "synchronic corpus",
+    "synchronic corpora"
+   ],
+   "es": [
+    "corpus sincrónico",
+    "corpus sincrónicos"
+   ]
+  },
+  "telematic_corpus": {
+   "en": [
+    "telematic corpus",
+    "telematic corpora"
+   ],
+   "es": [
+    "corpus telemático",
+    "corpus telemáticos"
+   ]
+  },
+  "opportunistic_corpus": {
+   "en": [
+    "opportunistic corpus",
+    "opportunistic corpora"
+   ],
+   "es": [
+    "corpus oportunista",
+    "corpus oportunistas"
+   ]
+  },
+  "static_corpus": {
+   "en": [
+    "static corpus",
+    "static corpora"
+   ],
+   "es": [
+    "corpus estático",
+    "corpus estáticos"
+   ]
+  },
+  "transcriber": {
+   "en": [
+    "transcriber",
+    "transcribers"
+   ],
+   "es": [
+    "transcriptor",
+    "transcriptores"
+   ]
+  },
+  "pragmatic_annotation": {
+   "en": [
+    "pragmatic annotation",
+    "pragmatic annotations"
+   ],
+   "es": [
+    "anotación pragmática",
+    "anotaciones pragmáticas"
+   ]
+  },
+  "pos_disambiguation": {
+   "en": [
+    "POS disambiguation",
+    "part-of-speech disambiguation",
+    "morphosyntactic disambiguation",
+    "tag disambiguation"
+   ],
+   "es": [
+    "desambiguación morfosintáctica"
+   ]
+  },
+  "zipfs_law": {
+   "en": [
+    "Zipf's law",
+    "Zipf law"
+   ],
+   "es": [
+    "ley de Zipf"
+   ]
+  },
+  "moving_average": {
+   "en": [
+    "moving average",
+    "moving averages"
+   ],
+   "es": [
+    "media móvil",
+    "medias móviles"
+   ]
+  },
+  "word_sketch": {
+   "en": [
+    "word sketch",
+    "word sketches"
+   ],
+   "es": [
+    "word sketch",
+    "word sketches"
+   ]
+  },
+  "normalized_dispersion_index": {
+   "en": [
+    "normalised dispersion index",
+    "normalized dispersion index"
+   ],
+   "es": [
+    "índice normalizado de dispersión"
+   ]
+  },
+  "eagles": {
+   "en": [
+    "EAGLES"
+   ],
+   "es": [
+    "EAGLES"
+   ]
+  },
+  "universal_dependencies": {
+   "en": [
+    "Universal Dependencies"
+   ],
+   "es": [
+    "Universal Dependencies"
+   ]
+  },
+  "stratified_sampling": {
+   "en": [
+    "stratified sampling",
+    "stratified sample",
+    "stratified samples"
+   ],
+   "es": [
+    "muestreo estratificado",
+    "muestra estratificada",
+    "muestras estratificadas"
+   ]
+  },
+  "deviation_of_proportions": {
+   "en": [
+    "deviation of proportions"
+   ],
+   "es": [
+    "desviación de proporciones"
+   ]
+  },
+  "lexico_grammar": {
+   "en": [
+    "lexico-grammar",
+    "lexicogrammar"
+   ],
+   "es": [
+    "léxico-gramática",
+    "lexicogramática"
+   ]
+  },
+  "semantic_preference": {
+   "en": [
+    "semantic preference",
+    "semantic preferences"
+   ],
+   "es": [
+    "preferencia semántica",
+    "preferencias semánticas"
+   ]
+  },
+  "wordnet": {
+   "en": [
+    "WordNet"
+   ],
+   "es": [
+    "WordNet"
+   ]
+  },
+  "c_oral_rom": {
+   "en": [
+    "C-ORAL-ROM"
+   ],
+   "es": [
+    "C-ORAL-ROM"
+   ]
+  },
+  "opus": {
+   "en": [
+    "OPUS"
+   ],
+   "es": [
+    "OPUS"
+   ]
+  },
+  "estenten": {
+   "en": [
+    "esTenTen18",
+    "esTenTen"
+   ],
+   "es": [
+    "esTenTen18",
+    "esTenTen"
+   ]
+  },
+  "actres": {
+   "en": [
+    "ACTRES",
+    "P-ACTRES"
+   ],
+   "es": [
+    "ACTRES",
+    "P-ACTRES"
+   ]
+  },
+  "multinot": {
+   "en": [
+    "MULTINOT"
+   ],
+   "es": [
+    "MULTINOT"
+   ]
+  },
+  "cde_web": {
+   "en": [
+    "CdE-Web"
+   ],
+   "es": [
+    "CdE-Web",
+    "CdE-web"
+   ]
+  },
+  "cde_now": {
+   "en": [
+    "CdE-NOW"
+   ],
+   "es": [
+    "CdE-NOW"
+   ]
+  },
+  "global_voices": {
+   "en": [
+    "Global Voices"
+   ],
+   "es": [
+    "Global Voices"
+   ]
+  },
+  "fono_ele": {
+   "en": [
+    "Fono.Ele",
+    "FonoELE"
+   ],
+   "es": [
+    "Fono.Ele",
+    "FonoELE"
+   ]
+  },
+  "freeling": {
+   "en": [
+    "FreeLing"
+   ],
+   "es": [
+    "FreeLing"
+   ]
+  },
+  "bootcat": {
+   "en": [
+    "BootCaT"
+   ],
+   "es": [
+    "BootCaT"
+   ]
+  },
+  "gensim": {
+   "en": [
+    "Gensim"
+   ],
+   "es": [
+    "Gensim"
+   ]
+  },
+  "grampal": {
+   "en": [
+    "Grampal",
+    "GRAMPAL"
+   ],
+   "es": [
+    "Grampal",
+    "GRAMPAL"
+   ]
+  },
+  "stanza": {
+   "en": [
+    "Stanza"
+   ],
+   "es": [
+    "Stanza"
+   ]
+  },
+  "tagant": {
+   "en": [
+    "TagAnt"
+   ],
+   "es": [
+    "TagAnt"
+   ]
+  },
+  "ixa_pipes": {
+   "en": [
+    "IXA",
+    "IXA pipes"
+   ],
+   "es": [
+    "IXA",
+    "IXA pipes"
+   ]
+  },
+  "xbench": {
+   "en": [
+    "Xbench"
+   ],
+   "es": [
+    "Xbench"
+   ]
+  },
+  "rtweet": {
+   "en": [
+    "rtweet"
+   ],
+   "es": [
+    "rtweet"
+   ]
+  },
+  "wmatrix": {
+   "en": [
+    "Wmatrix",
+    "WMATRIX"
+   ],
+   "es": [
+    "Wmatrix",
+    "WMATRIX"
+   ]
+  },
+  "lf_aligner": {
+   "en": [
+    "LF Aligner"
+   ],
+   "es": [
+    "LF Aligner"
+   ]
+  },
+  "t_hoarder": {
+   "en": [
+    "T-Hoarder"
+   ],
+   "es": [
+    "T-Hoarder"
+   ]
+  },
+  "bitext2tmx": {
+   "en": [
+    "Bitext2tmx",
+    "BiText2tmx"
+   ],
+   "es": [
+    "Bitext2tmx",
+    "BiText2tmx"
+   ]
+  },
+  "chorus": {
+   "en": [
+    "Chorus",
+    "ChoRus"
+   ],
+   "es": [
+    "Chorus",
+    "ChoRus"
+   ]
+  },
+  "gephi": {
+   "en": [
+    "Gephi"
+   ],
+   "es": [
+    "Gephi"
+   ]
+  },
+  "concgram": {
+   "en": [
+    "ConcGram",
+    "ConcGramCore"
+   ],
+   "es": [
+    "ConcGram",
+    "ConcGramCore"
+   ]
+  },
+  "dmi_tcat": {
+   "en": [
+    "DMI-TCAT",
+    "DMI_TCAT"
+   ],
+   "es": [
+    "DMI-TCAT",
+    "DMI_TCAT"
+   ]
+  },
+  "genex": {
+   "en": [
+    "GenEx",
+    "GENEX"
+   ],
+   "es": [
+    "GenEx",
+    "GENEX"
+   ]
+  },
+  "multitrans": {
+   "en": [
+    "MultiTrans",
+    "Multitrans"
+   ],
+   "es": [
+    "MultiTrans",
+    "Multitrans"
+   ]
+  },
+  "tweepy": {
+   "en": [
+    "Tweepy"
+   ],
+   "es": [
+    "Tweepy"
+   ]
+  },
+  "wordfast": {
+   "en": [
+    "Wordfast"
+   ],
+   "es": [
+    "Wordfast"
+   ]
+  },
+  "plus_align": {
+   "en": [
+    "+Align"
+   ],
+   "es": [
+    "+Align"
+   ]
+  },
+  "antpconc": {
+   "en": [
+    "AntPConc"
+   ],
+   "es": [
+    "AntPConc"
+   ]
+  },
+  "notepad_plus_plus": {
+   "en": [
+    "Notepad++"
+   ],
+   "es": [
+    "Notepad++"
+   ]
+  },
+  "pencil": {
+   "en": [
+    "PENCIL"
+   ],
+   "es": [
+    "PENCIL"
+   ]
+  },
+  "stanford_parser": {
+   "en": [
+    "Stanford Parser"
+   ],
+   "es": [
+    "Stanford Parser"
+   ]
+  },
+  "stingray": {
+   "en": [
+    "Stingray"
+   ],
+   "es": [
+    "Stingray"
+   ]
+  },
+  "ukb": {
+   "en": [
+    "UKB"
+   ],
+   "es": [
+    "UKB"
+   ]
+  }
+ },
+ "criterio_principal": {
+  "es": "La denominación principal de cada lengua se elige de forma automática: (1) se descartan las formas reducidas y las no documentadas; (2) en español, si hay una forma española documentada se prefiere a los préstamos; si solo está documentado el préstamo, se usa el préstamo; y si no hay ninguna forma documentada, se usa la propuesta del glosario; (3) entre una sigla y su forma desarrollada, se prefiere la sigla, que es la forma lexicalizada con la que se cita; (4) entre las demás, la que aparece en más documentos del subcorpus (dispersión, indicador de consenso entre autores); a igualdad de documentos, la más frecuente. Las excepciones se declaran en cada entrada con su motivo.",
+  "en": "The main form in each language is chosen automatically: (1) reduced and unattested forms are excluded; (2) in Spanish, an attested Spanish form is preferred over loanwords; if only the loanword is attested, the loanword is used; and if no form is attested, the glossary's proposal is used; (3) between an acronym and its full form, the acronym is preferred, as the lexicalised form used in citation; (4) among the rest, the one used in the most documents of the subcorpus (dispersion, an indicator of consensus among authors); with equal documents, the most frequent. Exceptions are declared in each entry with their reason."
+ },
+ "siglas": {
+  "_nota": "Desarrollo de las siglas. Se muestra en la ficha («Sigla de…») y se cuenta como forma desarrollada. Por el criterio de la denominación principal, la sigla se mantiene como entrada.",
+  "coha": [
+   "Corpus of Historical American English"
+  ],
+  "glowbe": [
+   "Corpus of Global Web-Based English",
+   "Global Web-Based English"
+  ],
+  "micase": [
+   "Michigan Corpus of Academic Spoken English"
+  ],
+  "now_corpus": [
+   "News on the Web Corpus",
+   "News on the Web"
+  ],
+  "nltk": [
+   "Natural Language Toolkit"
+  ],
+  "claws": [
+   "Constituent Likelihood Automatic Word-tagging System"
+  ],
+  "kwic": [
+   "Key Word in Context",
+   "Keyword in Context",
+   "Key-Word-In-Context"
+  ],
+  "xml": [
+   "Extensible Markup Language",
+   "eXtensible Markup Language"
+  ],
+  "html": [
+   "HyperText Markup Language",
+   "Hypertext Markup Language"
+  ],
+  "sgml": [
+   "Standard Generalized Markup Language",
+   "Standard Generalised Markup Language"
+  ],
+  "tei": [
+   "Text Encoding Initiative"
+  ],
+  "utf_8": [
+   "8-bit Unicode Transformation Format",
+   "Unicode Transformation Format",
+   "Unicode Transformation Formats"
+  ],
+  "cwb": [
+   "Corpus Workbench",
+   "IMS Open Corpus Workbench",
+   "Open Corpus Workbench"
+  ],
+  "bnc": [
+   "British National Corpus"
+  ],
+  "coca": [
+   "Corpus of Contemporary American English"
+  ],
+  "lob": [
+   "Lancaster-Oslo/Bergen Corpus"
+  ],
+  "eagles": [
+   "Expert Advisory Group on Language Engineering Standards"
+  ],
+  "crea": [
+   "Corpus de Referencia del Español Actual"
+  ],
+  "corde": [
+   "Corpus Diacrónico del Español"
+  ],
+  "cdh": [
+   "Corpus del Nuevo Diccionario Histórico"
+  ],
+  "preseea": [
+   "Proyecto para el Estudio Sociolingüístico del Español de España y de América"
+  ],
+  "caes": [
+   "Corpus de Aprendices de Español"
+  ],
+  "corpes_xxi": [
+   "Corpus del Español del Siglo XXI"
+  ],
+  "iula": [
+   "Corpus Técnico del IULA"
+  ],
+  "valesco": [
+   "Corpus de Conversaciones Coloquiales"
+  ],
+  "cemc": [
+   "Corpus del Español Mexicano Contemporáneo"
+  ],
+  "cobuild": [
+   "Collins Birmingham University International Language Database"
+  ],
+  "charta": [
+   "Corpus Hispánico y Americano en la Red: Textos Antiguos"
+  ],
+  "corlec": [
+   "Corpus Oral de Referencia de la Lengua Española Contemporánea"
+  ],
+  "seu": [
+   "Survey of English Usage"
+  ],
+  "cedel2": [
+   "Corpus Escrito del Español como L2"
+  ],
+  "codea": [
+   "Corpus de Documentos Españoles Anteriores a 1800"
+  ],
+  "cleae": [
+   "Corpus Longitudinal de Español de Aprendientes Estonios"
+  ],
+  "europarl": [
+   "European Parliament Proceedings Parallel Corpus"
+  ],
+  "splloc": [
+   "Spanish Learner Language Oral Corpora"
+  ],
+  "ode": [
+   "Oralia Diacrónica del Español"
+  ],
+  "llc": [
+   "London-Lund Corpus of Spoken English"
+  ],
+  "sse": [
+   "Survey of Spoken English"
+  ],
+  "actres": [
+   "Análisis Contrastivo y Traducción English-Spanish"
+  ],
+  "spt": [
+   "Spanish Corpus Proficiency Level Training"
+  ],
+  "corlexin": [
+   "Corpus Léxico de Inventarios"
+  ],
+  "ecpc": [
+   "European Comparable and Parallel Corpora of Parliamentary Speeches Archive"
+  ],
+  "gentt": [
+   "Géneros Textuales para la Traducción"
+  ],
+  "mellange": [
+   "Multilingual eLearning in LANGuage Engineering"
+  ],
+  "bidtea": [
+   "Biblioteca Digital de Textos del Español Antiguo"
+  ],
+  "cate": [
+   "Corpus de Aprendices Taiwaneses de Español"
+  ],
+  "letrac": [
+   "Language Engineering for Translators Curricula"
+  ],
+  "cde_web": [
+   "Corpus del Español: Web/Dialectos"
+  ],
+  "cde_now": [
+   "Corpus del Español: NOW"
+  ],
+  "corane": [
+   "Corpus para el Análisis de Errores de Aprendices de E/LE"
+  ],
+  "cows_l2h": [
+   "Corpus of Written Spanish of L2 and Heritage Speakers"
+  ],
+  "langsnap": [
+   "Languages and Social Networks Abroad Project"
+  ],
+  "corespi": [
+   "Corpus del Español de los Italianos"
+  ],
+  "eleactar": [
+   "Corpus Tartuense de Español Estudiantil Académico"
+  ],
+  "mallet": [
+   "MAchine Learning for LanguagE Toolkit"
+  ],
+  "cqp": [
+   "Corpus Query Processor"
+  ],
+  "dmi_tcat": [
+   "Digital Methods Initiative Twitter Capture and Analysis Toolset"
+  ],
+  "gdex": [
+   "Good Dictionary Examples"
+  ]
+ },
+ "sensibles_mayusculas": {
+  "_nota": "Cadenas que se cuentan distinguiendo mayúsculas porque en minúscula son palabras comunes (NOW / now, CREA / crea, MUST / must, Transit / transit).",
+  "cadenas": [
+   "NOW",
+   "CREA",
+   "CAES",
+   "CORDE",
+   "CDH",
+   "MUST",
+   "ODE",
+   "OPUS",
+   "SPT",
+   "CATE",
+   "IXA",
+   "LLC",
+   "SSE",
+   "SEU",
+   "CQP",
+   "PENCIL",
+   "Stanza",
+   "Transit",
+   "Chorus",
+   "GDEX",
+   "LETRAC",
+   "CLEAE",
+   "WSD",
+   "UPOS"
+  ]
+ },
+ "equivalentes_descartados": [
+  {
+   "slug": "inline_annotation",
+   "forma": "codificación interna",
+   "motivo": "Aparece dos veces en Rojo («la codificación interna de los textos»), pero no está claro que designe la anotación insertada en el texto frente a la anotación externa. Se descarta; se mantiene la propuesta «anotación en línea».",
+   "motivo_en": "It appears twice in Rojo («la codificación interna de los textos»), but it is not clear that it refers to annotation embedded in the text as opposed to stand-off annotation. Discarded; the proposal «anotación en línea» is kept."
+  }
+ ],
+ "criterio_laguna": {
+  "es": "Hay laguna terminológica en una lengua cuando en su subcorpus no se documenta ninguna denominación propia del concepto: o no aparece ninguna forma (el glosario da entonces una propuesta, marcada como tal) o solo aparece el préstamo de la otra lengua. Es un criterio de uso: se aplica sobre el corpus, no sobre el inventario de términos validados.",
+  "en": "There is a terminological gap in a language when its subcorpus attests no native name for the concept: either no form appears (the glossary then gives a proposal, marked as such) or only the loanword from the other language appears. It is a usage criterion: it is applied to the corpus, not to the inventory of validated terms.",
+  "fecha": "2026-09-23",
+  "excluye": "Las siglas internacionales, los nombres propios de estándares y los términos latinos compartidos por las dos lenguas (corpus, subcorpus, KWIC, XML, HTML, SGML, TEI, UTF-8, Unicode, EAGLES, Universal Dependencies, Universal POS) no se consideran préstamos."
+ },
+ "inventario_tesis": {
+  "_nota": "Cómo se incorporan al glosario las unidades del Apéndice III que no tenían ficha (septiembre de 2026).",
+  "unificadas": [
+   {
+    "tesis": "monitor",
+    "entrada": "monitor_corpus",
+    "motivo": "Reducción de «corpus monitor»."
+   },
+   {
+    "tesis": "SDL Trados Studio",
+    "entrada": "trados",
+    "motivo": "Forma extendida del nombre de Trados."
+   },
+   {
+    "tesis": "Star Transit",
+    "entrada": "transit",
+    "motivo": "Forma extendida del nombre de Transit."
+   },
+   {
+    "tesis": "IMS Open Corpus Workbench",
+    "entrada": "cwb",
+    "motivo": "Forma desarrollada de CWB, que ya tenía ficha."
+   },
+   {
+    "tesis": "Lancaster-Oslo-Bergen Corpus",
+    "entrada": "lob",
+    "motivo": "Forma desarrollada de LOB, que ya tenía ficha."
+   }
+  ],
+  "reclasificadas": [
+   {
+    "tesis": "UKB",
+    "de": "término (PROC-LIN)",
+    "a": "entidad (Herramientas y software)",
+    "motivo": "Es el nombre propio de un programa (algoritmo implementado en una herramienta), como las demás herramientas del índice de recursos."
+   },
+   {
+    "tesis": "EAGLES, HTML, SGML, TEI, UTF-8, XML, Universal Dependencies, Universal POS",
+    "de": "término (Tecnología y formatos)",
+    "a": "entidad (Estándares y formatos técnicos)",
+    "motivo": "Decisión de la autora: son nombres propios de estándares y formatos, no conceptos."
+   },
+   {
+    "tesis": "algoritmo de Lesk",
+    "de": "término (Procesamiento lingüístico)",
+    "a": "entidad (Anotación y procesamiento lingüístico), con «Lesk» como forma principal",
+    "motivo": "Decisión de la autora: se trata como recurso con nombre propio."
+   }
+  ],
+  "descartadas": [
+   {
+    "tesis": "taggers",
+    "motivo": "No es una entidad sino el plural del término «tagger», que ya tiene ficha."
+   },
+   {
+    "tesis": "Macrocorpus sociolingüístico",
+    "motivo": "No es el nombre de un recurso: en el corpus describe PRESEEA («un macrocorpus sociolingüístico y sincrónico del español»)."
+   }
+  ],
+  "distinguidas": [
+   {
+    "tesis": [
+     "lingüística de corpus computacional",
+     "lingüística computacional de corpus"
+    ],
+    "motivo": "Parecen variantes, pero el corpus las distingue expresamente (Bernal Chávez y Hincapié): dos entradas."
+   }
+  ],
+  "anadidas": [
+   {
+    "glosario": "corpus query language",
+    "motivo": "No está en el Apéndice III, pero se documenta en el corpus (lenguaje de consulta, Corpus Query Language): se mantiene."
+   },
+   {
+    "glosario": "NOW Corpus",
+    "motivo": "No está en el Apéndice III, pero se documenta en el corpus (NOW, News on the Web): se mantiene."
+   }
+  ]
+ },
+ "categorias_entidades_autora": {
+  "_nota": "Categorías de entidades que no están en la tesis, añadidas por la autora en septiembre de 2026.",
+  "Estándares y formatos técnicos": "Technical standards and formats",
+  "Anotación y procesamiento lingüístico": "Annotation and language processing"
+ },
+ "retirados": {
+  "_nota": "Entradas retiradas del glosario, con el motivo (no se recuentan ni se publican).",
+  "range": {
+   "fecha": "2026-10-01",
+   "motivo": "«range» es en inglés sobre todo una palabra general («a wide range of», «ranges from»); no se documenta su sentido técnico de medida de dispersión, ni ninguna denominación española («rango de dispersión»: 0). El concepto queda recogido en la definición de «dispersión» y en las fichas de la desviación de proporciones y del índice normalizado de dispersión."
+  }
+ }
+}

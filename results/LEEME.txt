@@ -1,0 +1,41 @@
+Resultados del artículo (todos en CSV; .csv.gz = CSV comprimido)
+
+Claves comunes: modelo (CRF, BiLSTM-CRF, XLM-R o clasificador), exp (reserva, cv, lodo),
+lang (en, es, acter), pct (porcentaje de tipos reservados), seed (partición 0-9), fold
+(pliegue de la validación cruzada), dominio (ACTER LODO).
+
+Prefijos de métricas: tp_/fp_/fn_/tn_ recuentos; p_/r_/f1_ precisión, recuperación, F1.
+Sufijos: _bt (B-T), _it (I-T), _o (O), _termino (B-T+I-T frente a O; métrica principal),
+_macro, _global (ponderada), _span_exacto / _span_parcial (por unidad completa).
+res_*: las mismas métricas solo sobre los tokens de tipos reservados (nunca vistos);
+vis_*: sobre el resto. En LODO, res_ = tipos ausentes de los dominios de entrenamiento.
+
+07/08 análisis por ejecución: res_/vis_prop_exacta|por_defecto|por_exceso|solapamiento|omitida
+(resultado de cada aparición), *_mono/_poli_prop_exacta (delimitación exacta de monoléxicos y
+poliléxicos), res_recall_token_sin_oov|con_oov (palabras fuera del vocabulario de
+entrenamiento), res_recall_token_<franja> (frecuencia del tipo), err_* (tipología de errores
+sobre reservados + falsos positivos), errsc_* (ídem sin el tipo «corpus», como en la tesis).
+OOV: alguna palabra del término no aparece en el entrenamiento (sin el conjunto de validación).
+Frecuencia del tipo: apariciones anotadas en todo el corpus.
+
+Pruebas estadísticas (diferencia siempre = modelo_b - modelo_a):
+05  pares de modelos, partición a partición (reserva, 10 particiones) o pliegue a pliegue (CV):
+    diferencia media, IC 95 % (t), d de Cohen pareada, correlación biserial de rangos, victorias,
+    Wilcoxon y t pareada; Holm por protocolo, par de modelos y métrica sobre las 8 comparaciones
+    lengua-nivel (EN+ES) o los 4 niveles (ACTER).
+05b media, desviación típica, error típico e IC 95 % de cada métrica por modelo, corpus y nivel.
+05c ACTER LODO: cada modelo neuronal (5 semillas) frente al CRF (determinista) por dominio,
+    t de una muestra con Holm.
+05d ablación del CRF: t de una muestra y Wilcoxon sobre las 10 diferencias de cada familia,
+    lengua y nivel (ΔF1 de término y Δ recuperación de reservados), Holm sobre los 72 contrastes.
+05e/05f bootstrap pareado por oraciones dentro de cada partición (1000 remuestras): diferencia de
+    F1 de término y de recuperación de reservados, IC 95 % y p; 05f cuenta en cuántas particiones
+    es significativa en cada sentido.
+11b Spearman entre la frecuencia de cada tipo reservado y su recuperación.
+07 además: tipo_* = evaluación por tipo, como en TermEval (tipo_recall: términos distintos de la
+prueba con al menos una aparición reconocida entera; tipo_precision_test/_corpus: formas propuestas
+distintas que son formas anotadas en la prueba / en todo el corpus); *_por_defecto_prop_termino_anotado:
+de las delimitaciones por defecto, cuántas proponen a su vez un término anotado (p. ej. "corpus" en
+"corpus linguistics"), para valorar el efecto de anotar solo la cadena más larga; *_hasta2019 /
+*_desde2020: F1 y recuperación de reservados según el año del documento (XLM-R no pudo ver en su
+preentrenamiento los textos publicados desde 2020).

@@ -1,0 +1,1829 @@
+[
+ {
+  "slug": "plus_align",
+  "type": "entity",
+  "category": "Herramientas y software",
+  "term_en": "+Align",
+  "term_es": "+Align"
+ },
+ {
+  "slug": "accuracy",
+  "type": "term",
+  "category": "Procesamiento lingüístico",
+  "term_en": "accuracy",
+  "term_es": "exactitud"
+ },
+ {
+  "slug": "actres",
+  "type": "entity",
+  "category": "Recursos y corpus",
+  "term_en": "ACTRES",
+  "term_es": "ACTRES"
+ },
+ {
+  "slug": "alignment",
+  "type": "term",
+  "category": "Procesamiento lingüístico",
+  "term_en": "alignment",
+  "term_es": "alineación"
+ },
+ {
+  "slug": "annotated_corpus",
+  "type": "term",
+  "category": "Metodología y diseño",
+  "term_en": "annotated corpus",
+  "term_es": "corpus anotado"
+ },
+ {
+  "slug": "annotation",
+  "type": "term",
+  "category": "Procesamiento lingüístico",
+  "term_en": "annotation",
+  "term_es": "anotación"
+ },
+ {
+  "slug": "annotation_scheme",
+  "type": "term",
+  "category": "Procesamiento lingüístico",
+  "term_en": "annotation scheme",
+  "term_es": "esquema de anotación"
+ },
+ {
+  "slug": "annotation_tool",
+  "type": "term",
+  "category": "Procesamiento lingüístico",
+  "term_en": "annotation tool",
+  "term_es": "herramienta de anotación"
+ },
+ {
+  "slug": "antconc",
+  "type": "entity",
+  "category": "Herramientas y software",
+  "term_en": "AntConc",
+  "term_es": "AntConc"
+ },
+ {
+  "slug": "antpconc",
+  "type": "entity",
+  "category": "Herramientas y software",
+  "term_en": "AntPConc",
+  "term_es": "AntPConc"
+ },
+ {
+  "slug": "association_measure",
+  "type": "term",
+  "category": "Estadística y léxico",
+  "term_en": "association measure",
+  "term_es": "medida de asociación"
+ },
+ {
+  "slug": "balance",
+  "type": "term",
+  "category": "Metodología y diseño",
+  "term_en": "balance",
+  "term_es": "equilibrio"
+ },
+ {
+  "slug": "balanced_corpus",
+  "type": "term",
+  "category": "Metodología y diseño",
+  "term_en": "balanced corpus",
+  "term_es": "corpus equilibrado"
+ },
+ {
+  "slug": "bank_of_english",
+  "type": "entity",
+  "category": "Recursos y corpus",
+  "term_en": "Bank of English",
+  "term_es": "Bank of English"
+ },
+ {
+  "slug": "bidtea",
+  "type": "entity",
+  "category": "Recursos y corpus",
+  "term_en": "BiDTEA",
+  "term_es": "BiDTEA"
+ },
+ {
+  "slug": "bilingual_corpus",
+  "type": "term",
+  "category": "Metodología y diseño",
+  "term_en": "bilingual corpus",
+  "term_es": "corpus bilingüe"
+ },
+ {
+  "slug": "bitext2tmx",
+  "type": "entity",
+  "category": "Herramientas y software",
+  "term_en": "Bitext2tmx",
+  "term_es": "Bitext2tmx"
+ },
+ {
+  "slug": "bnc",
+  "type": "entity",
+  "category": "Recursos y corpus",
+  "term_en": "BNC",
+  "term_es": "BNC"
+ },
+ {
+  "slug": "bncweb",
+  "type": "entity",
+  "category": "Recursos y corpus",
+  "term_en": "BNCWeb",
+  "term_es": "BNCWeb"
+ },
+ {
+  "slug": "bootcat",
+  "type": "entity",
+  "category": "Herramientas y software",
+  "term_en": "BootCaT",
+  "term_es": "BootCaT"
+ },
+ {
+  "slug": "brown_corpus",
+  "type": "entity",
+  "category": "Recursos y corpus",
+  "term_en": "Brown Corpus",
+  "term_es": "Brown Corpus"
+ },
+ {
+  "slug": "c_oral_rom",
+  "type": "entity",
+  "category": "Recursos y corpus",
+  "term_en": "C-ORAL-ROM",
+  "term_es": "C-ORAL-ROM"
+ },
+ {
+  "slug": "caes",
+  "type": "entity",
+  "category": "Recursos y corpus",
+  "term_en": "CAES",
+  "term_es": "CAES"
+ },
+ {
+  "slug": "cate",
+  "type": "entity",
+  "category": "Recursos y corpus",
+  "term_en": "CATE",
+  "term_es": "CATE"
+ },
+ {
+  "slug": "cde_now",
+  "type": "entity",
+  "category": "Recursos y corpus",
+  "term_en": "CdE-NOW",
+  "term_es": "CdE-NOW"
+ },
+ {
+  "slug": "cde_web",
+  "type": "entity",
+  "category": "Recursos y corpus",
+  "term_en": "CdE-Web",
+  "term_es": "CdE-Web"
+ },
+ {
+  "slug": "cdh",
+  "type": "entity",
+  "category": "Recursos y corpus",
+  "term_en": "CDH",
+  "term_es": "CDH"
+ },
+ {
+  "slug": "cedel2",
+  "type": "entity",
+  "category": "Recursos y corpus",
+  "term_en": "CEDEL2",
+  "term_es": "CEDEL2"
+ },
+ {
+  "slug": "cemc",
+  "type": "entity",
+  "category": "Recursos y corpus",
+  "term_en": "CEMC",
+  "term_es": "CEMC"
+ },
+ {
+  "slug": "charta",
+  "type": "entity",
+  "category": "Recursos y corpus",
+  "term_en": "CHARTA",
+  "term_es": "CHARTA"
+ },
+ {
+  "slug": "chi_squared",
+  "type": "term",
+  "category": "Estadística y léxico",
+  "term_en": "chi-square",
+  "term_es": "chi cuadrado"
+ },
+ {
+  "slug": "chorus",
+  "type": "entity",
+  "category": "Herramientas y software",
+  "term_en": "Chorus",
+  "term_es": "Chorus"
+ },
+ {
+  "slug": "claws",
+  "type": "entity",
+  "category": "Herramientas y software",
+  "term_en": "CLAWS",
+  "term_es": "CLAWS"
+ },
+ {
+  "slug": "cleae",
+  "type": "entity",
+  "category": "Recursos y corpus",
+  "term_en": "CLEAE",
+  "term_es": "CLEAE"
+ },
+ {
+  "slug": "clustering",
+  "type": "term",
+  "category": "Procesamiento lingüístico",
+  "term_en": "clustering",
+  "term_es": "agrupamiento"
+ },
+ {
+  "slug": "cobuild",
+  "type": "entity",
+  "category": "Recursos y corpus",
+  "term_en": "COBUILD",
+  "term_es": "COBUILD"
+ },
+ {
+  "slug": "coca",
+  "type": "entity",
+  "category": "Recursos y corpus",
+  "term_en": "COCA",
+  "term_es": "COCA"
+ },
+ {
+  "slug": "codea",
+  "type": "entity",
+  "category": "Recursos y corpus",
+  "term_en": "CODEA+",
+  "term_es": "CODEA+"
+ },
+ {
+  "slug": "coha",
+  "type": "entity",
+  "category": "Recursos y corpus",
+  "term_en": "COHA",
+  "term_es": "COHA"
+ },
+ {
+  "slug": "colligation",
+  "type": "term",
+  "category": "Estadística y léxico",
+  "term_en": "colligation",
+  "term_es": "coligación"
+ },
+ {
+  "slug": "collocate",
+  "type": "term",
+  "category": "Estadística y léxico",
+  "term_en": "collocate",
+  "term_es": "colocado"
+ },
+ {
+  "slug": "collocation",
+  "type": "term",
+  "category": "Estadística y léxico",
+  "term_en": "collocation",
+  "term_es": "colocación"
+ },
+ {
+  "slug": "collocational_strength",
+  "type": "term",
+  "category": "Estadística y léxico",
+  "term_en": "collocational strength",
+  "term_es": "fuerza de asociación"
+ },
+ {
+  "slug": "comparable_corpus",
+  "type": "term",
+  "category": "Metodología y diseño",
+  "term_en": "comparable corpus",
+  "term_es": "corpus comparable"
+ },
+ {
+  "slug": "computational_corpus_linguistics",
+  "type": "term",
+  "category": "Metodología y diseño",
+  "term_en": "computational corpus linguistics",
+  "term_es": "lingüística de corpus computacional"
+ },
+ {
+  "slug": "computational_linguistics",
+  "type": "term",
+  "category": "Metodología y diseño",
+  "term_en": "computational linguistics",
+  "term_es": "lingüística computacional"
+ },
+ {
+  "slug": "concgram",
+  "type": "entity",
+  "category": "Herramientas y software",
+  "term_en": "ConcGram",
+  "term_es": "ConcGram"
+ },
+ {
+  "slug": "concordance",
+  "type": "term",
+  "category": "Metodología y diseño",
+  "term_en": "concordance",
+  "term_es": "concordancia"
+ },
+ {
+  "slug": "concordancer",
+  "type": "term",
+  "category": "Procesamiento lingüístico",
+  "term_en": "concordancer",
+  "term_es": "programa de concordancias"
+ },
+ {
+  "slug": "confidence_interval",
+  "type": "term",
+  "category": "Estadística y léxico",
+  "term_en": "confidence interval",
+  "term_es": "intervalo de confianza"
+ },
+ {
+  "slug": "content_word",
+  "type": "term",
+  "category": "Estadística y léxico",
+  "term_en": "content word",
+  "term_es": "palabra de contenido"
+ },
+ {
+  "slug": "corane",
+  "type": "entity",
+  "category": "Recursos y corpus",
+  "term_en": "CORANE",
+  "term_es": "CORANE"
+ },
+ {
+  "slug": "corde",
+  "type": "entity",
+  "category": "Recursos y corpus",
+  "term_en": "CORDE",
+  "term_es": "CORDE"
+ },
+ {
+  "slug": "corespi",
+  "type": "entity",
+  "category": "Recursos y corpus",
+  "term_en": "CORESPI",
+  "term_es": "CORESPI"
+ },
+ {
+  "slug": "corlec",
+  "type": "entity",
+  "category": "Recursos y corpus",
+  "term_en": "CORLEC",
+  "term_es": "CORLEC"
+ },
+ {
+  "slug": "corlexin",
+  "type": "entity",
+  "category": "Recursos y corpus",
+  "term_en": "CorLexIn",
+  "term_es": "CorLexIn"
+ },
+ {
+  "slug": "corpes_xxi",
+  "type": "entity",
+  "category": "Recursos y corpus",
+  "term_en": "CORPES XXI",
+  "term_es": "CORPES XXI"
+ },
+ {
+  "slug": "corpus",
+  "type": "term",
+  "category": "Metodología y diseño",
+  "term_en": "corpus",
+  "term_es": "corpus"
+ },
+ {
+  "slug": "corpus_building",
+  "type": "term",
+  "category": "Metodología y diseño",
+  "term_en": "corpus compilation",
+  "term_es": "construcción de corpus"
+ },
+ {
+  "slug": "corpus_design",
+  "type": "term",
+  "category": "Metodología y diseño",
+  "term_en": "corpus design",
+  "term_es": "diseño de corpus"
+ },
+ {
+  "slug": "corpus_linguistics",
+  "type": "term",
+  "category": "Metodología y diseño",
+  "term_en": "corpus linguistics",
+  "term_es": "lingüística de corpus"
+ },
+ {
+  "slug": "corpus_query_language",
+  "type": "term",
+  "category": "Metodología y diseño",
+  "term_en": "corpus query language",
+  "term_es": "lenguaje de consulta"
+ },
+ {
+  "slug": "corpus_size",
+  "type": "term",
+  "category": "Metodología y diseño",
+  "term_en": "corpus size",
+  "term_es": "tamaño del corpus"
+ },
+ {
+  "slug": "corpus_based",
+  "type": "term",
+  "category": "Metodología y diseño",
+  "term_en": "corpus-based",
+  "term_es": "basado en corpus"
+ },
+ {
+  "slug": "corpus_based_computational_linguistics",
+  "type": "term",
+  "category": "Procesamiento lingüístico",
+  "term_en": "corpus-based computational linguistics",
+  "term_es": "lingüística computacional de corpus"
+ },
+ {
+  "slug": "corpus_based_translation_studies",
+  "type": "term",
+  "category": "Metodología y diseño",
+  "term_en": "corpus-based translation studies",
+  "term_es": "estudios de la traducción basados en corpus"
+ },
+ {
+  "slug": "corpus_driven",
+  "type": "term",
+  "category": "Metodología y diseño",
+  "term_en": "corpus-driven",
+  "term_es": "guiado por corpus"
+ },
+ {
+  "slug": "cows_l2h",
+  "type": "entity",
+  "category": "Recursos y corpus",
+  "term_en": "COWS-L2H",
+  "term_es": "COWS-L2H"
+ },
+ {
+  "slug": "cqp",
+  "type": "entity",
+  "category": "Herramientas y software",
+  "term_en": "CQP",
+  "term_es": "CQP"
+ },
+ {
+  "slug": "cqpweb",
+  "type": "entity",
+  "category": "Herramientas y software",
+  "term_en": "CQPweb",
+  "term_es": "CQPweb"
+ },
+ {
+  "slug": "crea",
+  "type": "entity",
+  "category": "Recursos y corpus",
+  "term_en": "CREA",
+  "term_es": "CREA"
+ },
+ {
+  "slug": "cwb",
+  "type": "entity",
+  "category": "Herramientas y software",
+  "term_en": "CWB",
+  "term_es": "CWB"
+ },
+ {
+  "slug": "dataset",
+  "type": "term",
+  "category": "Procesamiento lingüístico",
+  "term_en": "dataset",
+  "term_es": "conjunto de datos"
+ },
+ {
+  "slug": "dependency_parsing",
+  "type": "term",
+  "category": "Procesamiento lingüístico",
+  "term_en": "dependency parsing",
+  "term_es": "análisis sintáctico de dependencias"
+ },
+ {
+  "slug": "descriptive_statistics",
+  "type": "term",
+  "category": "Estadística y léxico",
+  "term_en": "descriptive statistics",
+  "term_es": "estadística descriptiva"
+ },
+ {
+  "slug": "deviation_of_proportions",
+  "type": "term",
+  "category": "Estadística y léxico",
+  "term_en": "deviation of proportions",
+  "term_es": "desviación de proporciones"
+ },
+ {
+  "slug": "diachronic_corpus",
+  "type": "term",
+  "category": "Metodología y diseño",
+  "term_en": "diachronic corpus",
+  "term_es": "corpus diacrónico"
+ },
+ {
+  "slug": "dispersion",
+  "type": "term",
+  "category": "Estadística y léxico",
+  "term_en": "dispersion",
+  "term_es": "dispersión"
+ },
+ {
+  "slug": "dmi_tcat",
+  "type": "entity",
+  "category": "Herramientas y software",
+  "term_en": "DMI-TCAT",
+  "term_es": "DMI-TCAT"
+ },
+ {
+  "slug": "eagles",
+  "type": "entity",
+  "category": "Estándares y formatos técnicos",
+  "term_en": "EAGLES",
+  "term_es": "EAGLES"
+ },
+ {
+  "slug": "ecpc",
+  "type": "entity",
+  "category": "Recursos y corpus",
+  "term_en": "ECPC",
+  "term_es": "ECPC"
+ },
+ {
+  "slug": "effect_size",
+  "type": "term",
+  "category": "Estadística y léxico",
+  "term_en": "effect size",
+  "term_es": "tamaño del efecto"
+ },
+ {
+  "slug": "eleactar",
+  "type": "entity",
+  "category": "Recursos y corpus",
+  "term_en": "ELEACTAR",
+  "term_es": "ELEACTAR"
+ },
+ {
+  "slug": "encoding",
+  "type": "term",
+  "category": "Tecnología y formatos",
+  "term_en": "encoding",
+  "term_es": "codificación"
+ },
+ {
+  "slug": "estenten",
+  "type": "entity",
+  "category": "Recursos y corpus",
+  "term_en": "esTenTen18",
+  "term_es": "esTenTen18"
+ },
+ {
+  "slug": "europarl",
+  "type": "entity",
+  "category": "Recursos y corpus",
+  "term_en": "Europarl",
+  "term_es": "Europarl"
+ },
+ {
+  "slug": "fono_ele",
+  "type": "entity",
+  "category": "Recursos y corpus",
+  "term_en": "Fono.Ele",
+  "term_es": "Fono.Ele"
+ },
+ {
+  "slug": "formulaic_language",
+  "type": "term",
+  "category": "Estadística y léxico",
+  "term_en": "formulaic language",
+  "term_es": "lenguaje formulaico"
+ },
+ {
+  "slug": "freeling",
+  "type": "entity",
+  "category": "Herramientas y software",
+  "term_en": "FreeLing",
+  "term_es": "FreeLing"
+ },
+ {
+  "slug": "frequency",
+  "type": "term",
+  "category": "Estadística y léxico",
+  "term_en": "frequency",
+  "term_es": "frecuencia"
+ },
+ {
+  "slug": "frequency_per_million_words",
+  "type": "term",
+  "category": "Estadística y léxico",
+  "term_en": "frequency per million words",
+  "term_es": "frecuencia por millón de palabras"
+ },
+ {
+  "slug": "function_word",
+  "type": "term",
+  "category": "Estadística y léxico",
+  "term_en": "function word",
+  "term_es": "palabra funcional"
+ },
+ {
+  "slug": "gdex",
+  "type": "entity",
+  "category": "Herramientas y software",
+  "term_en": "GDEX",
+  "term_es": "GDEX"
+ },
+ {
+  "slug": "general_corpus",
+  "type": "term",
+  "category": "Metodología y diseño",
+  "term_en": "general corpus",
+  "term_es": "corpus general"
+ },
+ {
+  "slug": "genex",
+  "type": "entity",
+  "category": "Herramientas y software",
+  "term_en": "GenEx",
+  "term_es": "GenEx"
+ },
+ {
+  "slug": "genre",
+  "type": "term",
+  "category": "Metodología y diseño",
+  "term_en": "genre",
+  "term_es": "género"
+ },
+ {
+  "slug": "gensim",
+  "type": "entity",
+  "category": "Herramientas y software",
+  "term_en": "Gensim",
+  "term_es": "Gensim"
+ },
+ {
+  "slug": "gentt",
+  "type": "entity",
+  "category": "Recursos y corpus",
+  "term_en": "GENTT",
+  "term_es": "GENTT"
+ },
+ {
+  "slug": "gephi",
+  "type": "entity",
+  "category": "Herramientas y software",
+  "term_en": "Gephi",
+  "term_es": "Gephi"
+ },
+ {
+  "slug": "global_voices",
+  "type": "entity",
+  "category": "Recursos y corpus",
+  "term_en": "Global Voices",
+  "term_es": "Global Voices"
+ },
+ {
+  "slug": "glowbe",
+  "type": "entity",
+  "category": "Recursos y corpus",
+  "term_en": "GloWbE",
+  "term_es": "GloWbE"
+ },
+ {
+  "slug": "gold_standard",
+  "type": "term",
+  "category": "Procesamiento lingüístico",
+  "term_en": "gold standard",
+  "term_es": "estándar de oro"
+ },
+ {
+  "slug": "grammar",
+  "type": "term",
+  "category": "Estadística y léxico",
+  "term_en": "grammar",
+  "term_es": "gramática"
+ },
+ {
+  "slug": "grampal",
+  "type": "entity",
+  "category": "Herramientas y software",
+  "term_en": "Grampal",
+  "term_es": "Grampal"
+ },
+ {
+  "slug": "hapax_legomenon",
+  "type": "term",
+  "category": "Estadística y léxico",
+  "term_en": "hapax legomenon",
+  "term_es": "hápax"
+ },
+ {
+  "slug": "header",
+  "type": "term",
+  "category": "Tecnología y formatos",
+  "term_en": "header",
+  "term_es": "encabezado"
+ },
+ {
+  "slug": "helsinki_corpus",
+  "type": "entity",
+  "category": "Recursos y corpus",
+  "term_en": "Helsinki Corpus",
+  "term_es": "Helsinki Corpus"
+ },
+ {
+  "slug": "historical_corpus",
+  "type": "term",
+  "category": "Metodología y diseño",
+  "term_en": "historical corpus",
+  "term_es": "corpus histórico"
+ },
+ {
+  "slug": "html",
+  "type": "entity",
+  "category": "Estándares y formatos técnicos",
+  "term_en": "HTML",
+  "term_es": "HTML"
+ },
+ {
+  "slug": "inferential_statistics",
+  "type": "term",
+  "category": "Estadística y léxico",
+  "term_en": "inferential statistics",
+  "term_es": "estadística inferencial"
+ },
+ {
+  "slug": "inline_annotation",
+  "type": "term",
+  "category": "Procesamiento lingüístico",
+  "term_en": "inline annotation",
+  "term_es": "anotación en línea"
+ },
+ {
+  "slug": "inter_annotator_agreement",
+  "type": "term",
+  "category": "Procesamiento lingüístico",
+  "term_en": "inter-annotator agreement",
+  "term_es": "acuerdo entre anotadores"
+ },
+ {
+  "slug": "international_corpus_of_english",
+  "type": "entity",
+  "category": "Recursos y corpus",
+  "term_en": "International Corpus of English",
+  "term_es": "International Corpus of English"
+ },
+ {
+  "slug": "iula",
+  "type": "entity",
+  "category": "Recursos y corpus",
+  "term_en": "IULA",
+  "term_es": "IULA"
+ },
+ {
+  "slug": "ixa_pipes",
+  "type": "entity",
+  "category": "Herramientas y software",
+  "term_en": "IXA",
+  "term_es": "IXA"
+ },
+ {
+  "slug": "keyness",
+  "type": "term",
+  "category": "Estadística y léxico",
+  "term_en": "keyness",
+  "term_es": "keyness"
+ },
+ {
+  "slug": "keyword",
+  "type": "term",
+  "category": "Estadística y léxico",
+  "term_en": "keyword",
+  "term_es": "palabra clave"
+ },
+ {
+  "slug": "keyword_analysis",
+  "type": "term",
+  "category": "Estadística y léxico",
+  "term_en": "keyword analysis",
+  "term_es": "análisis de palabras clave"
+ },
+ {
+  "slug": "kwic",
+  "type": "term",
+  "category": "Metodología y diseño",
+  "term_en": "KWIC",
+  "term_es": "KWIC"
+ },
+ {
+  "slug": "langsnap",
+  "type": "entity",
+  "category": "Recursos y corpus",
+  "term_en": "LANGSNAP",
+  "term_es": "LANGSNAP"
+ },
+ {
+  "slug": "learner_corpus",
+  "type": "term",
+  "category": "Metodología y diseño",
+  "term_en": "learner corpus",
+  "term_es": "corpus de aprendices"
+ },
+ {
+  "slug": "lemma",
+  "type": "term",
+  "category": "Procesamiento lingüístico",
+  "term_en": "lemma",
+  "term_es": "lema"
+ },
+ {
+  "slug": "lemmatisation",
+  "type": "term",
+  "category": "Procesamiento lingüístico",
+  "term_en": "lemmatisation",
+  "term_es": "lematización"
+ },
+ {
+  "slug": "lesk_algorithm",
+  "type": "entity",
+  "category": "Anotación y procesamiento lingüístico",
+  "term_en": "Lesk",
+  "term_es": "Lesk"
+ },
+ {
+  "slug": "letrac",
+  "type": "entity",
+  "category": "Recursos y corpus",
+  "term_en": "LETRAC",
+  "term_es": "LETRAC"
+ },
+ {
+  "slug": "lexeme",
+  "type": "term",
+  "category": "Procesamiento lingüístico",
+  "term_en": "lexeme",
+  "term_es": "lexema"
+ },
+ {
+  "slug": "lexical_bundle",
+  "type": "term",
+  "category": "Estadística y léxico",
+  "term_en": "lexical bundle",
+  "term_es": "grupo léxico"
+ },
+ {
+  "slug": "lexico_grammar",
+  "type": "term",
+  "category": "Estadística y léxico",
+  "term_en": "lexico-grammar",
+  "term_es": "léxico-gramática"
+ },
+ {
+  "slug": "lf_aligner",
+  "type": "entity",
+  "category": "Herramientas y software",
+  "term_en": "LF Aligner",
+  "term_es": "LF Aligner"
+ },
+ {
+  "slug": "llc",
+  "type": "entity",
+  "category": "Recursos y corpus",
+  "term_en": "LLC",
+  "term_es": "LLC"
+ },
+ {
+  "slug": "lob",
+  "type": "entity",
+  "category": "Recursos y corpus",
+  "term_en": "LOB",
+  "term_es": "LOB"
+ },
+ {
+  "slug": "log_likelihood",
+  "type": "term",
+  "category": "Estadística y léxico",
+  "term_en": "log-likelihood",
+  "term_es": "log-verosimilitud"
+ },
+ {
+  "slug": "mallet",
+  "type": "entity",
+  "category": "Herramientas y software",
+  "term_en": "MALLET",
+  "term_es": "MALLET"
+ },
+ {
+  "slug": "markup_language",
+  "type": "term",
+  "category": "Procesamiento lingüístico",
+  "term_en": "markup language",
+  "term_es": "lenguaje de marcado"
+ },
+ {
+  "slug": "mean_score",
+  "type": "term",
+  "category": "Estadística y léxico",
+  "term_en": "mean score",
+  "term_es": "media aritmética"
+ },
+ {
+  "slug": "mega_corpus",
+  "type": "term",
+  "category": "Metodología y diseño",
+  "term_en": "mega corpus",
+  "term_es": "megacorpus"
+ },
+ {
+  "slug": "mellange",
+  "type": "entity",
+  "category": "Recursos y corpus",
+  "term_en": "MeLLANGE",
+  "term_es": "MeLLANGE"
+ },
+ {
+  "slug": "metadata",
+  "type": "term",
+  "category": "Tecnología y formatos",
+  "term_en": "metadata",
+  "term_es": "metadato"
+ },
+ {
+  "slug": "micase",
+  "type": "entity",
+  "category": "Recursos y corpus",
+  "term_en": "MICASE",
+  "term_es": "MICASE"
+ },
+ {
+  "slug": "monitor_corpus",
+  "type": "term",
+  "category": "Metodología y diseño",
+  "term_en": "monitor corpus",
+  "term_es": "corpus monitor"
+ },
+ {
+  "slug": "monolingual_corpus",
+  "type": "term",
+  "category": "Metodología y diseño",
+  "term_en": "monolingual corpus",
+  "term_es": "corpus monolingüe"
+ },
+ {
+  "slug": "morphological_annotation",
+  "type": "term",
+  "category": "Procesamiento lingüístico",
+  "term_en": "morphological annotation",
+  "term_es": "anotación morfológica"
+ },
+ {
+  "slug": "moving_average",
+  "type": "term",
+  "category": "Estadística y léxico",
+  "term_en": "moving average",
+  "term_es": "media móvil"
+ },
+ {
+  "slug": "multilingual_corpus",
+  "type": "term",
+  "category": "Metodología y diseño",
+  "term_en": "multilingual corpus",
+  "term_es": "corpus multilingüe"
+ },
+ {
+  "slug": "multimodal_corpus",
+  "type": "term",
+  "category": "Metodología y diseño",
+  "term_en": "multimodal corpus",
+  "term_es": "corpus multimodal"
+ },
+ {
+  "slug": "multinot",
+  "type": "entity",
+  "category": "Recursos y corpus",
+  "term_en": "MULTINOT",
+  "term_es": "MULTINOT"
+ },
+ {
+  "slug": "multitrans",
+  "type": "entity",
+  "category": "Herramientas y software",
+  "term_en": "MultiTrans",
+  "term_es": "MultiTrans"
+ },
+ {
+  "slug": "multiword_expression",
+  "type": "term",
+  "category": "Estadística y léxico",
+  "term_en": "multiword expression",
+  "term_es": "expresión multipalabra"
+ },
+ {
+  "slug": "must",
+  "type": "entity",
+  "category": "Recursos y corpus",
+  "term_en": "MUST",
+  "term_es": "MUST"
+ },
+ {
+  "slug": "mutual_information",
+  "type": "term",
+  "category": "Estadística y léxico",
+  "term_en": "mutual information",
+  "term_es": "información mutua"
+ },
+ {
+  "slug": "n_gram",
+  "type": "term",
+  "category": "Estadística y léxico",
+  "term_en": "n-gram",
+  "term_es": "n-grama"
+ },
+ {
+  "slug": "named_entity_recognition",
+  "type": "term",
+  "category": "Procesamiento lingüístico",
+  "term_en": "named entity recognition",
+  "term_es": "reconocimiento de entidades nombradas"
+ },
+ {
+  "slug": "national_corpus",
+  "type": "term",
+  "category": "Metodología y diseño",
+  "term_en": "national corpus",
+  "term_es": "corpus nacional"
+ },
+ {
+  "slug": "natural_language_processing",
+  "type": "term",
+  "category": "Metodología y diseño",
+  "term_en": "natural language processing",
+  "term_es": "procesamiento del lenguaje natural"
+ },
+ {
+  "slug": "nltk",
+  "type": "entity",
+  "category": "Herramientas y software",
+  "term_en": "NLTK",
+  "term_es": "NLTK"
+ },
+ {
+  "slug": "node_word",
+  "type": "term",
+  "category": "Estadística y léxico",
+  "term_en": "node word",
+  "term_es": "palabra nodo"
+ },
+ {
+  "slug": "normalized_dispersion_index",
+  "type": "term",
+  "category": "Estadística y léxico",
+  "term_en": "normalised dispersion index",
+  "term_es": "índice normalizado de dispersión"
+ },
+ {
+  "slug": "normalized_frequency",
+  "type": "term",
+  "category": "Estadística y léxico",
+  "term_en": "normalized frequency",
+  "term_es": "frecuencia normalizada"
+ },
+ {
+  "slug": "notepad_plus_plus",
+  "type": "entity",
+  "category": "Herramientas y software",
+  "term_en": "Notepad++",
+  "term_es": "Notepad++"
+ },
+ {
+  "slug": "now_corpus",
+  "type": "entity",
+  "category": "Recursos y corpus",
+  "term_en": "NOW Corpus",
+  "term_es": "NOW Corpus"
+ },
+ {
+  "slug": "occurrence",
+  "type": "term",
+  "category": "Estadística y léxico",
+  "term_en": "occurrence",
+  "term_es": "ocurrencia"
+ },
+ {
+  "slug": "ode",
+  "type": "entity",
+  "category": "Recursos y corpus",
+  "term_en": "ODE",
+  "term_es": "ODE"
+ },
+ {
+  "slug": "opportunistic_corpus",
+  "type": "term",
+  "category": "Metodología y diseño",
+  "term_en": "opportunistic corpus",
+  "term_es": "corpus oportunista"
+ },
+ {
+  "slug": "opus",
+  "type": "entity",
+  "category": "Recursos y corpus",
+  "term_en": "OPUS",
+  "term_es": "OPUS"
+ },
+ {
+  "slug": "parallel_corpus",
+  "type": "term",
+  "category": "Metodología y diseño",
+  "term_en": "parallel corpus",
+  "term_es": "corpus paralelo"
+ },
+ {
+  "slug": "parsing",
+  "type": "term",
+  "category": "Procesamiento lingüístico",
+  "term_en": "parsing",
+  "term_es": "análisis sintáctico"
+ },
+ {
+  "slug": "word_class",
+  "type": "term",
+  "category": "Procesamiento lingüístico",
+  "term_en": "part of speech",
+  "term_es": "categoría gramatical"
+ },
+ {
+  "slug": "pencil",
+  "type": "entity",
+  "category": "Herramientas y software",
+  "term_en": "PENCIL",
+  "term_es": "PENCIL"
+ },
+ {
+  "slug": "penn_treebank",
+  "type": "entity",
+  "category": "Recursos y corpus",
+  "term_en": "Penn Treebank",
+  "term_es": "Penn Treebank"
+ },
+ {
+  "slug": "perl",
+  "type": "entity",
+  "category": "Herramientas y software",
+  "term_en": "Perl",
+  "term_es": "Perl"
+ },
+ {
+  "slug": "phraseology",
+  "type": "term",
+  "category": "Estadística y léxico",
+  "term_en": "phraseology",
+  "term_es": "fraseología"
+ },
+ {
+  "slug": "plain_text",
+  "type": "term",
+  "category": "Tecnología y formatos",
+  "term_en": "plain text",
+  "term_es": "texto plano"
+ },
+ {
+  "slug": "population",
+  "type": "term",
+  "category": "Estadística y léxico",
+  "term_en": "population",
+  "term_es": "población"
+ },
+ {
+  "slug": "pos_disambiguation",
+  "type": "term",
+  "category": "Procesamiento lingüístico",
+  "term_en": "POS disambiguation",
+  "term_es": "desambiguación morfosintáctica"
+ },
+ {
+  "slug": "pos_tagging",
+  "type": "term",
+  "category": "Procesamiento lingüístico",
+  "term_en": "POS tagging",
+  "term_es": "etiquetado morfosintáctico"
+ },
+ {
+  "slug": "pragmatic_annotation",
+  "type": "term",
+  "category": "Procesamiento lingüístico",
+  "term_en": "pragmatic annotation",
+  "term_es": "anotación pragmática"
+ },
+ {
+  "slug": "preseea",
+  "type": "entity",
+  "category": "Recursos y corpus",
+  "term_en": "PRESEEA",
+  "term_es": "PRESEEA"
+ },
+ {
+  "slug": "probability",
+  "type": "term",
+  "category": "Estadística y léxico",
+  "term_en": "probability",
+  "term_es": "probabilidad"
+ },
+ {
+  "slug": "query",
+  "type": "term",
+  "category": "Metodología y diseño",
+  "term_en": "query",
+  "term_es": "consulta"
+ },
+ {
+  "slug": "raw_frequency",
+  "type": "term",
+  "category": "Estadística y léxico",
+  "term_en": "raw frequency",
+  "term_es": "frecuencia absoluta"
+ },
+ {
+  "slug": "recall",
+  "type": "term",
+  "category": "Procesamiento lingüístico",
+  "term_en": "recall",
+  "term_es": "exhaustividad"
+ },
+ {
+  "slug": "reference_corpus",
+  "type": "term",
+  "category": "Metodología y diseño",
+  "term_en": "reference corpus",
+  "term_es": "corpus de referencia"
+ },
+ {
+  "slug": "regular_expression",
+  "type": "term",
+  "category": "Procesamiento lingüístico",
+  "term_en": "regular expression",
+  "term_es": "expresión regular"
+ },
+ {
+  "slug": "relative_frequency",
+  "type": "term",
+  "category": "Estadística y léxico",
+  "term_en": "relative frequency",
+  "term_es": "frecuencia relativa"
+ },
+ {
+  "slug": "representativeness",
+  "type": "term",
+  "category": "Metodología y diseño",
+  "term_en": "representativeness",
+  "term_es": "representatividad"
+ },
+ {
+  "slug": "rtweet",
+  "type": "entity",
+  "category": "Herramientas y software",
+  "term_en": "rtweet",
+  "term_es": "rtweet"
+ },
+ {
+  "slug": "sample",
+  "type": "term",
+  "category": "Estadística y léxico",
+  "term_en": "sample",
+  "term_es": "muestra"
+ },
+ {
+  "slug": "sample_size",
+  "type": "term",
+  "category": "Metodología y diseño",
+  "term_en": "sample size",
+  "term_es": "tamaño de la muestra"
+ },
+ {
+  "slug": "sampling_frame",
+  "type": "term",
+  "category": "Metodología y diseño",
+  "term_en": "sampling frame",
+  "term_es": "marco de muestreo"
+ },
+ {
+  "slug": "sampling_unit",
+  "type": "term",
+  "category": "Metodología y diseño",
+  "term_en": "sampling unit",
+  "term_es": "unidad de muestra"
+ },
+ {
+  "slug": "segmentation",
+  "type": "term",
+  "category": "Procesamiento lingüístico",
+  "term_en": "segmentation",
+  "term_es": "segmentación"
+ },
+ {
+  "slug": "semantic_annotation",
+  "type": "term",
+  "category": "Procesamiento lingüístico",
+  "term_en": "semantic annotation",
+  "term_es": "anotación semántica"
+ },
+ {
+  "slug": "semantic_preference",
+  "type": "term",
+  "category": "Estadística y léxico",
+  "term_en": "semantic preference",
+  "term_es": "preferencia semántica"
+ },
+ {
+  "slug": "semantic_prosody",
+  "type": "term",
+  "category": "Estadística y léxico",
+  "term_en": "semantic prosody",
+  "term_es": "prosodia semántica"
+ },
+ {
+  "slug": "seu",
+  "type": "entity",
+  "category": "Recursos y corpus",
+  "term_en": "SEU",
+  "term_es": "SEU"
+ },
+ {
+  "slug": "sgml",
+  "type": "entity",
+  "category": "Estándares y formatos técnicos",
+  "term_en": "SGML",
+  "term_es": "SGML"
+ },
+ {
+  "slug": "sketch_engine",
+  "type": "entity",
+  "category": "Herramientas y software",
+  "term_en": "Sketch Engine",
+  "term_es": "Sketch Engine"
+ },
+ {
+  "slug": "specialised_corpus",
+  "type": "term",
+  "category": "Metodología y diseño",
+  "term_en": "specialized corpus",
+  "term_es": "corpus especializado"
+ },
+ {
+  "slug": "splloc",
+  "type": "entity",
+  "category": "Recursos y corpus",
+  "term_en": "SPLLOC",
+  "term_es": "SPLLOC"
+ },
+ {
+  "slug": "speech_corpus",
+  "type": "term",
+  "category": "Metodología y diseño",
+  "term_en": "spoken corpus",
+  "term_es": "corpus oral"
+ },
+ {
+  "slug": "spt",
+  "type": "entity",
+  "category": "Recursos y corpus",
+  "term_en": "SPT",
+  "term_es": "SPT"
+ },
+ {
+  "slug": "sse",
+  "type": "entity",
+  "category": "Recursos y corpus",
+  "term_en": "SSE",
+  "term_es": "SSE"
+ },
+ {
+  "slug": "standard_deviation",
+  "type": "term",
+  "category": "Estadística y léxico",
+  "term_en": "standard deviation",
+  "term_es": "desviación estándar"
+ },
+ {
+  "slug": "stanford_parser",
+  "type": "entity",
+  "category": "Herramientas y software",
+  "term_en": "Stanford Parser",
+  "term_es": "Stanford Parser"
+ },
+ {
+  "slug": "stanza",
+  "type": "entity",
+  "category": "Herramientas y software",
+  "term_en": "Stanza",
+  "term_es": "Stanza"
+ },
+ {
+  "slug": "static_corpus",
+  "type": "term",
+  "category": "Metodología y diseño",
+  "term_en": "static corpus",
+  "term_es": "corpus estático"
+ },
+ {
+  "slug": "statistical_significance",
+  "type": "term",
+  "category": "Estadística y léxico",
+  "term_en": "statistical significance",
+  "term_es": "significación estadística"
+ },
+ {
+  "slug": "stem",
+  "type": "term",
+  "category": "Procesamiento lingüístico",
+  "term_en": "stem",
+  "term_es": "raíz"
+ },
+ {
+  "slug": "stemming",
+  "type": "term",
+  "category": "Procesamiento lingüístico",
+  "term_en": "stemming",
+  "term_es": "stemming"
+ },
+ {
+  "slug": "stingray",
+  "type": "entity",
+  "category": "Herramientas y software",
+  "term_en": "Stingray",
+  "term_es": "Stingray"
+ },
+ {
+  "slug": "stopword",
+  "type": "term",
+  "category": "Estadística y léxico",
+  "term_en": "stopword",
+  "term_es": "palabra vacía"
+ },
+ {
+  "slug": "stratified_sampling",
+  "type": "term",
+  "category": "Metodología y diseño",
+  "term_en": "stratified sampling",
+  "term_es": "muestreo estratificado"
+ },
+ {
+  "slug": "subcorpus",
+  "type": "term",
+  "category": "Metodología y diseño",
+  "term_en": "subcorpus",
+  "term_es": "subcorpus"
+ },
+ {
+  "slug": "synchronic",
+  "type": "term",
+  "category": "Metodología y diseño",
+  "term_en": "synchronic",
+  "term_es": "sincrónico"
+ },
+ {
+  "slug": "synchronic_corpus",
+  "type": "term",
+  "category": "Metodología y diseño",
+  "term_en": "synchronic corpus",
+  "term_es": "corpus sincrónico"
+ },
+ {
+  "slug": "syntactic_annotation",
+  "type": "term",
+  "category": "Procesamiento lingüístico",
+  "term_en": "syntactic annotation",
+  "term_es": "anotación sintáctica"
+ },
+ {
+  "slug": "t_hoarder",
+  "type": "entity",
+  "category": "Herramientas y software",
+  "term_en": "T-Hoarder",
+  "term_es": "T-Hoarder"
+ },
+ {
+  "slug": "t_score",
+  "type": "term",
+  "category": "Estadística y léxico",
+  "term_en": "t-score",
+  "term_es": "puntuación t"
+ },
+ {
+  "slug": "tagant",
+  "type": "entity",
+  "category": "Herramientas y software",
+  "term_en": "TagAnt",
+  "term_es": "TagAnt"
+ },
+ {
+  "slug": "tagger",
+  "type": "term",
+  "category": "Procesamiento lingüístico",
+  "term_en": "tagger",
+  "term_es": "etiquetador"
+ },
+ {
+  "slug": "tagset",
+  "type": "term",
+  "category": "Procesamiento lingüístico",
+  "term_en": "tagset",
+  "term_es": "etiquetario"
+ },
+ {
+  "slug": "tei",
+  "type": "entity",
+  "category": "Estándares y formatos técnicos",
+  "term_en": "TEI",
+  "term_es": "TEI"
+ },
+ {
+  "slug": "telematic_corpus",
+  "type": "term",
+  "category": "Metodología y diseño",
+  "term_en": "telematic corpus",
+  "term_es": "corpus telemático"
+ },
+ {
+  "slug": "text_mining",
+  "type": "term",
+  "category": "Procesamiento lingüístico",
+  "term_en": "text mining",
+  "term_es": "minería de textos"
+ },
+ {
+  "slug": "text_type",
+  "type": "term",
+  "category": "Metodología y diseño",
+  "term_en": "text type",
+  "term_es": "tipo de texto"
+ },
+ {
+  "slug": "token",
+  "type": "term",
+  "category": "Procesamiento lingüístico",
+  "term_en": "token",
+  "term_es": "token"
+ },
+ {
+  "slug": "tokenization",
+  "type": "term",
+  "category": "Procesamiento lingüístico",
+  "term_en": "tokenization",
+  "term_es": "tokenización"
+ },
+ {
+  "slug": "trados",
+  "type": "entity",
+  "category": "Herramientas y software",
+  "term_en": "Trados",
+  "term_es": "Trados"
+ },
+ {
+  "slug": "training_corpus",
+  "type": "term",
+  "category": "Metodología y diseño",
+  "term_en": "training corpus",
+  "term_es": "corpus de entrenamiento"
+ },
+ {
+  "slug": "transcriber",
+  "type": "term",
+  "category": "Procesamiento lingüístico",
+  "term_en": "transcriber",
+  "term_es": "transcriptor"
+ },
+ {
+  "slug": "transit",
+  "type": "entity",
+  "category": "Herramientas y software",
+  "term_en": "Transit",
+  "term_es": "Transit"
+ },
+ {
+  "slug": "treebank",
+  "type": "term",
+  "category": "Procesamiento lingüístico",
+  "term_en": "treebank",
+  "term_es": "corpus anotado sintácticamente"
+ },
+ {
+  "slug": "treetagger",
+  "type": "entity",
+  "category": "Herramientas y software",
+  "term_en": "TreeTagger",
+  "term_es": "TreeTagger"
+ },
+ {
+  "slug": "tweepy",
+  "type": "entity",
+  "category": "Herramientas y software",
+  "term_en": "Tweepy",
+  "term_es": "Tweepy"
+ },
+ {
+  "slug": "type",
+  "type": "term",
+  "category": "Metodología y diseño",
+  "term_en": "type",
+  "term_es": "tipo"
+ },
+ {
+  "slug": "ttr",
+  "type": "term",
+  "category": "Estadística y léxico",
+  "term_en": "type-token ratio",
+  "term_es": "relación entre types y tokens"
+ },
+ {
+  "slug": "ukb",
+  "type": "entity",
+  "category": "Herramientas y software",
+  "term_en": "UKB",
+  "term_es": "UKB"
+ },
+ {
+  "slug": "unicode",
+  "type": "entity",
+  "category": "Estándares y formatos técnicos",
+  "term_en": "Unicode",
+  "term_es": "Unicode"
+ },
+ {
+  "slug": "universal_dependencies",
+  "type": "entity",
+  "category": "Estándares y formatos técnicos",
+  "term_en": "Universal Dependencies",
+  "term_es": "Universal Dependencies"
+ },
+ {
+  "slug": "universal_pos",
+  "type": "entity",
+  "category": "Estándares y formatos técnicos",
+  "term_en": "Universal POS",
+  "term_es": "Universal POS"
+ },
+ {
+  "slug": "utf_8",
+  "type": "entity",
+  "category": "Estándares y formatos técnicos",
+  "term_en": "UTF-8",
+  "term_es": "UTF-8"
+ },
+ {
+  "slug": "valesco",
+  "type": "entity",
+  "category": "Recursos y corpus",
+  "term_en": "Val.Es.Co",
+  "term_es": "Val.Es.Co"
+ },
+ {
+  "slug": "virtual_corpus",
+  "type": "term",
+  "category": "Metodología y diseño",
+  "term_en": "virtual corpus",
+  "term_es": "corpus virtual"
+ },
+ {
+  "slug": "web_as_corpus",
+  "type": "term",
+  "category": "Metodología y diseño",
+  "term_en": "web as corpus",
+  "term_es": "web como corpus"
+ },
+ {
+  "slug": "web_corpus",
+  "type": "term",
+  "category": "Metodología y diseño",
+  "term_en": "web corpus",
+  "term_es": "corpus web"
+ },
+ {
+  "slug": "web_crawling",
+  "type": "term",
+  "category": "Metodología y diseño",
+  "term_en": "web crawling",
+  "term_es": "web crawling"
+ },
+ {
+  "slug": "web_for_corpus",
+  "type": "term",
+  "category": "Metodología y diseño",
+  "term_en": "web for corpus",
+  "term_es": "web para corpus"
+ },
+ {
+  "slug": "wildcard",
+  "type": "term",
+  "category": "Metodología y diseño",
+  "term_en": "wildcard",
+  "term_es": "comodín"
+ },
+ {
+  "slug": "wmatrix",
+  "type": "entity",
+  "category": "Herramientas y software",
+  "term_en": "Wmatrix",
+  "term_es": "Wmatrix"
+ },
+ {
+  "slug": "word_frequency",
+  "type": "term",
+  "category": "Estadística y léxico",
+  "term_en": "word frequency",
+  "term_es": "frecuencia de palabras"
+ },
+ {
+  "slug": "frequency_list",
+  "type": "term",
+  "category": "Estadística y léxico",
+  "term_en": "word list",
+  "term_es": "lista de frecuencias"
+ },
+ {
+  "slug": "word_sense_disambiguation",
+  "type": "term",
+  "category": "Procesamiento lingüístico",
+  "term_en": "word sense disambiguation",
+  "term_es": "desambiguación semántica"
+ },
+ {
+  "slug": "word_sketch",
+  "type": "term",
+  "category": "Estadística y léxico",
+  "term_en": "word sketch",
+  "term_es": "word sketch"
+ },
+ {
+  "slug": "wordfast",
+  "type": "entity",
+  "category": "Herramientas y software",
+  "term_en": "Wordfast",
+  "term_es": "Wordfast"
+ },
+ {
+  "slug": "wordnet",
+  "type": "entity",
+  "category": "Recursos y corpus",
+  "term_en": "WordNet",
+  "term_es": "WordNet"
+ },
+ {
+  "slug": "wordsmith_tools",
+  "type": "entity",
+  "category": "Herramientas y software",
+  "term_en": "WordSmith Tools",
+  "term_es": "WordSmith Tools"
+ },
+ {
+  "slug": "written_corpus",
+  "type": "term",
+  "category": "Metodología y diseño",
+  "term_en": "written corpus",
+  "term_es": "corpus escrito"
+ },
+ {
+  "slug": "xbench",
+  "type": "entity",
+  "category": "Herramientas y software",
+  "term_en": "Xbench",
+  "term_es": "Xbench"
+ },
+ {
+  "slug": "xml",
+  "type": "entity",
+  "category": "Estándares y formatos técnicos",
+  "term_en": "XML",
+  "term_es": "XML"
+ },
+ {
+  "slug": "z_score",
+  "type": "term",
+  "category": "Estadística y léxico",
+  "term_en": "z-score",
+  "term_es": "puntuación z"
+ },
+ {
+  "slug": "zipfs_law",
+  "type": "term",
+  "category": "Estadística y léxico",
+  "term_en": "Zipf's law",
+  "term_es": "ley de Zipf"
+ }
+]
