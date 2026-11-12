@@ -1,0 +1,117 @@
+# POS-based Terminological Grammar
+# This file defines language-specific POS patterns used for the
+# linguistic filtering stage in automatic term extraction.
+# The grammar formalises candidate structures (unithood),
+# not terminological validity (termhood).
+
+en:
+  - id: EN_NP_PRENOMINAL
+    description: Prenominal noun phrase with optional adjectival or nominal modifiers
+    pos_pattern: "(ADJ|NOUN|PROPN)* NOUN"
+    structure_type: nominal_phrase
+    notes: >
+      Common structure in English scientific terminology,
+      especially for multi-word terms.
+    examples:
+      - balanced corpus
+      - annotation scheme
+
+  - id: EN_NP_OF
+    description: Nominal construction with 'of'
+    pos_pattern: "NOUN+ of NOUN+"
+    structure_type: prepositional_np
+    notes: >
+      Productive construction for abstract and methodological concepts.
+    examples:
+      - part of speech
+      - analysis of variance
+
+  - id: EN_NP_PROPN
+    description: Sequence of proper nouns
+    pos_pattern: "PROPN PROPN+"
+    structure_type: proper_noun_sequence
+    notes: >
+      Covers named entities and multi-word proper nouns not captured by
+      EN_NP_PRENOMINAL, which requires a common noun head.
+    examples:
+      - Zika virus
+      - European Biotech Act
+
+  - id: EN_NOUN_SEQUENCE
+    description: Sequence of two or more consecutive nouns
+    pos_pattern: "NOUN NOUN+"
+    structure_type: noun_sequence
+    notes: >
+      Noun-only compounds not covered by EN_NP_PRENOMINAL because that
+      pattern requires a single terminal NOUN head. Kept separate to
+      explicitly capture pure noun compounds.
+    examples:
+      - token frequency
+      - corpus linguistics benchmark
+
+
+es:
+  - id: ES_NP_POSTNOMINAL
+    description: Postnominal adjectival construction
+    pos_pattern: "NOUN ADJ+"
+    structure_type: postnominal_np
+    notes: >
+      Typical of Romance languages, especially for descriptive terminology.
+    examples:
+      - corpus balanceado
+      - frecuencia léxica
+
+  - id: ES_NP_DE
+    description: Nominal construction with 'de'
+    pos_pattern: "NOUN+ de NOUN+"
+    structure_type: prepositional_np
+    notes: >
+      Highly productive structure in Spanish terminological phrases.
+    examples:
+      - esquema de anotación
+      - lista de palabras
+
+  - id: ES_NP_DE_ADJ
+    description: Nominal-de-Nominal with postnominal adjective
+    pos_pattern: "NOUN+ de NOUN ADJ+"
+    structure_type: prepositional_np_extended
+    notes: >
+      Extends ES_NP_DE to cover right-branching modified constructions
+      where the noun inside the PP carries adjectival modifiers.
+    examples:
+      - análisis de varianza estadística
+      - corpus de textos especializados
+
+  - id: ES_NP_PRENOMINAL
+    description: Prenominal noun phrase with optional modifiers
+    pos_pattern: "(ADJ|NOUN|PROPN)* NOUN"
+    structure_type: nominal_phrase
+    notes: >
+      Includes adjectival and nominal modifiers preceding the head noun.
+      Less productive than postnominal patterns in Spanish but present
+      in metalinguistic and technical contexts.
+    examples:
+      - patrón colocacional
+
+  - id: ES_NP_PROPN
+    description: Sequence of proper nouns
+    pos_pattern: "PROPN PROPN+"
+    structure_type: proper_noun_sequence
+    notes: >
+      Covers organization names, expanded acronyms, and technical proper
+      nouns. Highly frequent in specialized corpora. Not captured by
+      other ES patterns, which require a common noun head.
+    examples:
+      - Budapest Municipality
+      - Generalised System of Preferences
+
+  - id: ES_NP_NOUN_PROPN
+    description: Noun followed by proper noun modifier
+    pos_pattern: "NOUN PROPN+"
+    structure_type: postnominal_np_propn
+    notes: >
+      Covers terms where a proper noun functions as a postnominal modifier,
+      common in biological, medical, and technical nomenclature.
+    examples:
+      - bacille Calmette-Guérin
+      - virus isolate

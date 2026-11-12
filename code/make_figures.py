@@ -25,7 +25,7 @@ RAIZ = AQUI.parents[3]
 # (tesis/reanotacion_2026-10 se regeneró el 7-nov sin bibliografías; la versión anterior está aquí).
 DIST = RAIZ / "tesis" / "sin_bibliografia_2026-11" / "material_complementario" / "cap5_distribucion"   # mismas cifras que el cap. 5 de la tesis
 RES = RAIZ / "colab_reanotacion" / "resultados"   # ablación del CRF (ejecutada en el Mac)
-CSV_FINAL = AQUI.parent / "resultados_paco_2026-11-10" / "csv"   # exportación con todos los resultados
+CSV_FINAL = AQUI.parent / "resultados_2026-11-11" / "csv"   # exportación con todos los resultados (all runs)
 
 COL = {"CRF": "#0072B2", "BiLSTM-CRF": "#E69F00", "XLM-R": "#009E73"}  # paleta Okabe-Ito
 MARK = {"CRF": "o", "BiLSTM-CRF": "s", "XLM-R": "^"}
@@ -60,7 +60,7 @@ def resultados_modelos():
 # ── Figura 1: Zipf y saturación ─────────────────────────────────────
 def fig_distribucion():
     exps = pd.read_csv(DIST / "zipf_exponentes.csv").set_index("Lang")
-    fig, ax = plt.subplots(1, 3, figsize=(COL2, 2.0))
+    fig, ax = plt.subplots(1, 3, figsize=(COL2, 1.85))
     for i, (lang, tit) in enumerate((("en", "EN"), ("es", "ES"))):
         gen = pd.read_csv(DIST / f"zipf_general_{lang}.csv")
         ter = pd.read_csv(DIST / f"zipf_termino_{lang}.csv")
@@ -91,7 +91,7 @@ def fig_distribucion():
 
 # ── Figura 2: F1 de término por nivel ───────────────────────────────
 def fig_reserva(df):
-    fig, ax = plt.subplots(1, 2, figsize=(COL1, 1.9), sharey=True)
+    fig, ax = plt.subplots(1, 2, figsize=(COL1, 1.75), sharey=True)
     modelos = [m for m in COL if m in df.modelo.unique()]
     desp = dict(zip(modelos, np.linspace(-0.9, 0.9, len(modelos))))
     for i, lang in enumerate(("en", "es")):
@@ -148,7 +148,7 @@ def fig_oov():
     d = pd.read_csv(CSV_FINAL / "07_analisis_por_ejecucion.csv", low_memory=False)
     d = d[d.lang.isin(["en", "es"])]
     mods = ["CRF", "BiLSTM-CRF", "XLM-R"]
-    fig, ax = plt.subplots(1, 2, figsize=(COL1, 1.9), sharey=True)
+    fig, ax = plt.subplots(1, 2, figsize=(COL1, 1.75), sharey=True)
     w = 0.36
     for i, lang in enumerate(("en", "es")):
         a = ax[i]
@@ -377,8 +377,8 @@ LODO_CRF = {"corp": 0.374, "equi": 0.478, "htfl": 0.137, "wind": 0.528}  # compr
 DOMINIOS = {"corp": "Corruption", "equi": "Dressage", "htfl": "Heart\nfailure", "wind": "Wind\nenergy"}
 
 
-# Provisionales (registro de Kaggle, 10-nov): se usan mientras no esté lodo_todas.csv
-LODO_PROV = {"XLM-R": {"corp": 0.036, "equi": 0.414, "htfl": 0.553, "wind": 0.455},
+# XLM-R: archivos de la sesión 2 de Kaggle (11-nov); BiLSTM-CRF: registro (determinista, idéntico en las dos sesiones)
+LODO_PROV = {"XLM-R": {"corp": 0.036, "equi": 0.427, "htfl": 0.539, "wind": 0.490},   # lodo_todas.csv, Kaggle sesión 2 (11-nov)
              "BiLSTM-CRF": {"corp": 0.097, "equi": 0.169, "htfl": 0.103, "wind": 0.105}}
 
 

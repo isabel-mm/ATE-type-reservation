@@ -3,8 +3,8 @@
 Data, code and results for the paper *Do Term Extractors Learn Termhood? Evidence from Unseen
 Terms in English and Spanish* (under review). This copy is anonymised for review.
 
-> **Status:** all main results are final. The BiLSTM-CRF+char runs and the last ACTER runs
-> will be added before the end of the review period.
+> **Status:** all results reported in the paper are included. The BiLSTM-CRF+char runs at the
+> other reservation levels will be added during the review period.
 
 ## Contents
 
@@ -15,7 +15,7 @@ Terms in English and Spanish* (under review). This copy is anonymised for review
 | `data/sources/` | Bibliographic list of the 100 source publications (authors, year, title, source, text type). |
 | `data/partitions/` | For every corpus, reservation level (10/20/30/50 %) and draw (seeds 0–9), the glossary entries reserved for the test set and those used for validation. |
 | `code/` | All the code (`corpus_preparation/`: PDF extraction and cleaning of the source texts): annotation projection, feature extraction, the four model families, the evaluation protocol, statistical tests and figures (`run_all.py` runs everything). Code comments are in Spanish. |
-| `results/` | All metrics in CSV: one row per run (precision, recall and F1 per label, term-level, span-level, seen/reserved), summaries, paired tests, bootstrap, ablation tests, error analyses, per-type results. See `results/LEEME.txt`. |
+| `results/` | All metrics in CSV: one row per run (precision, recall and F1 per label, term-level, span-level, seen/reserved), summaries, paired tests, bootstrap, ablation tests, error analyses, per-type results (see `results/LEEME.txt`); also the composition sensitivity analysis (15–16), BiLSTM-CRF+char recall on terms with and without unknown words (17), the unsupervised C-value/NC-value baseline under type reservation (18) and the CRF with separate entity labels (19). |
 
 ## Reproducing the experiments
 

@@ -1,5 +1,5 @@
 """
-Text cleaning and linguistic normalisation utilities for the TECLA corpus module.
+Text cleaning and linguistic normalisation utilities for the el extractor corpus module.
 
 This module offers (all optional, activated by flag):
 
@@ -502,7 +502,7 @@ def remove_keyword_lines(text: str) -> str:
 # ---------------------------------------------------------------------------
 
 def _load_discourse_markers(language: str) -> frozenset:
-    """Carga marcadores de discurso genérico desde las stoplists de TECLA."""
+    """Carga marcadores de discurso genérico desde las stoplists del extractor."""
     filename = f"stop_{language}.txt"
     path = _RESOURCES_DIR / filename
     if not path.exists():

@@ -1,5 +1,5 @@
 """
-PDF-to-text conversion for TECLA corpus module.
+PDF-to-text conversion for el extractor corpus module.
 
 This module performs a *neutral* extraction of textual content from PDFs
 using pdfminer.six. No linguistic or structural cleaning is applied.

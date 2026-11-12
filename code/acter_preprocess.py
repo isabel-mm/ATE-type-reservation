@@ -1,12 +1,12 @@
 """
 Preprocesa ACTER EN (4 dominios, anotación IO sin entidades nombradas) al
-mismo formato de tokens que el corpus TECLA, para validación externa del
+mismo formato de tokens que nuestro corpus, para validación externa del
 CRF (20 rasgos) y el BiLSTM-CRF.
 
 - Lee los TSV token\tIO, reconstruye oraciones (línea en blanco = separador)
 - Convierte IO -> BIO (I tras O o inicio = B-T; I tras I = I-T)
 - Procesa con spaCy en_core_web_lg SOBRE LOS TOKENS ORIGINALES (Doc pre-tokenizado,
-  sin re-tokenizar) para extraer los mismos rasgos lingüísticos que TECLA
+  sin re-tokenizar) para extraer los mismos rasgos lingüísticos que nuestro extractor
 - Las columnas estadísticas (freq_global, document_frequency, contextual_diversity,
   tf_idf) se inicializan a 0: el pipeline sin-fuga las recalcula desde train
 - lemma_pos_*_prob se calculan sobre el propio ACTER (propiedad léxica, no de término)
