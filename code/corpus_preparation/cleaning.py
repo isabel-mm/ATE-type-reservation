@@ -1,32 +1,32 @@
 """
-Text cleaning and linguistic normalisation utilities for the el extractor corpus module.
+Text cleaning and linguistic normalisation utilities for the corpus.
 
 This module offers (all optional, activated by flag):
 
 Structural noise
-    rejoin_hyphens_flag             Reúne palabras partidas por guión al final de línea.
-    structure                       Elimina números de página y líneas muy cortas.
+    rejoin_hyphens_flag             Rejoins words split by a hyphen at the end of a line.
+    structure                       Removes page numbers and very short lines.
 
 Document metadata
-    remove_section_headers_flag     Elimina líneas que son solo un título de sección
+    remove_section_headers_flag     Removes lines that are only a section title
                                     (Introduction, Metodología, Conclusiones…).
-    remove_keyword_lines_flag       Elimina líneas "Keywords: …" / "Palabras clave: …".
-    remove_captions_flag            Elimina pies de figura y tabla (Figure 1, Tabla 3…).
-    remove_urls_flag                Elimina líneas que son solo URL, DOI o email.
-    remove_publication_metadata_flag Elimina copyright, licencias CC, fechas de recepción.
-    remove_journal_metadata_flag    Elimina líneas de volumen/número/páginas de revista.
-    remove_inline_citations_flag    Elimina marcadores de cita numérica [1], [2,3].
-    remove_statistical_lines_flag   Elimina líneas mayoritariamente numéricas (tablas, stats).
-    remove_bibliography_flag        Elimina la sección de referencias/bibliografía.
+    remove_keyword_lines_flag       Removes "Keywords: …" / "Palabras clave: …" lines.
+    remove_captions_flag            Removes figure and table captions (Figure 1, Tabla 3…).
+    remove_urls_flag                Removes lines that are only a URL, DOI or email address.
+    remove_publication_metadata_flag Removes copyright, CC licences, submission dates.
+    remove_journal_metadata_flag    Removes journal volume/issue/page lines.
+    remove_inline_citations_flag    Removes numeric citation markers [1], [2,3].
+    remove_statistical_lines_flag   Removes mostly numeric lines (tables, statistics).
+    remove_bibliography_flag        Removes the reference lists.
 
 Lexical filtering
-    remove_stopwords_flag           Elimina palabras vacías (spaCy + NLTK + lista extra).
-    stoplist                        Stoplist personalizada (lista o ruta a .txt).
-    lemmatize_flag                  Lematiza el texto con spaCy.
+    remove_stopwords_flag           Removes stopwords (spaCy + NLTK + extra list).
+    stoplist                        Custom stoplist (a list or the path to a .txt file).
+    lemmatize_flag                  Lemmatises the text with spaCy.
 
-QA (no modifica el texto, solo informa)
-    flag_discourse_noise(text, language)  Devuelve líneas que son solo marcadores
-                                          de discurso genérico.
+QA (reports only, the text is not modified)
+    flag_discourse_noise(text, language)  Returns lines that consist only of generic
+                                          discourse markers.
 
 Design principles:
 - Nothing is applied implicitly.
@@ -43,8 +43,8 @@ _RESOURCES_DIR = Path(__file__).resolve().parent.parent / "extractor" / "resourc
 
 # ---------------------------------------------------------------------------
 # SECTION HEADERS
-# Títulos estructurales de sección que, si aparecen solos en una línea,
-# son ruido estructural (no cuerpo del texto).
+# Section titles that, on a line of their own, are structural noise
+# rather than body text.
 # ---------------------------------------------------------------------------
 
 _SECTION_HEADERS: dict[str, frozenset] = {
@@ -68,14 +68,14 @@ _SECTION_HEADERS: dict[str, frozenset] = {
     }),
 }
 
-# Prefijos de líneas de metadatos de palabras clave
+# Prefixes of keyword metadata lines
 _KEYWORD_PREFIXES = re.compile(
     r"^\s*(?:keywords?|key\s*words?|palabras?\s*claves?|mots[\s\-]clés?"
     r"|paraules?\s*claus?|palavras?\s*[\-]?chave)\s*[:\-]",
     re.IGNORECASE,
 )
 
-# Patrón de número de sección al inicio de línea (ej: "1.", "2.3", "IV.")
+# Section number at the start of a line (e.g. "1.", "2.3", "IV.")
 _SECTION_NUM = re.compile(r"^(?:\d+(?:\.\d+)*\.?\s*|[IVXLCDM]+\.?\s*)")
 
 # ---------------------------------------------------------------------------
@@ -109,7 +109,7 @@ def get_language_stopwords(language, extra_stoplist=None):
         nlp = _get_spacy_model(lang)
         combined |= {w.lower() for w in nlp.Defaults.stop_words}
     except Exception:
-        print(f"⚠️ Could not load spaCy stopwords for '{lang}'.")
+        print(f"Warning: could not load spaCy stopwords for '{lang}'.")
 
     # ------------------------------- NLTK STOPWORDS ----------------------------
     nltk_lang = NLTK_LANG_MAP.get(lang)
@@ -117,11 +117,11 @@ def get_language_stopwords(language, extra_stoplist=None):
         try:
             nltk_sw = nltk_stopwords.words(nltk_lang)
         except LookupError:
-            print(f"📥 Downloading NLTK stopwords for '{nltk_lang}'...")
+            print(f" Downloading NLTK stopwords for '{nltk_lang}'...")
             nltk.download("stopwords")
             nltk_sw = nltk_stopwords.words(nltk_lang)
         except Exception:
-            print(f"⚠️ Error loading NLTK stopwords for '{lang}'.")
+            print(f"Warning: error loading NLTK stopwords for '{lang}'.")
             nltk_sw = []
         combined |= {w.lower() for w in nltk_sw}
 
@@ -135,7 +135,7 @@ def get_language_stopwords(language, extra_stoplist=None):
                 extra = load_stoplist(extra_stoplist)
                 combined |= {w.lower() for w in extra}
             except Exception:
-                print(f"⚠️ Could not load extra stoplist file '{extra_stoplist}'. Skipping.")
+                print(f"Warning: could not load extra stoplist file '{extra_stoplist}'. Skipping.")
 
     return combined
 
@@ -175,7 +175,7 @@ def _get_spacy_model(language):
             if "sentencizer" not in nlp.pipe_names:
                 nlp.add_pipe("sentencizer")
             _SPACY_MODELS[lang] = nlp
-            print(f"✅ spaCy blank model initialised for language '{language}'")
+            print(f"spaCy blank model initialised for language '{language}'")
         return _SPACY_MODELS[lang]
 
     # Cached model
@@ -186,7 +186,7 @@ def _get_spacy_model(language):
     try:
         nlp = spacy.load(model_name)
         _SPACY_MODELS[model_name] = nlp
-        print(f"✅ spaCy model '{model_name}' loaded successfully")
+        print(f"spaCy model '{model_name}' loaded successfully")
         return nlp
 
     except OSError:
@@ -194,7 +194,7 @@ def _get_spacy_model(language):
             spacy.cli.download(model_name)
             nlp = spacy.load(model_name)
             _SPACY_MODELS[model_name] = nlp
-            print(f"✅ spaCy model '{model_name}' downloaded and loaded successfully")
+            print(f"spaCy model '{model_name}' downloaded and loaded successfully")
             return nlp
 
         # spacy.cli.download aborts with SystemExit when pip is unavailable
@@ -205,7 +205,7 @@ def _get_spacy_model(language):
                 nlp.add_pipe("sentencizer")
             _SPACY_MODELS[model_name] = nlp
             print(
-                f"⚠️ spaCy model '{model_name}' unavailable. "
+                f"Warning: spaCy model '{model_name}' unavailable. "
                 f"Using blank model for '{language}'."
             )
             return nlp
@@ -251,16 +251,14 @@ def remove_numeric_only_lines(text):
 # ---------------------------------------------------------------------------
 # BIBLIOGRAPHY REMOVAL
 # ---------------------------------------------------------------------------
-# [2026-11-07] Se quitan las listas de referencias como bloques, en cualquier
-# posición del documento, en lugar de cortar desde el encabezado hasta el final:
-# así se conservan los capítulos, apéndices y notas que siguen a las referencias
-# de un capítulo de libro o de un volumen colectivo. Cada bloque empieza en un
-# encabezado («References», «Bibliografía»…) al que siguen al menos tres
-# entradas («Apellido, Nombre … año», «[12] … año», «SIGLA = Autor año», una URL)
-# y termina donde dejan de aparecer entradas durante más de 1.200 caracteres, o
-# en un encabezado de apéndice, notas o capítulo. También se quita el índice de
-# materias final. Comprobado documento a documento sobre el corpus de la tesis
-# (tesis/sin_bibliografia_2026-11/limpieza_v2/).
+# Reference lists are removed as blocks, wherever they occur in the document,
+# instead of cutting from the heading to the end of the text: this keeps the
+# chapters, appendices and notes that follow the references of a book chapter or
+# an edited volume. A block starts at a heading ("References", "Bibliografía"…)
+# followed by at least three entries ("Surname, Name … year", "[12] … year",
+# "ACRONYM = Author year", a URL) and ends where no entry appears for more than
+# 1,200 characters, or at an appendix, notes or chapter heading. A final subject
+# index is removed too. Checked document by document on our corpus.
 
 _BIB_SECTIONS = {
     "es": [r'\bREFERENCIAS?(?:\s+(?:BIBLIOGR[ÁA]\S{1,3}CAS?|CITADAS?))?\b', r'\bBIBLIOGRAF[ÍI]A(?:\s+(?:CITADA|B[ÁA]SICA|COMPLEMENTARIA))?\b',
@@ -269,32 +267,32 @@ _BIB_SECTIONS = {
 }
 
 YEAR = r"(?:(?:1[5-9]|20)\d\d[a-z]?|en\s+prensa|in\s+press|s\.\s?f\.|n\.\s?d\.)"
-# Entrada bibliográfica: «Apellido, Nombre|I.» (o «APELLIDO, N.») y un año poco después.
+# Reference entry: "Surname, Name|I." (or "SURNAME, N.") followed shortly by a year.
 L_UP = "A-ZÀ-ÞА-ЯЁ"
 ENTRY = re.compile(
-    r"[" + L_UP + r"][\w'’`´\-]+(?:\s[" + L_UP + r"][\w'’`´\-]+)?,\s+(?:[" + L_UP + r"][\w'’`´\-]*\.?[\s\-]?){1,4}[^\n]{0,300}?\b" + YEAR + r"\b"   # Apellido, Nombre … año
-    r"|\[\d{1,3}\][^\n]{0,400}?\b" + YEAR + r"\b"                                                   # [12] … año
+    r"[" + L_UP + r"][\w'’`´\-]+(?:\s[" + L_UP + r"][\w'’`´\-]+)?,\s+(?:[" + L_UP + r"][\w'’`´\-]*\.?[\s\-]?){1,4}[^\n]{0,300}?\b" + YEAR + r"\b"   # Surname, Name … year
+    r"|\[\d{1,3}\][^\n]{0,400}?\b" + YEAR + r"\b"                                                   # [12] … year
     r"|(?:^|(?<=\s))\d{1,3}\.\s[^\n]{0,400}?\b" + YEAR + r"\b"
-    r"|\b[" + L_UP + r"]\.(?:\s?[" + L_UP + r"]\.)?\s[" + L_UP + r"]{2,}[\w\-]*[;,][^\n]{0,300}?\b" + YEAR + r"\b"                                     # 12. … año
-    r"|^[^\n=]{1,60}\s=\s[^\n]{0,250}?\b" + YEAR + r"\b"                                           # SIGLA = Autor año
-    r"|https?://\S+|<?www\.\S+", re.M)                                                         # URL de una fuente
+    r"|\b[" + L_UP + r"]\.(?:\s?[" + L_UP + r"]\.)?\s[" + L_UP + r"]{2,}[\w\-]*[;,][^\n]{0,300}?\b" + YEAR + r"\b"                                     # 12. … year
+    r"|^[^\n=]{1,60}\s=\s[^\n]{0,250}?\b" + YEAR + r"\b"                                           # ACRONYM = Author year
+    r"|https?://\S+|<?www\.\S+", re.M)                                                         # URL of a source
 GAP, MIN_ENTRIES, LOOK, BRIDGE, LOOK_MIN, SHORT_TAIL = 1200, 3, 1500, 3000, 2500, 1500
-# Encabezados que cierran siempre una lista de referencias
+# Headings that always close a reference list
 STOP = re.compile(
     r"^\s*(?:\d+(?:\.\d+)*\.?\s*)?(?:Appendix|Appendices|APPENDIX|APPENDICES|Anexos?|ANEXOS?|Ap[ée]ndices?|AP[ÉE]NDICES?|"
     r"Notas|NOTAS|Notes|NOTES|Chapter|CHAPTER|Cap[íi]tulo|CAP[ÍI]TULO|CAP´ITULO|Solutions)"
     r"(?=\s*$|\s*[:.]|\s+(?:\d|[IVXLC]+\b|[A-Z]\b|[A-ZÀ-Þ][a-zà-ÿ]))", re.M)
 
 def is_stop(text, a, b):
-    """¿Hay entre a y b un encabezado de apéndice, notas o capítulo? Se ignoran las
-    cabeceras de página, que se repiten a lo largo del documento."""
+    """Is there an appendix, notes or chapter heading between a and b? Running headers,
+    which repeat throughout the document, are ignored."""
     for m in STOP.finditer(text, a, b):
         ls = text.rfind("\n", 0, m.start()) + 1; le = text.find("\n", m.start()); le = len(text) if le < 0 else le
         line = text[ls:le].strip()
         if line and text.count(line) >= 3 and len(line) < 120:
-            continue                                   # cabecera de página
+            continue                                   # running header
         if re.search(r"\bpp?\.|ISBN|\(" + YEAR + r"\)", line + " " + text[m.start():m.start() + 70]):
-            continue                                   # «Capítulo VIII, pp. 175…» dentro de una referencia
+            continue                                   # "Capítulo VIII, pp. 175…" inside a reference
         return True
     return False
 INDEX_TITLES = {"en": r"(?:Subject\s+|Author\s+|Name\s+|General\s+)?Index|INDEX", "es": r"(?i:[ÍI]ndice\s+(?:anal[íi]tico|tem[áa]tico|de\s+materias|onom[áa]stico|alfab[ée]tico))"}
@@ -325,16 +323,16 @@ def _line(text, pos):
 
 
 def _running_header(text, m):
-    """La «entrada» es en realidad una cabecera de página repetida («… Liendo, P. y otros»)."""
+    """The "entry" is in fact a repeated running header ("… Liendo, P. y otros")."""
     around = text[max(0, m.start() - 45):m.start() + 12]
     return len(around.strip()) > 30 and text.count(around) >= 3
 
 
 def block_end(text, start):
-    """Fin del bloque de referencias que empieza en `start`, o None si no lo es."""
+    """End of the reference block starting at `start`, or None if it is not one."""
     ms = [m for m in ENTRY.finditer(text, start) if not _running_header(text, m)]
     if len([m for m in ms if m.start() < start + LOOK_MIN]) < MIN_ENTRIES:
-        # lista breve al final del documento («References Biber, D. 1988…»)
+        # short list at the end of the document ("References Biber, D. 1988…")
         if len(text) - start <= SHORT_TAIL and re.search(r"\b" + YEAR + r"\b", text[start:]):
             return len(text)
         return None
@@ -344,19 +342,19 @@ def block_end(text, start):
         if is_stop(text, last.end(), m.start()) or re.search(r"\b(?:Appendix|Anexo|Ap[ée]ndice)\s+(?:\d+|[A-Z])\s*[:.]", text[last.end():m.start()]):
             break
         if gap > GAP:
-            # una tabla o un pie de página en medio de la lista: se salta si
-            # detrás vuelven, enseguida, varias entradas
+            # a table or a footer in the middle of the list: skip it if several
+            # entries follow right after
             again = [x for x in ms[k:] if x.start() < m.start() + LOOK]
             if gap > BRIDGE or len(again) < 3:
                 break
         last = m
-    # hasta el final de la línea de la última entrada y sus líneas de continuación breves
+    # up to the end of the last entry's line and its short continuation lines
     end = text.find("\n", last.end()); end = len(text) if end < 0 else end
     rest = text[end:]
     dense = 1000 * len(re.findall(r"\b" + YEAR + r"\b", rest)) / max(1, len(rest))
     if ((len(rest) <= SHORT_TAIL and re.search(r"\b" + YEAR + r"\b", rest) or len(rest) <= 2 * SHORT_TAIL and dense >= 3) and not is_stop(text, end, len(text))
             and not re.search(r"\b(?:Appendix|APPENDIX|Anexo|ANEXO|Ap[ée]ndice|AP[ÉE]NDICE)\b", rest)):
-        return len(text)                      # restos de la lista al final del documento
+        return len(text)                      # leftovers of the list at the end of the document
     SIGNAL = re.compile(r"\d+\s*[–\-]\s*\d+|\bpp?\.|\b(?:In|En|ed\.|eds\.|edd\.|Press|University|Universidad|Publishing|"
                         r"Benjamins|Routledge|Springer|Elsevier|ELRA|Association|Editorial|Gredos|Ariel)\b|https?://|doi", re.I)
     for _ in range(4):
@@ -373,11 +371,11 @@ def block_end(text, start):
     dense = 1000 * len(re.findall(r"\b" + YEAR + r"\b", rest)) / max(1, len(rest))
     if ((len(rest) <= SHORT_TAIL and re.search(r"\b" + YEAR + r"\b", rest) or len(rest) <= 2 * SHORT_TAIL and dense >= 3) and not is_stop(text, end, len(text))
             and not re.search(r"\b(?:Appendix|APPENDIX|Anexo|ANEXO|Ap[ée]ndice|AP[ÉE]NDICE)\b", rest)):
-        return len(text)                      # restos de la lista al final del documento
+        return len(text)                      # leftovers of the list at the end of the document
     return end
 
 def index_start(text, lang):
-    """Índice de materias final («Index», «Índice analítico»…), solo o pegado a la primera entrada."""
+    """Final subject index ("Index", "Índice analítico"…), alone or attached to its first entry."""
     n = len(text)
     rx = re.compile(r"(?:^|(?<=[\s.]))(?:" + INDEX_TITLES[lang] + r")(?=\s*$|\s+[" + L_UP + r"a-z#\d])", re.M)
     for m in rx.finditer(text):
@@ -391,7 +389,7 @@ def index_start(text, lang):
 
 
 def bibliography_spans(text, language="en"):
-    """Tramos (inicio, fin) de las listas de referencias y del índice de materias final."""
+    """Spans (start, end) of the reference lists and of the final subject index."""
     lang = language.lower()
     if lang not in _BIB_SECTIONS:
         return []
@@ -404,7 +402,7 @@ def bibliography_spans(text, language="en"):
             out.append((s, e))
     i = index_start(text, lang)
     if i is not None and any(a <= i < b for a, b in out):
-        i = None                                   # «Science Citation Index» dentro de una referencia
+        i = None                                   # "Science Citation Index" inside a reference
     if i is not None:
         out = [(a, b) for a, b in out if a < i] + [(i, len(text))]
     return out
@@ -412,7 +410,7 @@ def bibliography_spans(text, language="en"):
 
 
 def remove_bibliography(text, language="en"):
-    """Texto sin sus listas de referencias ni el índice de materias final."""
+    """The text without its reference lists and final subject index."""
     sp = bibliography_spans(text, language)
     if not sp:
         return text
@@ -444,17 +442,17 @@ def lemmatize_text(text, language="en"):
 
 # ---------------------------------------------------------------------------
 # SECTION HEADER LINE REMOVAL
-# Elimina líneas que son solo un título de sección (Introduction, Metodología…)
-# posiblemente precedido por un número de sección.
+# Removes lines that are only a section title (Introduction, Metodología…),
+# possibly preceded by a section number.
 # ---------------------------------------------------------------------------
 
 def remove_section_header_lines(text: str, language: str = "en") -> str:
     """
-    Elimina líneas que consisten únicamente en un título de sección estructural,
-    opcionalmente precedido por un número (ej: "1. Introduction", "3.2 Resultados").
+    Removes lines that consist only of a section title, optionally preceded by a
+    number (e.g. "1. Introduction", "3.2 Resultados").
 
-    Solo actúa sobre líneas cortas aisladas (< 80 caracteres) para evitar
-    borrar frases legítimas que empiecen por la misma palabra.
+    Only short lines (< 80 characters) are affected, so that sentences starting with
+    the same word are kept.
     """
     lang = language.lower()
     headers = _SECTION_HEADERS.get(lang, frozenset())
@@ -468,11 +466,11 @@ def remove_section_header_lines(text: str, language: str = "en") -> str:
             cleaned.append(line)
             continue
 
-        # Quitar número de sección inicial si lo hay
+        # drop the section number, if any
         core = _SECTION_NUM.sub("", stripped).strip().rstrip(":").strip().lower()
 
         if core in headers:
-            continue  # línea de cabecera → descartar
+            continue  # heading line: drop it
 
         cleaned.append(line)
 
@@ -481,13 +479,13 @@ def remove_section_header_lines(text: str, language: str = "en") -> str:
 
 # ---------------------------------------------------------------------------
 # KEYWORD METADATA LINE REMOVAL
-# Elimina líneas del tipo "Keywords: corpus, NLP, annotation"
+# Removes lines such as "Keywords: corpus, NLP, annotation"
 # ---------------------------------------------------------------------------
 
 def remove_keyword_lines(text: str) -> str:
     """
-    Elimina líneas que son listas de palabras clave (metadatos de artículos).
-    Detecta prefijos en inglés, español, francés, catalán y portugués.
+    Removes keyword lists (article metadata). Prefixes in English, Spanish, French,
+    Catalan and Portuguese are recognised.
     """
     return "\n".join(
         line for line in text.splitlines()
@@ -497,12 +495,12 @@ def remove_keyword_lines(text: str) -> str:
 
 # ---------------------------------------------------------------------------
 # DISCOURSE NOISE DETECTION (QA)
-# Devuelve líneas que consisten únicamente en marcadores de discurso
-# genérico, sin contenido léxico sustantivo.
+# Returns lines made only of generic discourse markers, with no lexical
+# content.
 # ---------------------------------------------------------------------------
 
 def _load_discourse_markers(language: str) -> frozenset:
-    """Carga marcadores de discurso genérico desde las stoplists del extractor."""
+    """Loads generic discourse markers from the extractor stoplists."""
     filename = f"stop_{language}.txt"
     path = _RESOURCES_DIR / filename
     if not path.exists():
@@ -517,13 +515,13 @@ def _load_discourse_markers(language: str) -> frozenset:
 
 def flag_discourse_noise(text: str, language: str = "en") -> list[str]:
     """
-    Devuelve una lista de líneas del texto que consisten únicamente
-    en marcadores de discurso genérico (sin contenido léxico real).
+    Returns the lines of the text that consist only of generic discourse markers
+    (no real lexical content).
 
-    Útil para revisión QA: estas líneas son candidatas a ser ruido
-    estructural (headers sueltos, pies de página, etc.).
+    Useful for quality checks: these lines are likely structural noise (stray
+    headings, footers, etc.).
 
-    No modifica el texto; solo informa.
+    The text is not modified.
     """
     markers = _load_discourse_markers(language)
     if not markers:
@@ -534,7 +532,7 @@ def flag_discourse_noise(text: str, language: str = "en") -> list[str]:
         stripped = line.strip().lower()
         if not stripped:
             continue
-        # Línea corta que coincide exactamente con un marcador
+        # short line identical to a marker
         if stripped in markers and len(stripped.split()) <= 6:
             suspicious.append(line.strip())
 
@@ -543,22 +541,22 @@ def flag_discourse_noise(text: str, language: str = "en") -> list[str]:
 
 # ---------------------------------------------------------------------------
 # HYPHENATION REJOINING
-# Reúne palabras partidas por guión a final de línea (artefacto de PDF/OCR).
+# Rejoins words split by a hyphen at the end of a line (a PDF/OCR artefact):
 # "termi-\nnología" → "terminología"
 # ---------------------------------------------------------------------------
 
 def rejoin_hyphenated_words(text: str) -> str:
     """
-    Reúne palabras divididas por guión al final de línea.
-    Solo actúa cuando el guión está pegado a una letra en ambos lados,
-    para no afectar a listas con guión o guiones largos estructurales.
+    Rejoins words split by a hyphen at the end of a line. Only applies when the
+    hyphen touches a letter on both sides, so that dashed lists and structural
+    dashes are left alone.
     """
     return re.sub(r"([a-záéíóúüñA-ZÁÉÍÓÚÜÑ\w])-\n([a-záéíóúüñA-ZÁÉÍÓÚÜÑ\w])", r"\1\2", text)
 
 
 # ---------------------------------------------------------------------------
 # FIGURE / TABLE CAPTION REMOVAL
-# Elimina líneas que son pie de figura o tabla (no son cuerpo del texto).
+# Removes figure and table captions (not body text).
 # ---------------------------------------------------------------------------
 
 _CAPTION_LINE = re.compile(
@@ -570,10 +568,9 @@ _CAPTION_LINE = re.compile(
 
 def remove_caption_lines(text: str) -> str:
     """
-    Elimina líneas que empiezan con "Figure X", "Table X", "Fig. X",
-    "Figura X", "Tabla X", "Gráfico X", etc.
-    Solo actúa en líneas relativamente cortas (< 200 chars) para no
-    borrar párrafos que citan figuras en medio de una frase.
+    Removes lines starting with "Figure X", "Table X", "Fig. X", "Figura X",
+    "Tabla X", "Gráfico X", etc. Only fairly short lines (< 200 characters) are
+    affected, so that paragraphs that mention a figure are kept.
     """
     cleaned = []
     for line in text.splitlines():
@@ -604,9 +601,8 @@ _DOI_LINE = re.compile(
 
 def remove_url_doi_email_lines(text: str) -> str:
     """
-    Elimina líneas que son exclusivamente una URL, un DOI o una dirección
-    de correo electrónico. No toca líneas de texto normal que contengan
-    URLs en medio de una oración.
+    Removes lines that are only a URL, a DOI or an email address. Lines of running
+    text that contain a URL are kept.
     """
     cleaned = []
     for line in text.splitlines():
@@ -618,7 +614,7 @@ def remove_url_doi_email_lines(text: str) -> str:
 
 # ---------------------------------------------------------------------------
 # PUBLICATION METADATA LINE REMOVAL
-# Elimina líneas de copyright, licencia y fechas de recepción/aceptación.
+# Removes copyright, licence and submission/acceptance date lines.
 # ---------------------------------------------------------------------------
 
 _PUBLICATION_METADATA = re.compile(
@@ -639,9 +635,8 @@ _PUBLICATION_METADATA = re.compile(
 
 def remove_publication_metadata_lines(text: str) -> str:
     """
-    Elimina líneas de metadatos de publicación: copyright, licencias CC,
-    fechas de recepción/aceptación, ISSN.
-    Solo actúa en líneas cortas (< 180 chars).
+    Removes publication metadata lines: copyright, CC licences,
+    submission/acceptance dates, ISSN. Only short lines (< 180 characters).
     """
     cleaned = []
     for line in text.splitlines():
@@ -653,8 +648,8 @@ def remove_publication_metadata_lines(text: str) -> str:
 
 # ---------------------------------------------------------------------------
 # INLINE CITATION MARKER REMOVAL
-# Elimina marcadores de cita numérica [1], [1,2,3], [1-4] dentro del texto.
-# No toca citas autor-año (Smith, 2023) para no romper texto legítimo.
+# Removes numeric citation markers [1], [1,2,3], [1-4] in the text.
+# Author-year citations (Smith, 2023) are kept.
 # ---------------------------------------------------------------------------
 
 _INLINE_CITATION = re.compile(
@@ -664,15 +659,15 @@ _INLINE_CITATION = re.compile(
 
 def remove_inline_citations(text: str) -> str:
     """
-    Elimina marcadores de cita numérica entre corchetes: [1], [2,3], [1-4].
-    Deja intactas las citas autor-año entre paréntesis.
+    Removes numeric citation markers in brackets: [1], [2,3], [1-4].
+    Author-year citations in parentheses are kept.
     """
     return _INLINE_CITATION.sub("", text)
 
 
 # ---------------------------------------------------------------------------
 # JOURNAL / VOLUME METADATA LINE REMOVAL
-# Elimina líneas del tipo "Linguistics 12(3): 45–67" o "Vol. 14, No. 2, 2023"
+# Removes lines such as "Linguistics 12(3): 45–67" or "Vol. 14, No. 2, 2023"
 # ---------------------------------------------------------------------------
 
 _JOURNAL_METADATA = re.compile(
@@ -689,8 +684,8 @@ _JOURNAL_METADATA = re.compile(
 
 def remove_journal_metadata_lines(text: str) -> str:
     """
-    Elimina líneas de metadatos de revista: volumen, número, páginas.
-    Solo en líneas cortas (< 120 chars) para no afectar texto normal.
+    Removes journal metadata lines: volume, issue, pages. Only short lines
+    (< 120 characters), so that running text is not affected.
     """
     cleaned = []
     for line in text.splitlines():
@@ -702,8 +697,8 @@ def remove_journal_metadata_lines(text: str) -> str:
 
 # ---------------------------------------------------------------------------
 # MOSTLY-NUMERIC LINE REMOVAL
-# Elimina líneas estadísticas o de tabla (coordenadas, p-valores, IDs…)
-# que no aportan terminología.
+# Removes statistical or table lines (coordinates, p-values, IDs…), which
+# contain no terminology.
 # ---------------------------------------------------------------------------
 
 _NON_NUMERIC = re.compile(r"[^\d\s\.\,\-\+\(\)\[\]%=/]")
@@ -711,11 +706,9 @@ _NON_NUMERIC = re.compile(r"[^\d\s\.\,\-\+\(\)\[\]%=/]")
 
 def remove_statistical_lines(text: str, threshold: float = 0.75) -> str:
     """
-    Elimina líneas en las que la proporción de caracteres numéricos y
-    símbolos matemáticos supera `threshold` (por defecto 75%).
-
-    Evita borrar años o fechas sueltas: solo actúa en líneas con
-    al menos 6 caracteres.
+    Removes lines in which the share of digits and mathematical symbols exceeds
+    `threshold` (75% by default). Lines shorter than 6 characters are kept, so that
+    isolated years or dates survive.
     """
     cleaned = []
     for line in text.splitlines():
@@ -784,52 +777,52 @@ def clean_text(
 ):
     """
     Main public cleaning function.
-    Fully modular: the user decide cada componente.
+    Fully modular: every step is switched on by its own flag.
 
-    Flags disponibles
-    -----------------
-    rejoin_hyphens_flag             : Reúne palabras partidas por guión al final de línea.
-    remove_captions_flag            : Elimina pies de figura y tabla (Figure 1, Tabla 3…).
-    remove_urls_flag                : Elimina líneas que son solo URL, DOI o email.
-    remove_publication_metadata_flag: Elimina copyright, licencias CC, fechas de recepción.
-    remove_inline_citations_flag    : Elimina marcadores de cita numérica [1], [2,3].
-    remove_journal_metadata_flag    : Elimina líneas de volumen/número/páginas de revista.
-    remove_statistical_lines_flag   : Elimina líneas mayoritariamente numéricas (tablas, stats).
-    remove_running_headers_flag     : Elimina encabezados y pies de página repetidos (activado por defecto).
-    remove_section_headers_flag     : Elimina líneas que son solo un título de sección.
-    remove_keyword_lines_flag       : Elimina líneas "Keywords: …" / "Palabras clave: …".
-    remove_bibliography_flag        : Elimina la sección de referencias/bibliografía.
-    structure                       : Elimina números de página y líneas muy cortas.
+    Flags
+    -----
+    rejoin_hyphens_flag             : rejoins words split by a hyphen at the end of a line.
+    remove_captions_flag            : removes figure and table captions (Figure 1, Tabla 3…).
+    remove_urls_flag                : removes lines that are only a URL, DOI or email address.
+    remove_publication_metadata_flag: removes copyright, CC licences, submission dates.
+    remove_inline_citations_flag    : removes numeric citation markers [1], [2,3].
+    remove_journal_metadata_flag    : removes journal volume/issue/page lines.
+    remove_statistical_lines_flag   : removes mostly numeric lines (tables, statistics).
+    remove_running_headers_flag     : removes repeated running headers and footers (on by default).
+    remove_section_headers_flag     : removes lines that are only a section title.
+    remove_keyword_lines_flag       : removes "Keywords: …" / "Palabras clave: …" lines.
+    remove_bibliography_flag        : removes the reference lists.
+    structure                       : removes page numbers and very short lines.
     """
 
     cleaned = text
 
-    # 1. Reunir guiones de fin de línea (antes de cualquier otra operación)
+    # 1. rejoin end-of-line hyphens (before anything else)
     if rejoin_hyphens_flag:
         cleaned = rejoin_hyphenated_words(cleaned)
 
-    # 1b. Encabezados y pies de página repetidos
+    # 1b. repeated running headers and footers
     if remove_running_headers_flag:
         cleaned = remove_running_headers(cleaned)
 
-    # 2. Eliminar marcadores de cita inline [1], [2,3]
+    # 2. numeric citation markers [1], [2,3]
     if remove_inline_citations_flag:
         cleaned = remove_inline_citations(cleaned)
 
-    # 3. Bibliografía
+    # 3. reference lists
     if remove_bibliography_flag:
         cleaned = remove_bibliography(cleaned, language)
         cleaned = remove_numeric_only_lines(cleaned)
 
-    # 4. Cabeceras de sección
+    # 4. section titles
     if remove_section_headers_flag:
         cleaned = remove_section_header_lines(cleaned, language)
 
-    # 5. Líneas de palabras clave
+    # 5. keyword lines
     if remove_keyword_lines_flag:
         cleaned = remove_keyword_lines(cleaned)
 
-    # 6. Pies de figura/tabla
+    # 6. figure and table captions
     if remove_captions_flag:
         cleaned = remove_caption_lines(cleaned)
 
@@ -837,44 +830,44 @@ def clean_text(
     if remove_urls_flag:
         cleaned = remove_url_doi_email_lines(cleaned)
 
-    # 8. Metadatos de publicación (copyright, fechas, ISSN)
+    # 8. publication metadata (copyright, dates, ISSN)
     if remove_publication_metadata_flag:
         cleaned = remove_publication_metadata_lines(cleaned)
 
-    # 9. Metadatos de revista (Vol., No., pp.)
+    # 9. journal metadata (Vol., No., pp.)
     if remove_journal_metadata_flag:
         cleaned = remove_journal_metadata_lines(cleaned)
 
-    # 10. Líneas estadísticas/numéricas
+    # 10. statistical or numeric lines
     if remove_statistical_lines_flag:
         cleaned = remove_statistical_lines(cleaned)
 
-    # 11. Limpieza estructural
+    # 11. structural cleaning
     if structure:
         cleaned = clean_structure(cleaned)
 
-    # 12. Stopwords combinadas
+    # 12. stopwords
     if remove_stopwords_flag:
         sw = get_language_stopwords(language, extra_stoplist)
         if sw:
             cleaned = remove_stopwords(cleaned, sw)
         else:
-            print(f"⚠️ No stopwords available for language '{language}'.")
+            print(f"Warning: no stopwords available for language '{language}'.")
 
-    # 13. Stoplist de usuario
+    # 13. user stoplist
     if stoplist:
         if isinstance(stoplist, str):
             try:
                 user_stop = load_stoplist(stoplist)
                 cleaned = apply_user_stoplist(cleaned, user_stop)
             except Exception:
-                print(f"⚠️ Invalid stoplist file '{stoplist}'. Skipping.")
+                print(f"Warning: invalid stoplist file '{stoplist}'. Skipping.")
         elif isinstance(stoplist, list):
             cleaned = apply_user_stoplist(cleaned, stoplist)
         else:
-            print(f"⚠️ Ignoring invalid stoplist value: must be list or file path.")
+            print(f"Warning: ignoring invalid stoplist value: must be list or file path.")
 
-    # 14. Lematización
+    # 14. lemmatisation
     if lemmatize_flag:
         cleaned = lemmatize_text(cleaned, language)
 

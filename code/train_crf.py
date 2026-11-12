@@ -1,37 +1,35 @@
 """
-paso2_crf.py
+train_crf.py
 ────────────
-Todos los experimentos del modelo basado en rasgos (CRF), con el protocolo de
-la tesis (27 rasgos, estadísticos y PMI recalculados solo con el entrenamiento):
+All experiments with the feature-based CRF (27 features; corpus statistics and PMI
+are computed on the training partition only):
 
-  reserva      reserva de tipos 10/20/30/50 %, 10 semillas (0-9), solo términos
-               -> cifras principales del cap. 6
-  dos          configuración de dos etiquetas (B-T/I-T + B-E/I-E), mismas
-               particiones -> tabla de las tres configuraciones
-  ablacion     reserva del 20 %: semilla 0 sin cada una de las 9 familias
-               (tabla de ablación) + semillas 1-9 sin morfología, morfosintaxis
-               y sintaxis (comprobación multisemilla). Con --ablacion-completa,
-               las 9 familias en las 10 semillas.
-  cv           validación cruzada estándar de 5 pliegues (particiones aleatorias)
-  ablacv       ablación por familias con la validación cruzada de 5 pliegues
-               (evaluación convencional), para contrastarla con la reserva de tipos
-Opción --todos-niveles: la ablación se repite en los cuatro niveles de reserva.
+  reserva      type reservation at 10/20/30/50%, 10 seeds (0-9), terms only
+  dos          separate labels for terms and entities (B-T/I-T + B-E/I-E), same partitions
+  ablacion     20% reservation: each of the 9 feature families removed in turn with seed 0,
+               plus seeds 1-9 without morphology, part of speech and syntax. With
+               --ablacion-completa, all 9 families with all 10 seeds; with
+               --todos-niveles, at the four reservation levels.
+  cv           standard five-fold cross-validation (random partitions)
+  ablacv       family ablation under five-fold cross-validation, to contrast it
+               with type reservation
+  todo         reserva + dos + ablacion + cv
 
-Cada ejecución guarda (en $RESULTADOS/crf/):
-  runs/<id>.json         todas las métricas (metricas.py) del conjunto de prueba
-                         completo, y también restringidas a los tokens de las
-                         entradas reservadas (res_*) y al resto (vis_*)
-  pred/<id>.csv.gz       predicciones token a token (gold/pred) -- no en la ablación
-  reservadas/<id>.json   entradas reservadas en esa partición
-Al final, `python paso2_crf.py consolidar` reúne los JSON en CSV.
+Each run writes, in $RESULTADOS/crf/:
+  runs/<id>.json         all metrics (metrics.py) on the whole test set, and also
+                         restricted to the tokens of reserved entries (res_*) and to
+                         the rest (vis_*)
+  pred/<id>.csv.gz       token-level predictions (gold/pred); not for the ablation
+  reservadas/<id>.json   entries reserved in that partition
+`python train_crf.py consolidar` merges the JSON files into CSV.
 
-Es reanudable: una ejecución con su JSON ya escrito no se repite.
+Runs that already have a JSON file are skipped.
 
-Uso:
-  python paso2_crf.py reserva [--jobs 4] [--lang en]
-  python paso2_crf.py dos | ablacion | cv | todo
-  python paso2_crf.py consolidar
-  python paso2_crf.py reserva --rapido      (prueba: 1 semilla, nivel 20 %)
+Usage:
+  python train_crf.py reserva [--jobs 4] [--lang en]
+  python train_crf.py dos | ablacion | cv | ablacv | todo
+  python train_crf.py consolidar
+  python train_crf.py reserva --rapido      (quick check: one seed, 20% level)
 """
 from __future__ import annotations
 
@@ -47,7 +45,7 @@ import pandas as pd
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 import crf_base as base  # noqa: E402
-from metricas import guardar_predicciones, metricas_completas  # noqa: E402
+from metrics import guardar_predicciones, metricas_completas  # noqa: E402
 
 OUT = base.OUT_DIR / "crf"
 for d in ("runs", "pred", "reservadas"):
@@ -55,11 +53,11 @@ for d in ("runs", "pred", "reservadas"):
 
 NIVELES = [10, 20, 30, 50]
 SEMILLAS = list(range(10))
-SEMILLAS_ABL = list(range(10))   # las mismas semillas que la reserva (0-9)
+SEMILLAS_ABL = list(range(10))   # the same seeds as the reservation (0-9)
 FAMILIAS_MULTI = ["morfologia", "morfosintaxis", "sintaxis"]
 N_FOLDS = 5
 
-DATA = {}   # (lang, completa) -> (sentences, span_types); se hereda en los procesos hijos (fork)
+DATA = {}   # (lang, full) -> (sentences, span_types); inherited by the child processes (fork)
 
 
 def cargar(lang, completa):
@@ -69,8 +67,8 @@ def cargar(lang, completa):
         df = base.attach_span_text(df, solo_terminos=True)
         span_types = np.array(sorted(df["_span_text"].dropna().unique()))
         DATA[(lang, completa)] = (base.build_sentences(df), span_types)
-        print(f"  {lang} ({'completa' if completa else 'solo términos'}): {len(DATA[(lang, completa)][0])} oraciones, "
-              f"{len(span_types)} entradas sorteables ({time.time()-t0:.0f}s)", flush=True)
+        print(f"  {lang} ({'terms and entities' if completa else 'terms only'}): {len(DATA[(lang, completa)][0])} sentences, "
+              f"{len(span_types)} entries that can be reserved ({time.time()-t0:.0f}s)", flush=True)
     return DATA[(lang, completa)]
 
 
@@ -96,7 +94,7 @@ def entrenar_y_evaluar(train_sents, test_sents, lang, familia=None):
 
 
 def metricas_restringidas(test_sents, y_te, y_pr, reservadas):
-    """Métricas sobre los tokens de las entradas reservadas (nunca vistas) y sobre el resto."""
+    """Metrics on the tokens of reserved (never seen) entries and on the rest."""
     res_t, res_p, vis_t, vis_p = [], [], [], []
     for s, yt, yp in zip(test_sents, y_te, y_pr):
         for r, a, b in zip(s["rows"], yt, yp):
@@ -135,7 +133,7 @@ def ejecutar(t):
         if t["exp"] == "ablacv":
             fila["segundos"] = round(time.time() - t0, 1)
             dest.write_text(json.dumps(fila, ensure_ascii=False, default=float))
-            return rid, f"F1 término={fila['f1_termino']:.3f} ({fila['segundos']:.0f}s)"
+            return rid, f"term F1={fila['f1_termino']:.3f} ({fila['segundos']:.0f}s)"
         marg = crf.predict_marginals(X_te)
         filas = [{"y_true": int(a != "O"), "p_term": m.get("B-T", 0.0) + m.get("I-T", 0.0)}
                  for yt, mm in zip(y_te, marg) for a, m in zip(yt, mm)]
@@ -153,7 +151,7 @@ def ejecutar(t):
             guardar_predicciones(OUT / "pred" / f"{rid}.csv.gz", test_sents, y_te, y_pr)
     fila["segundos"] = round(time.time() - t0, 1)
     dest.write_text(json.dumps(fila, ensure_ascii=False, default=float))
-    return rid, f"F1 término={fila['f1_termino']:.3f} ({fila['segundos']:.0f}s)"
+    return rid, f"term F1={fila['f1_termino']:.3f} ({fila['segundos']:.0f}s)"
 
 
 def tareas(exp, langs, rapido, abl_completa, todos_niveles=False):
@@ -184,12 +182,12 @@ def tareas(exp, langs, rapido, abl_completa, todos_niveles=False):
 def consolidar():
     filas = [json.loads(p.read_text()) for p in sorted((OUT / "runs").glob("*.json"))]
     if not filas:
-        print("No hay resultados todavía.")
+        print("No results yet.")
         return
     df = pd.DataFrame(filas)
     for exp, g in df.groupby("exp"):
         g.to_csv(OUT / f"crf_{exp}_todas.csv", index=False)
-    # resúmenes: media y desviación típica por lengua y nivel
+    # summaries: mean and standard deviation by language and level
     num = [c for c in df.columns if df[c].dtype != object and c not in ("pct", "seed", "fold")]
     for exp in ("reserva", "dos"):
         g = df[df.exp == exp]
@@ -219,7 +217,7 @@ def consolidar():
         r = g.groupby(["lang", "familia"])[["delta_f1_termino", "f1_termino"]].agg(["mean", "std", "count"])
         r.columns = [f"{a}_{b}" for a, b in r.columns]
         r.reset_index().to_csv(OUT / "crf_ablacv_resumen.csv", index=False)
-    print(f"Consolidado: {len(df)} ejecuciones -> {OUT}")
+    print(f"Merged {len(df)} runs -> {OUT}")
 
 
 def main():
@@ -235,8 +233,8 @@ def main():
     langs = [args[args.index("--lang") + 1]] if "--lang" in args else ["en", "es"]
     ts = tareas(exp, langs, "--rapido" in args, "--ablacion-completa" in args, "--todos-niveles" in args)
     pendientes = [t for t in ts if not (OUT / "runs" / f"{run_id(t)}.json").exists()]
-    print(f"{len(ts)} ejecuciones ({len(ts) - len(pendientes)} ya hechas), {jobs} en paralelo", flush=True)
-    for t in pendientes:                      # carga los datos antes de crear los procesos
+    print(f"{len(ts)} runs ({len(ts) - len(pendientes)} already done), {jobs} in parallel", flush=True)
+    for t in pendientes:                      # load the data before creating the processes
         cargar(t["lang"], t["exp"] == "dos")
     t0 = time.time()
     if jobs > 1:

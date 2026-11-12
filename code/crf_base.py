@@ -2,16 +2,15 @@ from __future__ import annotations
 """
 crf_base.py
 ───────────
-Funciones del modelo basado en rasgos (CRF, 27 rasgos en 9 familias, sin fuga),
-tomadas literalmente de tesis/crf_rerun_2026-09.py -- el script que produjo las
-cifras actuales de la tesis -- con cuatro cambios:
+Feature-based CRF: data loading, the 27 features in 9 families, the type-reservation
+split and training. Corpus statistics and PMI are computed on the training partition
+only, so that nothing leaks from the test set.
 
-  1. rutas configurables (DATOS_GENERADOS, RESULTADOS);
-  2. unidad de reserva = entrada de the glossary (columna «entrada»), no la cadena;
-  3. métricas completas (metricas.py: TP/FP/FN/TN, P/R/F1 por etiqueta, término,
-     macro/ponderada y por span);
-  4. carga de la anotación completa (términos + entidades) para la
-     configuración de dos etiquetas.
+  · paths are set with DATOS_GENERADOS and RESULTADOS;
+  · the unit of reservation is the glossary entry (column "entrada"), not the string;
+  · metrics come from metrics.py (counts, P/R/F1 per label, term, macro/weighted, spans);
+  · the full annotation (terms and entities) can be loaded to give entities their
+    own labels.
 """
 import os
 
@@ -29,7 +28,7 @@ import pandas as pd
 import sklearn_crfsuite
 import sys as _sys
 _sys.path.insert(0, str(Path(__file__).resolve().parent))
-from metricas import metricas_completas, guardar_predicciones  # noqa: E402
+from metrics import metricas_completas, guardar_predicciones  # noqa: E402
 from sklearn.metrics import classification_report
 
 warnings.filterwarnings("ignore")
@@ -41,10 +40,10 @@ OUT_DIR.mkdir(exist_ok=True)
 
 SEED = 42
 HOLDOUT_LEVELS = [10, 20, 30, 50]
-ABLATION_LEVEL = 20  # nivel sobre el que se hace la ablación por familia, igual que en la tesis
+ABLATION_LEVEL = 20  # reservation level of the family ablation
 
 # ─────────────────────────────────────────────────────────────────────────
-# Patrones lingüísticos nuevos
+# Definitional patterns
 # ─────────────────────────────────────────────────────────────────────────
 
 DEF_PATTERNS_ES = [
@@ -63,7 +62,7 @@ DEF_RE = {
     "en": [re.compile(p, re.IGNORECASE) for p in DEF_PATTERNS_EN],
     "es": [re.compile(p, re.IGNORECASE) for p in DEF_PATTERNS_ES],
 }
-DEF_RE["acter"] = DEF_RE["en"]  # ACTER (inglés), validación externa (paso13_acter.py)
+DEF_RE["acter"] = DEF_RE["en"]  # ACTER (English), external validation (acter_experiments.py)
 
 ACRONYM_RE = re.compile(r"^[A-ZÁÉÍÓÚÑ]{2,6}$")
 
@@ -75,7 +74,7 @@ def norm(s: str) -> str:
 
 
 # ─────────────────────────────────────────────────────────────────────────
-# Carga y preparación de datos
+# Loading and preparing the data
 # ─────────────────────────────────────────────────────────────────────────
 
 COLS = [
@@ -90,11 +89,11 @@ COLS = [
 
 
 def load_corpus(lang: str, completa: bool = False) -> pd.DataFrame:
-    """completa=False: solo términos (entidades = O). completa=True: anotación con
-    términos (B-T/I-T) y entidades (B-E/I-E), para la configuración de dos etiquetas."""
+    """completa=False: terms only (entities = O). completa=True: terms (B-T/I-T) and
+    entities (B-E/I-E), to give entities their own labels."""
     fname = f"{lang}_bio_tokens.csv" if completa else f"{lang}_bio_tokens_terms_only.csv"
     ruta = BIO_DIR / fname
-    if not ruta.exists() and Path(str(ruta) + ".gz").exists():  # datos comprimidos (paquete para otro PC)
+    if not ruta.exists() and Path(str(ruta) + ".gz").exists():  # compressed data
         ruta = Path(str(ruta) + ".gz")
     df = pd.read_csv(ruta, usecols=COLS, low_memory=False)
     df = df.sort_values(["doc_id", "sentence_id", "token_id"]).reset_index(drop=True)
@@ -107,7 +106,7 @@ def load_corpus(lang: str, completa: bool = False) -> pd.DataFrame:
 
 
 def build_sentences(df: pd.DataFrame):
-    """Devuelve lista de sentence-dicts con listas alineadas por token."""
+    """Returns a list of sentence dicts with token-aligned lists."""
     sentences = []
     for (doc_id, sent_id), g in df.groupby(["doc_id", "sentence_id"], sort=False):
         g = g.reset_index(drop=True)
@@ -120,7 +119,7 @@ def build_sentences(df: pd.DataFrame):
 
 
 def sentence_surface_types(sent) -> set[str]:
-    """Tipos (superficies normalizadas) de los spans B-T/I-T de una oración."""
+    """Types (normalised surface forms) of the B-T/I-T spans of a sentence."""
     rows = sent["rows"]
     types = set()
     cur = []
@@ -141,12 +140,11 @@ def sentence_surface_types(sent) -> set[str]:
 
 
 def attach_span_text(df: pd.DataFrame, solo_terminos: bool = True) -> pd.DataFrame:
-    """Unidad de la reserva de tipos: la ENTRADA de the glossary a la que pertenece cada
-    span (columna «entrada»). Así todas las formas de un mismo concepto (keyword /
-    keywords, lema / lemas, POS tagging / part-of-speech tagging) caen siempre en
-    la misma partición y no hay fuga entre variantes. Con solo_terminos=True, las
-    entidades no entran en el sorteo (en la configuración de dos etiquetas se
-    reservan solo términos, como en la tesis)."""
+    """Unit of type reservation: the glossary ENTRY each span belongs to (column
+    "entrada"). All the forms of a concept (keyword / keywords, lema / lemas, POS
+    tagging / part-of-speech tagging) thus always fall in the same partition, and
+    nothing leaks between variants. With solo_terminos=True, entities are not drawn
+    (when entities have their own labels, only terms are reserved)."""
     df = df.sort_values(["doc_id", "sentence_id", "token_id"]).reset_index(drop=True)
     es_t = df["label_bio"].isin(["B-T", "I-T"]) if solo_terminos else df["label_bio"] != "O"
     df["_span_text"] = np.where(es_t & (df["entrada"] != ""), df["entrada"], None)
@@ -154,11 +152,11 @@ def attach_span_text(df: pd.DataFrame, solo_terminos: bool = True) -> pd.DataFra
 
 
 # ─────────────────────────────────────────────────────────────────────────
-# Rasgos nuevos: PMI global
+# Cohesion: PMI between adjacent words
 # ─────────────────────────────────────────────────────────────────────────
 
 def compute_pmi_lookup(sentences):
-    """PMI(w_i, w_{i+1}) para todos los bigramas adyacentes intra-oración."""
+    """PMI(w_i, w_{i+1}) for every pair of adjacent words within a sentence."""
     unigram = Counter()
     bigram = Counter()
     total_tokens = 0
@@ -214,7 +212,7 @@ def pmi_q(val, bounds):
 
 
 # ─────────────────────────────────────────────────────────────────────────
-# Rasgos nuevos: contexto definitorio y patrón de sigla (precómputo por oración)
+# Definitional context and acronym pattern (computed once per sentence)
 # ─────────────────────────────────────────────────────────────────────────
 
 def sentence_has_definition(sent, lang) -> bool:
@@ -223,8 +221,8 @@ def sentence_has_definition(sent, lang) -> bool:
 
 
 def acronym_flags(sent) -> set[int]:
-    """Índices (posición en la oración) de tokens implicados en un patrón
-    de sigla: 'X ( ABC )' o 'ABC ( X Y )'."""
+    """Positions of the tokens involved in an acronym pattern:
+    'X ( ABC )' or 'ABC ( X Y )'."""
     rows = sent["rows"]
     toks = [r["token"] for r in rows]
     flags = set()
@@ -233,14 +231,14 @@ def acronym_flags(sent) -> set[int]:
         if toks[i] == "(" and i + 2 < n and toks[i + 2] == ")":
             candidate = toks[i + 1]
             if ACRONYM_RE.match(candidate):
-                flags.add(i + 1)  # la sigla misma
+                flags.add(i + 1)  # the acronym itself
                 if i > 0:
-                    flags.add(i - 1)  # el token justo antes del paréntesis
+                    flags.add(i - 1)  # the token right before the parenthesis
     return flags
 
 
 # ─────────────────────────────────────────────────────────────────────────
-# Construcción de rasgos (23 existentes + 3 nuevos = 26)
+# Feature extraction
 # ─────────────────────────────────────────────────────────────────────────
 
 FAMILIAS = {
@@ -249,7 +247,7 @@ FAMILIAS = {
     "morfosintaxis":         ["pos", "tag", "is_noun", "is_verb", "is_adj", "is_propn", "dom_pos"],
     "sintaxis":               ["dep", "in_np", "np_head", "has_amod", "has_premod"],
     "estadisticos":          ["freq_q", "df_q", "tfidf_q", "cd_q"],
-    "contexto":              ["ctx"],  # marcador; se excluyen todos los prevN/nextN/BOS/EOS juntos
+    "contexto":              ["ctx"],  # marker: all prevN/nextN/BOS/EOS features are removed together
     "cohesion_pmi":          ["pmi_prev_q", "pmi_next_q"],
     "contexto_definitorio":  ["in_definition_context"],
     "patron_sigla":          ["acronym_pattern"],
@@ -267,12 +265,11 @@ def _dominant_pos(row) -> str:
 
 
 def recompute_freq_stats(train_sents):
-    """Recalcula freq_global, document_frequency, contextual_diversity y TF-IDF
-    desde cero usando SOLO las oraciones de entrenamiento (sin fuga): estos
-    cuatro índices no se leen de la columna precomputada del CSV, que se
-    calculó sobre el corpus completo y filtraría información del conjunto
-    de test. CD se opera aquí a nivel de oración (más fina que DF, a nivel
-    de documento), igual que en el resto de la tesis."""
+    """Recomputes freq_global, document_frequency, contextual_diversity and TF-IDF
+    from the training sentences ONLY. The precomputed columns of the CSV are not
+    used, because they were computed on the whole corpus and would leak
+    information from the test set. Contextual diversity is computed per sentence
+    (finer than document frequency, which is per document)."""
     lemma_freq = Counter()
     lemma_docs = defaultdict(set)
     lemma_sents = defaultdict(set)
@@ -302,7 +299,7 @@ def recompute_freq_stats(train_sents):
         tfidf = tf * idf
         return freq_global, df_, cd, tfidf
 
-    # distribuciones para los cuartiles (sobre los propios tokens de train)
+    # distributions for the quartiles (over the training tokens themselves)
     fg_vals, df_vals, cd_vals, tfidf_vals = [], [], [], []
     for sent in train_sents:
         doc_id = sent["doc_id"]
@@ -438,16 +435,14 @@ def build_features_for_sentences(sentences, stats_get, stat_bounds, pmi_fn, pmi_
 
 
 # ─────────────────────────────────────────────────────────────────────────
-# Protocolo de reserva de tipos a nivel de span
+# Type reservation
 # ─────────────────────────────────────────────────────────────────────────
 
 def split_by_type_holdout(sentences, span_types, pct, seed=SEED):
-    """Reserva de tipos a nivel de span -- mecanismo idéntico al de
-    crf_full_rasgos_sin_fuga.py (split_holdout): pd.Series.sample(random_state=seed)
-    sobre la lista de _span_text tal como aparece en el corpus, con
-    n_holdout truncado (int, no round) para que el sorteo concreto de
-    tipos reservados en cada nivel coincida con el que produjo los
-    resultados publicados."""
+    """Type reservation: pd.Series.sample(random_state=seed) over the list of span
+    types as they appear in the corpus, with n_holdout truncated (int, not round),
+    so that every model gets exactly the same reserved types for a level and seed.
+    Every sentence containing a reserved type goes to the test set."""
     n_holdout = max(1, int(len(span_types) * pct / 100))
     held_out = set(pd.Series(span_types).sample(n=n_holdout, random_state=seed).values)
 

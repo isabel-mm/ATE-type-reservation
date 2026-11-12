@@ -1,16 +1,16 @@
 """
-paso3b_bilstm_char.py
+train_bilstm_crf_char.py
 ─────────────────────
-BiLSTM-CRF con representación de caracteres (char-CNN, Ma y Hovy 2016; Lample et al. 2016):
-la misma red, el mismo entrenamiento, las mismas particiones y la misma evaluación que
-paso3_bilstm.py; solo cambia la representación de cada palabra, que concatena su vector
-(aprendido desde cero) con un vector de 50 dimensiones calculado por una CNN sobre sus
-caracteres. Así una palabra ausente del entrenamiento ya no es un vector único: conserva
-su forma (sufijos, prefijos, mayúsculas no, porque los tokens van en minúsculas).
+BiLSTM-CRF with a character-level encoder (char-CNN; Ma and Hovy, 2016; Lample et al., 2016).
+Network, training, partitions and evaluation are those of train_bilstm_crf.py; only the
+word representation changes: each word vector (learnt from scratch) is concatenated with
+a 50-dimensional vector computed by a CNN over its characters. A word absent from training
+is therefore no longer a single shared vector, but keeps its form (suffixes and prefixes;
+not case, since tokens are lowercased).
 
-Guarda en $RESULTADOS/bilstm_char/ (runs, pred, epocas), con los mismos nombres.
-Uso: igual que paso3_bilstm.py, p. ej.
-  python paso3b_bilstm_char.py reserva --lang es --niveles 20 --semillas 0,1,2,3,4
+Output in $RESULTADOS/bilstm_char/ (runs, pred, epocas), with the same file names.
+Usage: as train_bilstm_crf.py, e.g.
+  python train_bilstm_crf_char.py reserva --lang es --niveles 20 --semillas 0,1,2,3,4
 """
 import os
 import sys
@@ -22,7 +22,7 @@ import torch.nn as nn
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
-import paso3_bilstm as B  # noqa: E402
+import train_bilstm_crf as B  # noqa: E402
 from torchcrf import CRF as TorchCRF  # noqa: E402
 
 B.OUT = Path(os.environ.get("RESULTADOS", HERE.parent / "resultados")) / "bilstm_char"
@@ -30,7 +30,7 @@ for d in ("runs", "pred", "epocas"):
     (B.OUT / d).mkdir(parents=True, exist_ok=True)
 
 MAX_CHARS = 20
-# Inventario de caracteres fijo (no depende de los datos): 0 = relleno, 1 = desconocido
+# Fixed character inventory (independent of the data): 0 = padding, 1 = unknown
 ALFABETO = "abcdefghijklmnopqrstuvwxyzáéíóúüñàèìòùâêîôûçäëïöß0123456789-'./_%&()"
 CHARS = {c: i + 2 for i, c in enumerate(ALFABETO)}
 
@@ -40,7 +40,7 @@ def ids_chars(token):
 
 
 def codificar(oraciones, vocab):
-    """Cada token: [id de palabra, id de carácter 1, …, id de carácter MAX_CHARS]."""
+    """Each token as [word id, id of character 1, ..., id of character MAX_CHARS]."""
     datos = []
     for o in oraciones:
         X = np.zeros((len(o["tokens"]), 1 + MAX_CHARS), dtype=np.int64)
@@ -93,7 +93,7 @@ class CharBiLSTMCRF(nn.Module):
         return self.crf.decode(emissions, mask=mask)
 
 
-# Sustituye las piezas del módulo base: el resto (entrenar, evaluar, run…) no cambia
+# Replace these pieces of the base module; everything else (training, evaluation, runs) is unchanged
 B.codificar = codificar
 B.lote = lote
 B.BiLSTMCRF = CharBiLSTMCRF

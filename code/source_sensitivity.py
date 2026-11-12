@@ -1,22 +1,21 @@
 """
-sensibilidad_fuentes.py
+source_sensitivity.py
 ───────────────────────
-Sensibilidad del CRF a la composición desigual del corpus (unos pocos libros
-concentran más de la mitad de los tokens). Con las mismas particiones de la
-reserva de tipos (10 semillas, 4 niveles), el conjunto de prueba no cambia y el
-de entrenamiento se reduce de dos maneras con el mismo número de oraciones:
+Sensitivity of the CRF to the uneven composition of the corpus (a few books hold more
+than half of the tokens). With the same type-reservation partitions (10 seeds, 4 levels),
+the test set stays the same and the training set is reduced in two ways, to the same
+number of sentences:
 
-  equilibrado   como máximo K oraciones por documento (K = mediana de oraciones
-                por documento del corpus), elegidas al azar: cada documento pesa
-                lo mismo, como mucho, y los libros dejan de dominar
-  aleatorio     el mismo número total de oraciones, elegidas al azar sin tener
-                en cuenta el documento (controla el efecto de tener menos datos)
+  equilibrado   at most K sentences per document (K = median number of sentences per
+                document), drawn at random, so that books no longer dominate
+  aleatorio     the same total number of sentences, drawn at random regardless of the
+                document (controls for having less data)
 
-Si equilibrado ≈ aleatorio, la composición del corpus no condiciona los
-resultados más allá del volumen de datos.
+If equilibrado ≈ aleatorio, the composition of the corpus does not affect the results
+beyond the amount of data.
 
-Uso:  python sensibilidad_fuentes.py [--jobs 4] [--lang en]
-Salida: resultados_fuentes/runs/*.json y resultados_provisionales/csv/16_sensibilidad_fuentes.csv
+Usage:   python source_sensitivity.py [--jobs 4] [--lang en]
+Output:  resultados_fuentes/runs/*.json and results/16_sensibilidad_fuentes.csv
 """
 import json
 import multiprocessing as mp
@@ -32,13 +31,13 @@ AQUI = Path(__file__).resolve().parent
 REPO = AQUI.parents[2]
 sys.path.insert(0, str(REPO / "colab_reanotacion" / "scripts"))
 import crf_base as base  # noqa: E402
-import paso2_crf as P  # noqa: E402
-from metricas import metricas_completas  # noqa: E402
+import train_crf as P  # noqa: E402
+from metrics import metricas_completas  # noqa: E402
 
 OUT = AQUI / "resultados_fuentes" / "runs"
 OUT.mkdir(parents=True, exist_ok=True)
-CSV = AQUI / "resultados_provisionales" / "csv" / "16_sensibilidad_fuentes.csv"
-K = {}   # lang -> tope de oraciones por documento
+CSV = AQUI.parent / "results" / "16_sensibilidad_fuentes.csv"
+K = {}   # lang -> maximum number of sentences per document
 
 
 def tope(lang):
@@ -88,7 +87,7 @@ def ejecutar(t):
 def consolidar():
     filas = [json.loads(f.read_text()) for f in sorted(OUT.glob("*.json"))]
     df = pd.DataFrame(filas)
-    # la condición completa sale de la reserva principal ya ejecutada
+    # the full condition comes from the main reservation runs
     comp = []
     for f in (P.OUT / "runs").glob("reserva_*_todas.json"):
         r = json.loads(f.read_text())
@@ -111,8 +110,8 @@ def main():
           for l in langs for p in (20, 50, 10, 30) for s in range(10) for m in ("equilibrado", "aleatorio")]
     pend = [t for t in ts if not (OUT / f"{t['modo']}_{t['lang']}_p{t['pct']}_s{t['seed']}.json").exists()]
     for l in langs:
-        print(f"{l}: tope de {tope(l)} oraciones por documento", flush=True)
-    print(f"{len(ts)} ejecuciones ({len(ts) - len(pend)} ya hechas), {jobs} en paralelo", flush=True)
+        print(f"{l}: at most {tope(l)} sentences per document", flush=True)
+    print(f"{len(ts)} runs ({len(ts) - len(pend)} already done), {jobs} in parallel", flush=True)
     t0 = time.time()
     with mp.get_context("fork").Pool(jobs) as pool:
         for i, (rid, msg) in enumerate(pool.imap_unordered(ejecutar, pend), 1):

@@ -1,13 +1,13 @@
 """
-Línea base no supervisada: C-value y NC-value (Frantzi et al., 2000) sobre las mismas
-particiones de reserva de tipos que los modelos supervisados.
+Unsupervised baseline: C-value and NC-value (Frantzi et al., 2000) on the same
+type-reservation partitions as the supervised models.
 
-En cada partición se extraen candidatos de las oraciones de prueba con patrones POS,
-se ordenan por C-value o NC-value y se toma una lista del mismo tamaño que la del CRF
-en esa partición. Se mide la recuperación de entradas del glosario (todas y solo las
-reservadas) y la precisión de las formas propuestas, como en paso14_exportar.py.
+In each partition, candidates are extracted from the test sentences with part-of-speech
+patterns and ranked by C-value or NC-value, and a list as long as the CRF's in that
+partition is kept. We measure the recall of glossary entries (all of them and the reserved
+ones only) and the precision of the proposed forms, as in export_results.py.
 
-Uso: python linea_base_cvalue.py
+Usage: python baseline_cvalue.py
 """
 import os
 import sys
@@ -23,16 +23,16 @@ ROOT = AQUI.parents[2]
 os.environ.setdefault("DATOS_GENERADOS", str(Path(__file__).resolve().parent.parent / "datos_generados"))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 sys.path.insert(0, str(ROOT))
-import paso3_bilstm as B  # noqa: E402
+import train_bilstm_crf as B  # noqa: E402
 from extractor.linguistic_filter import extract_candidates  # noqa: E402
 
 GRAMMAR = AQUI / "extractor" / "grammar.yaml"
 EJEC = AQUI.parent / "results" / "07_analisis_por_ejecucion.csv"
 MIN_FREQ = 2
-REF = 0.05   # términos de referencia del NC-value: el 5 % superior de la lista por C-value
+REF = 0.05   # NC-value reference terms: the top 5% of the C-value list
 
 
-def spans(labels):   # idéntica a paso14_exportar.spans
+def spans(labels):   # same as export_results.spans
     out, ini = [], None
     for i, l in enumerate(list(labels) + ["O"]):
         if l == "B-T" or l == "O" or (l == "I-T" and ini is None):
@@ -45,7 +45,7 @@ def spans(labels):   # idéntica a paso14_exportar.spans
 
 
 def pos_lemas(lang):
-    """(doc_id, sentence_id) -> (lemas, POS), en el mismo orden que B.cargar."""
+    """(doc_id, sentence_id) -> (lemmas, POS), in the same order as B.cargar."""
     ruta = B.DATOS / f"{lang}_bio_tokens_terms_only.csv.gz"
     df = pd.read_csv(ruta, usecols=["doc_id", "sentence_id", "token_id", "lemma", "pos"], low_memory=False)
     df = df.sort_values(["doc_id", "sentence_id", "token_id"]).reset_index(drop=True)
@@ -56,7 +56,7 @@ def pos_lemas(lang):
 
 
 def cvalue_lista(test, info, lang):
-    """Candidatos de la prueba ordenados por C-value (mayor primero)."""
+    """Test candidates ranked by C-value and NC-value (highest first)."""
     docs = defaultdict(list)
     for o in test:
         lemas, pos = info[(o["doc_id"], o["sentence_id"])]
@@ -85,9 +85,9 @@ def cvalue_lista(test, info, lang):
         tb = contenedores.get(a)
         cv[a] = (1.0 if len(a) == 1 else log2(len(a))) * (freq[a] - (sum(freq[b] for b in tb) / len(tb) if tb else 0))
     orden_c = sorted(claves, key=lambda k: (-cv[k], k))
-    # NC-value (Frantzi et al. 2000): 0,8·C-value + 0,2·Σ_b f_a(b)·weight(b); b = sustantivos,
-    # adjetivos y verbos (lema) a ±2 tokens; weight(b) = t(b)/n, con t(b) el número de términos
-    # de referencia junto a los que aparece b; referencia = el primer REF de la lista por C-value
+    # NC-value (Frantzi et al. 2000): 0.8·C-value + 0.2·Σ_b f_a(b)·weight(b), where b are the nouns,
+    # adjectives and verbs (lemmas) within ±2 tokens, weight(b) = t(b)/n and t(b) is the number of
+    # reference terms b occurs with; the reference terms are the top REF of the C-value list
     ctx = defaultdict(Counter)
     for c in cands:
         k = tuple(c["term"].split())
@@ -109,7 +109,7 @@ def main():
         for pct in (10, 20, 30, 50):
             for seed in range(10):
                 _, test, reservadas = B.particion_reserva(oraciones, entradas, pct, seed)
-                formas_de = defaultdict(set)     # entrada -> formas anotadas en la prueba
+                formas_de = defaultdict(set)     # entry -> forms annotated in the test set
                 formas_test = set()
                 for o in test:
                     for a, b in spans(o["labels"]):
@@ -136,13 +136,13 @@ def main():
                                   "n_candidatos": len(orden),
                                   "tipo_recall": r, "tipo_recall_reservados": len(ok & tipos_res) / len(tipos_res),
                                   "tipo_precision_test": p, "tipo_f1_test": 2 * p * r / (p + r) if p + r else 0.0})
-                print(lang, pct, seed, "candidatos:", len(ordenes["C-value"]), flush=True)
+                print(lang, pct, seed, "candidates:", len(ordenes["C-value"]), flush=True)
     df = pd.DataFrame(filas)
     salida = AQUI.parent / "results" / "18_unsupervised_cvalue_ncvalue.csv"
     df.to_csv(salida, index=False)
     print(df[df.k_como == "CRF"].groupby(["medida", "lang", "pct"])[["tipo_recall", "tipo_recall_reservados", "tipo_precision_test",
                                                  "tipo_f1_test"]].mean().round(3).to_string())
-    print("Guardado en", salida)
+    print("Saved to", salida)
 
 
 if __name__ == "__main__":

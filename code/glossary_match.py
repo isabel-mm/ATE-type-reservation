@@ -1,26 +1,23 @@
 """
 glossary_match.py
 ───────────────
-Localiza en un texto todas las apariciones de las formas del glosario the glossary,
-con el mismo método con que el glosario cuenta sus frecuencias
-(glossary/_dev/recount_variants.py):
+Finds every occurrence of the glossary forms in a text, with the same method used to
+count their frequencies in the glossary:
 
-  - antes de buscar se reparan los artefactos de la conversión desde PDF
-    (guiones blandos, palabras partidas, ligaduras, apóstrofos tipográficos,
-    tildes separadas de su letra) y se normalizan los espacios;
-  - coincidencia exacta de la cadena, sin distinguir mayúsculas y con límites
-    de palabra; en español, también sin distinguir tildes; las cadenas de
-    «sensibles_mayusculas» sí distinguen mayúsculas;
-  - cada entrada aporta todas sus formas: flexión, variantes formales,
-    sinónimos, préstamos y, en las siglas, la forma desarrollada;
-  - las cadenas de «excluye» se reconocen pero no se anotan; los usos que
-    descartan «excluye_si» / «solo_si» y las etiquetas de metadatos de los
-    artículos («Palabras clave:», «Keywords:») tampoco.
+  - PDF conversion artefacts are repaired first (soft hyphens, split words, ligatures,
+    typographic apostrophes, accents detached from their letter) and spaces are
+    normalised;
+  - matching is exact, case-insensitive and within word boundaries; in Spanish it also
+    ignores accents; the strings listed in "sensibles_mayusculas" are case-sensitive;
+  - each entry contributes all its forms: inflection, formal variants, synonyms,
+    loanwords and, for acronyms, the expanded form;
+  - the strings in "excluye" are recognised but not annotated, and neither are the
+    uses ruled out by "excluye_si" / "solo_si" or the metadata labels of articles
+    ("Palabras clave:", "Keywords:").
 
-Diferencia con el recuento del glosario: aquí todas las entradas se buscan en
-una sola pasada, de la cadena más larga a la más corta, para obtener una
-anotación sin solapamientos (criterio de delimitación del cap. 3: se anota la
-cadena terminológica completa, no los términos que contiene).
+Unlike the glossary count, all entries are searched in a single pass, from the longest
+string to the shortest, so that the annotation has no overlaps: the complete
+terminological sequence is annotated, not the terms it contains.
 """
 from __future__ import annotations
 
@@ -35,7 +32,7 @@ SPACING_ACCENTS = {'´': '́', '`': '̀', '¨': '̈', '˜': '̃', 'ˆ': '̂'}
 
 
 def clean(text: str) -> str:
-    """Repara los artefactos de la conversión desde PDF (idéntico al glosario)."""
+    """Repairs the PDF conversion artefacts (as in the glossary)."""
     text = unicodedata.normalize('NFC', text)
     text = re.sub(r'­\s*', '', text)
     text = re.sub(r'([A-Za-záéíóúñü])-\s*\n\s*([a-záéíóúñü])', r'\1\2', text)
@@ -49,7 +46,7 @@ def clean(text: str) -> str:
 
 
 def fold(s: str, lang: str) -> str:
-    """En español elimina las tildes conservando la longitud del texto."""
+    """Removes Spanish accents while keeping the length of the text."""
     if lang != 'es':
         return s
     return ''.join(unicodedata.normalize('NFD', c)[0] for c in s)
@@ -81,8 +78,8 @@ def context_excluded(text: str, m, form: dict) -> bool:
 
 
 def load_jobs(glossary_dir: Path):
-    """Devuelve {slug: {lang: [formas]}} con la misma construcción que recount_variants.py,
-    el tipo de cada entrada (term/entity) y las cadenas sensibles a mayúsculas."""
+    """Returns {slug: {lang: [forms]}}, the type of each entry (term/entity) and the
+    case-sensitive strings."""
     norm = json.loads((glossary_dir / 'normalizacion.json').read_text(encoding='utf-8'))
     entradas = json.loads((glossary_dir / 'entradas.json').read_text(encoding='utf-8'))
     tipo = {e['slug']: e['type'] for e in entradas}
@@ -104,17 +101,17 @@ def load_jobs(glossary_dir: Path):
                 forms.append({'forma': expansions[0], 'relacion': 'forma_desarrollada', 'cuenta': expansions})
     sin_tipo = [s for s in jobs if s not in tipo]
     if sin_tipo:
-        print(f"  aviso: {len(sin_tipo)} entradas de normalizacion.json sin tipo en entradas.json: {sin_tipo[:5]}")
+        print(f"  warning: {len(sin_tipo)} entries of normalizacion.json without a type in entradas.json: {sin_tipo[:5]}")
     return jobs, tipo, case_sensitive
 
 
 class Matcher:
-    """Patrón único con todas las cadenas de todas las entradas de una lengua."""
+    """A single pattern with every string of every entry of a language."""
 
     def __init__(self, jobs, tipo, case_sensitive, lang):
         self.lang = lang
         self.forms = {}          # (slug, i) -> forma
-        owner = {}               # cadena plegada en minúsculas -> (slug, i) | None
+        owner = {}               # lowercased string -> (slug, i) | None
         conflictos = []
         for slug, langs in jobs.items():
             for i, f in enumerate(langs.get(lang, [])):
@@ -138,7 +135,7 @@ class Matcher:
         self.pattern = re.compile(r'(?<!\w)(?:' + '|'.join(alts) + r')(?!\w)', re.IGNORECASE)
 
     def find(self, text_clean: str):
-        """Recibe el texto ya reparado con clean(); devuelve [(inicio, fin, slug, tipo)]."""
+        """Takes a text already repaired with clean(); returns [(start, end, slug, type)]."""
         folded = fold(text_clean, self.lang)
         out = []
         for m in self.pattern.finditer(folded):

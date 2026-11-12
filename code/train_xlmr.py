@@ -1,37 +1,36 @@
 """
-paso12_transformer.py
+train_xlmr.py
 ─────────────────────
-Modelo Transformer preentrenado (por defecto XLM-RoBERTa base) ajustado para
-etiquetado BIO, con el mismo protocolo que el CRF y el BiLSTM-CRF:
+A pretrained Transformer (XLM-RoBERTa base by default) fine-tuned for BIO tagging,
+with the same protocol as the CRF and the BiLSTM-CRF:
 
-  · mismas particiones: el sorteo de entradas reservadas es el de
-    paso3_bilstm.particion_reserva (= crf_base.split_by_type_holdout);
-  · misma elección de época: validación con un 10 % de las entradas de término
-    del entrenamiento (paso3_bilstm.separar_validacion), parada anticipada;
-    la prueba se evalúa una sola vez;
-  · mismas métricas (metricas.py), también restringidas a los tokens de las
-    entradas reservadas (res_*) y al resto (vis_*).
+  · same partitions: reserved entries are drawn by train_bilstm_crf.particion_reserva
+    (= crf_base.split_by_type_holdout);
+  · same choice of epoch: validation on 10% of the term entries left in training
+    (train_bilstm_crf.separar_validacion), early stopping, and a single evaluation
+    of the test set;
+  · same metrics (metrics.py), also restricted to the tokens of reserved entries
+    (res_*) and to the rest (vis_*).
 
-Detalles del ajuste (convencionales para clasificación de tokens):
-  · etiqueta en la primera subpalabra de cada palabra; el resto, -100;
-  · oraciones largas partidas en trozos de TROZO palabras (sin solapamiento)
-    para no superar los 512 subtokens; las predicciones se vuelven a unir;
-  · AdamW, lr 3e-5, decaimiento de pesos 0,01, calentamiento lineal del 10 %,
-    lotes de 16 trozos agrupados por longitud, recorte de gradiente a 1,0,
-    precisión mixta en CUDA;
-  · máximo MAX_EPOCAS épocas, paciencia PACIENCIA.
+Fine-tuning follows the usual setup for token classification:
+  · the label goes on the first subword of each word, the others get -100;
+  · long sentences are split into chunks of TROZO words (no overlap) to stay under
+    512 subwords, and the predictions are joined again;
+  · AdamW, learning rate 3e-5, weight decay 0.01, 10% linear warm-up, batches of 16
+    chunks grouped by length, gradient clipping at 1.0, mixed precision on CUDA;
+  · at most MAX_EPOCAS epochs, patience PACIENCIA.
 
-Variables de entorno: MODELO (p. ej. xlm-roberta-base, roberta-base,
-PlanTL-GOB-ES/roberta-base-bne), DISPOSITIVO, DATOS_GENERADOS, RESULTADOS,
-LR, MAX_EPOCAS, PACIENCIA, SOBREMUESTREO (por defecto 1: sin sobremuestreo).
+Environment variables: MODELO (e.g. xlm-roberta-base, roberta-base,
+PlanTL-GOB-ES/roberta-base-bne), DISPOSITIVO, DATOS_GENERADOS, RESULTADOS, LR,
+MAX_EPOCAS, PACIENCIA, SOBREMUESTREO (default 1: no oversampling).
 
-Guarda en $RESULTADOS/transformer/<modelo>/: runs/<id>.json, pred/<id>.csv.gz
-y epocas/<id>.csv. Reanudable.
+Output in $RESULTADOS/transformer/<model>/: runs/<id>.json, pred/<id>.csv.gz and
+epocas/<id>.csv. Runs that already have a JSON file are skipped.
 
-Uso:  python paso12_transformer.py reserva [--lang en] [--semillas 0,...,9] [--niveles 20,10,30,50]
-      python paso12_transformer.py cv [--lang en]
-      python paso12_transformer.py consolidar
-      python paso12_transformer.py reserva --rapido        (prueba: 1 nivel, 1 época, 300 oraciones)
+Usage:  python train_xlmr.py reserva [--lang en] [--semillas 0,...,9] [--niveles 20,10,30,50]
+        python train_xlmr.py cv [--lang en]
+        python train_xlmr.py consolidar
+        python train_xlmr.py reserva --rapido        (quick check: one level, one epoch, 300 sentences)
 """
 from __future__ import annotations
 
@@ -50,8 +49,8 @@ import torch
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
-from metricas import guardar_predicciones, metricas_completas  # noqa: E402
-from paso3_bilstm import particion_reserva, separar_validacion  # noqa: E402
+from metrics import guardar_predicciones, metricas_completas  # noqa: E402
+from train_bilstm_crf import particion_reserva, separar_validacion  # noqa: E402
 
 MODELO = os.environ.get("MODELO", "xlm-roberta-base")
 DATOS = Path(os.environ.get("DATOS_GENERADOS", HERE.parent / "datos_generados"))
@@ -65,7 +64,7 @@ LR = float(os.environ.get("LR", 3e-5))
 MAX_EPOCAS = int(os.environ.get("MAX_EPOCAS", 6))
 PACIENCIA = int(os.environ.get("PACIENCIA", 2))
 SOBREMUESTREO = int(os.environ.get("SOBREMUESTREO", 1))
-BATCH = int(os.environ.get("BATCH", 16))  # bajar a 8 si falta memoria en la GPU
+BATCH = int(os.environ.get("BATCH", 16))  # lower to 8 if the GPU runs out of memory
 TROZO = 120
 MAX_SUB = 512
 NIVELES = [10, 20, 30, 50]
@@ -76,7 +75,7 @@ INV = {v: k for k, v in LABELS.items()}
 # ─────────────────────────── datos ───────────────────────────
 
 def cargar(lang, path=None):
-    """Como paso3_bilstm.cargar, pero conserva mayúsculas (el tokenizador las usa)."""
+    """As train_bilstm_crf.cargar, but keeps the original case (the tokenizer uses it)."""
     cols = ["doc_id", "sentence_id", "token_id", "token", "label_bio", "entrada"]
     ruta = Path(path) if path else DATOS / f"{lang}_bio_tokens_terms_only.csv"
     if not ruta.exists() and Path(str(ruta) + ".gz").exists():  # datos comprimidos
@@ -87,7 +86,7 @@ def cargar(lang, path=None):
     df["entrada"] = df["entrada"].fillna("").astype(str)
     oraciones = []
     for (doc, sid), g in df.groupby(["doc_id", "sentence_id"], sort=False):
-        toks = [t if t.strip() else "_" for t in g["token"].tolist()]  # tokens vacíos o de espacio
+        toks = [t if t.strip() else "_" for t in g["token"].tolist()]  # empty or whitespace tokens
         oraciones.append({"doc_id": doc, "sentence_id": sid, "tokens": toks,
                           "labels": g["label_bio"].tolist(), "entradas": g["entrada"].tolist()})
     entradas = sorted({e for o in oraciones for e, l in zip(o["entradas"], o["labels"]) if e and l != "O"})
@@ -95,7 +94,7 @@ def cargar(lang, path=None):
 
 
 def trocear(oraciones):
-    """Lista de trozos (índice de oración, inicio, fin) de como mucho TROZO palabras."""
+    """List of chunks (sentence index, start, end) of at most TROZO words."""
     trozos = []
     for i, o in enumerate(oraciones):
         n = len(o["tokens"])
@@ -105,8 +104,8 @@ def trocear(oraciones):
 
 
 def codificar(tok, oraciones, trozos, con_etiquetas=True):
-    """Cada trozo -> input_ids, etiquetas alineadas (-100 salvo 1.ª subpalabra) y
-    posición de la primera subpalabra de cada palabra (o -1 si se truncó)."""
+    """Each chunk -> input_ids, aligned labels (-100 except on the first subword) and the
+    position of the first subword of each word (-1 if it was truncated)."""
     datos = []
     truncadas = 0
     for (i, a, b) in trozos:
@@ -141,14 +140,14 @@ def lotes(datos, idx, pad_id):
 
 
 def orden_por_longitud(datos, idx, rng):
-    """Agrupa por longitud (menos relleno) y baraja los lotes."""
+    """Groups chunks by length (less padding) and shuffles the batches."""
     idx = sorted(idx, key=lambda k: len(datos[k]["ids"]))
     bloques = [idx[i:i + BATCH] for i in range(0, len(idx), BATCH)]
     rng.shuffle(bloques)
     return bloques
 
 
-# ─────────────────────────── modelo ───────────────────────────
+# ─────────────────────────── model ───────────────────────────
 
 def predecir(model, tok, oraciones):
     trozos = trocear(oraciones)
@@ -212,7 +211,7 @@ def entrenar(train, val, seed, rid, max_epocas, tok):
         log.append({"epoca": epoca, "perdida_media": float(np.mean(perdidas)),
                     **{f"val_{k}": v for k, v in mv.items()}, "segundos": round(time.time() - t0, 1)})
         pd.DataFrame(log).to_csv(OUT / "epocas" / f"{rid}.csv", index=False)
-        print(f"    época {epoca}: pérdida={np.mean(perdidas):.3f}  val F1 término={mv['f1_termino']:.3f}  "
+        print(f"    epoch {epoca}: loss={np.mean(perdidas):.3f}  val term F1={mv['f1_termino']:.3f}  "
               f"({time.time()-t0:.0f}s)", flush=True)
         if mv["f1_termino"] > mejor_f1:
             mejor_f1, mejor_epoca, sin_mejora = mv["f1_termino"], epoca, 0
@@ -246,18 +245,18 @@ def evaluar(model, tok, test, reservadas, rid, out=None):
 
 
 def ejecutar(rid, train, test, reservadas, seed, por_entradas, max_epocas, meta, out=None):
-    """Entrena con validación, evalúa la prueba una vez y guarda el JSON."""
+    """Trains with validation, evaluates the test set once and writes the JSON file."""
     from transformers import AutoTokenizer
     out = out or OUT
     dest = out / "runs" / f"{rid}.json"
     if dest.exists():
-        print(f"  {rid}: ya hecho", flush=True)
+        print(f"  {rid}: already done", flush=True)
         return
     t0 = time.time()
     tok = AutoTokenizer.from_pretrained(MODELO, add_prefix_space=True) if "roberta" in MODELO.lower() and "xlm" not in MODELO.lower() \
         else AutoTokenizer.from_pretrained(MODELO)
     train, val = separar_validacion(train, seed, por_entradas=por_entradas)
-    print(f"\n[{rid}] train={len(train)} val={len(val)} test={len(test)} oraciones · {MODELO} · {DEVICE}", flush=True)
+    print(f"\n[{rid}] train={len(train)} val={len(val)} test={len(test)} sentences · {MODELO} · {DEVICE}", flush=True)
     model, info = entrenar(train, val, seed, rid, max_epocas, tok)
     m = evaluar(model, tok, test, reservadas, rid, out)
     fila = {**meta, "modelo": MODELO, "n_oraciones_train": len(train), "n_oraciones_val": len(val),
@@ -268,7 +267,7 @@ def ejecutar(rid, train, test, reservadas, seed, por_entradas, max_epocas, meta,
     gc.collect()
     if DEVICE.type == "cuda":
         torch.cuda.empty_cache()
-    print(f"[{rid}] F1 término={m['f1_termino']:.3f} (época {info['epoca_elegida']}) · {(time.time()-t0)/60:.1f} min", flush=True)
+    print(f"[{rid}] term F1={m['f1_termino']:.3f} (epoch {info['epoca_elegida']}) · {(time.time()-t0)/60:.1f} min", flush=True)
 
 
 def run(lang, exp, datos, pct=None, seed=0, fold=None, max_epocas=MAX_EPOCAS):
@@ -290,7 +289,7 @@ def consolidar(out=None):
     out = out or OUT
     filas = [json.loads(p.read_text()) for p in sorted((out / "runs").glob("*.json"))]
     if not filas:
-        print("No hay resultados todavía.")
+        print("No results yet.")
         return
     df = pd.DataFrame(filas)
     for exp, g in df.groupby("exp"):
@@ -301,7 +300,7 @@ def consolidar(out=None):
         r = g.groupby(["lang", "pct"])[num].agg(["mean", "std", "count"])
         r.columns = [f"{a}_{b}" for a, b in r.columns]
         r.reset_index().to_csv(out / "transformer_reserva_resumen.csv", index=False)
-    print(f"Consolidado: {len(df)} ejecuciones -> {out}")
+    print(f"Merged {len(df)} runs -> {out}")
 
 
 def main():
@@ -322,9 +321,9 @@ def main():
         datos = cargar(lang)
         if rapido:
             datos = (datos[0][:300] + [o for o in datos[0][300:] if any(l != "O" for l in o["labels"])][:300], datos[1])
-        print(f"{lang}: {len(datos[0])} oraciones, {len(datos[1])} entradas sorteables", flush=True)
+        print(f"{lang}: {len(datos[0])} sentences, {len(datos[1])} entries that can be reserved", flush=True)
         if exp == "reserva":
-            # Por nivel y luego por semilla: si se corta, cada nivel tiene las semillas más bajas hechas.
+            # Level by level, then seed by seed: if interrupted, every level has its lowest seeds done.
             for pct in ([20] if rapido else niveles):
                 for seed in (semillas[:1] if rapido else semillas):
                     run(lang, "reserva", datos, pct=pct, seed=seed, max_epocas=max_ep)

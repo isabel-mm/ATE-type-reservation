@@ -1,27 +1,25 @@
 """
-paso6_clasificadores.py
+train_token_classifiers.py
 ───────────────────────
-Clasificadores clásicos (sin secuencia) con la anotación actual: sustituye a la
-tabla de julio de 2026 (anotación anterior) del Apéndice V.
+Token classifiers without sequence modelling. Each token is classified on its own as
+term (B-T or I-T) or not, with the same 27 features as the CRF
+(crf_base.build_features_for_sentences; statistics recomputed on the training
+partition only). Two protocols:
 
-Cada token se clasifica por separado como término (B-T o I-T) o no término, con
-los mismos 27 rasgos del CRF (crf_base.build_features_for_sentences; estadísticas
-recalculadas solo sobre el entrenamiento de cada partición). Dos protocolos:
+  cv       random five-fold cross-validation (the same folds as the CRF)
+  reserva  type reservation (10 and 20% by default), seeds 0-9 (the same partitions
+           as the CRF, the BiLSTM-CRF and XLM-R)
 
-  cv       validación cruzada aleatoria de 5 pliegues (los mismos que el CRF)
-  reserva  reserva de tipos (por defecto 10 y 20 %), semillas 0-9 (las mismas
-           particiones que el CRF, el BiLSTM-CRF y XLM-R)
+Each run stores term P/R/F1, AUC, unit-level metrics (contiguous term tokens are
+grouped into units), exact delimitation of single- and multi-word terms, and the
+recall of reserved and seen tokens.
 
-En cada ejecución se guardan P/R/F1 de término, AUC, métricas por unidad
-completa (spans, regla de reconstrucción), delimitación exacta de monoléxicos y
-poliléxicos y recuperación de los tokens reservados y vistos.
+Classifiers: logistic regression, linear SVM, Bernoulli naive Bayes, decision tree
+and random forest. Models that do not scale to ~1.4 million tokens with thousands of
+sparse features (RBF-kernel SVM, k-NN, gradient boosting) are left out.
 
-Clasificadores: regresión logística, SVM lineal, Naive Bayes (Bernoulli), árbol
-de decisión y Random Forest. Se omiten los que no escalan a ~1,4 millones de
-tokens con miles de rasgos dispersos (SVM con núcleo RBF, k-NN, gradient boosting).
-
-Uso:    python paso6_clasificadores.py [--lang en] [--niveles 10,20] [--semillas 0,...,9]
-Salida: resultados/clasificadores/clasificadores_todas.csv (una fila por ejecución y clasificador)
+Usage:   python train_token_classifiers.py [--lang en] [--niveles 10,20] [--semillas 0,...,9]
+Output:  resultados/clasificadores/clasificadores_todas.csv (one row per run and classifier)
 """
 import os
 import sys
@@ -42,15 +40,15 @@ from sklearn.tree import DecisionTreeClassifier
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 import crf_base as base  # noqa: E402
-from metricas import metricas_span, spans_termino  # noqa: E402
+from metrics import metricas_span, spans_termino  # noqa: E402
 
 OUT = Path(os.environ.get("RESULTADOS", HERE.parent / "resultados")) / "clasificadores"
 OUT.mkdir(parents=True, exist_ok=True)
 DEST = OUT / "clasificadores_todas.csv"
-NJOBS = max(1, (os.cpu_count() or 2) - 2)  # deja núcleos libres para alimentar la GPU
+NJOBS = max(1, (os.cpu_count() or 2) - 2)  # leave some cores free
 
 
-SPANS = True  # siempre se calculan las métricas por unidad completa
+SPANS = True  # unit-level metrics are always computed
 
 
 def modelos():
@@ -79,7 +77,7 @@ def matriz(train_sents, test_sents, lang):
 
 
 def a_bio(pred, gold):
-    """Predicción binaria por token -> secuencias BIO (cada tramo continuo de términos es una unidad)."""
+    """Binary token predictions -> BIO sequences (each contiguous run of term tokens is a unit)."""
     out, k = [], 0
     for g in gold:
         seq, prev = [], 0

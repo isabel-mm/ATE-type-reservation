@@ -1,27 +1,26 @@
 """
-paso13_acter.py
+acter_experiments.py
 ───────────────
-Validación externa en ACTER (inglés, 4 dominios, anotación sin entidades
-nombradas) con los tres modelos y el mismo protocolo que el corpus de trabajo:
-estadísticos y PMI solo con el entrenamiento, época elegida con validación
-(nunca con la prueba), mismas métricas.
+External validation on ACTER (English, four domains, annotation without named
+entities) with the three sequence models and the same protocol as our corpus:
+statistics and PMI from the training partition only, epoch chosen on validation
+(never on the test set), same metrics.
 
-  preparar   convierte tesis/experimento_entidades/acter_en_bio_tokens.csv
-             (spaCy, generado por acter_preprocess.py) en
-             $DATOS_GENERADOS/acter_bio_tokens_terms_only.csv, con la columna
-             «entrada» = forma del término en minúsculas (unidad de reserva).
-  lodo       leave-one-domain-out: se entrena con tres dominios y se evalúa en
-             el cuarto. CRF (determinista, 1 ejecución) y BiLSTM-CRF y
-             Transformer con 5 semillas (0-4) por dominio.
+  preparar   converts data/acter/acter_en_bio_tokens.csv (spaCy, produced by
+             acter_preprocess.py) into $DATOS_GENERADOS/acter_bio_tokens_terms_only.csv,
+             with "entrada" = the lowercased term form (the unit of reservation).
+  lodo       leave-one-domain-out: training on three domains, testing on the
+             fourth. The CRF is deterministic (one run); the BiLSTM-CRF and the
+             Transformer use 5 seeds (0-4) per domain.
 
-La reserva de tipos en ACTER no necesita código nuevo (lang = acter):
-  python paso2_crf.py reserva --lang acter
-  python paso3_bilstm.py reserva --lang acter --semillas 0,1,2,3,4,5,6,7,8,9
-  python paso12_transformer.py reserva --lang acter
+Type reservation on ACTER needs no extra code (lang = acter):
+  python train_crf.py reserva --lang acter
+  python train_bilstm_crf.py reserva --lang acter --semillas 0,1,2,3,4,5,6,7,8,9
+  python train_xlmr.py reserva --lang acter
 
-Uso:  python paso13_acter.py preparar [--origen RUTA.csv]
-      python paso13_acter.py lodo [--modelos crf,bilstm,transformer] [--semillas 0,1,2,3,4]
-      python paso13_acter.py consolidar
+Usage:  python acter_experiments.py preparar [--origen PATH.csv]
+        python acter_experiments.py lodo [--modelos crf,bilstm,transformer] [--semillas 0,1,2,3,4]
+        python acter_experiments.py consolidar
 """
 from __future__ import annotations
 
@@ -54,7 +53,7 @@ def preparar(origen: Path):
     df = pd.read_csv(origen, low_memory=False)
     df = df.sort_values(["doc_id", "sentence_id", "token_id"]).reset_index(drop=True)
     df["token_lower"] = df["token_lower"].fillna("").astype(str)
-    # entrada = forma del span en minúsculas, asignada a todos sus tokens
+    # entry = lowercased span form, assigned to all its tokens
     entrada = [""] * len(df)
     labs, toks = df["label_bio"].tolist(), df["token_lower"].tolist()
     keys = list(zip(df["doc_id"], df["sentence_id"]))
@@ -76,14 +75,14 @@ def preparar(origen: Path):
     DATOS.mkdir(parents=True, exist_ok=True)
     df.to_csv(dest, index=False)
     n_tipos = len({e for e in entrada if e})
-    print(f"{dest}: {len(df)} tokens, {df.groupby(['doc_id','sentence_id']).ngroups} oraciones, {n_tipos} tipos")
+    print(f"{dest}: {len(df)} tokens, {df.groupby(['doc_id','sentence_id']).ngroups} sentences, {n_tipos} types")
 
 
 # ─────────────────────────── LODO ───────────────────────────
 
 def _metricas_res(rows_entr, yt, yp, reservadas):
-    """Métricas sobre tokens de tipos ausentes del entrenamiento (res_) y del resto (vis_)."""
-    from metricas import metricas_completas
+    """Metrics on the tokens of types absent from training (res_) and on the rest (vis_)."""
+    from metrics import metricas_completas
     res_t, res_p, vis_t, vis_p = [], [], [], []
     for ents, a_seq, b_seq in zip(rows_entr, yt, yp):
         for e, a, b in zip(ents, a_seq, b_seq):
@@ -98,8 +97,8 @@ def _metricas_res(rows_entr, yt, yp, reservadas):
 
 def lodo_crf():
     import crf_base as base
-    from metricas import guardar_predicciones, metricas_completas
-    import paso2_crf as p2
+    from metrics import guardar_predicciones, metricas_completas
+    import train_crf as p2
     out = OUT / "crf"
     for d in ("runs", "pred"):
         (out / d).mkdir(parents=True, exist_ok=True)
@@ -108,7 +107,7 @@ def lodo_crf():
         rid = f"lodo_acter_{dom}"
         dest = out / "runs" / f"{rid}.json"
         if dest.exists():
-            print(f"  {rid}: ya hecho"); continue
+            print(f"  {rid}: already done"); continue
         t0 = time.time()
         train = [s for s in sentences if dominio(s["doc_id"]) != dom]
         test = [s for s in sentences if dominio(s["doc_id"]) == dom]
@@ -122,20 +121,20 @@ def lodo_crf():
                 "segundos": round(time.time() - t0, 1)}
         guardar_predicciones(out / "pred" / f"{rid}.csv.gz", test, y_te, y_pr)
         dest.write_text(json.dumps(fila, ensure_ascii=False, default=float))
-        print(f"[{rid}] CRF F1 término={fila['f1_termino']:.3f}", flush=True)
+        print(f"[{rid}] CRF term F1={fila['f1_termino']:.3f}", flush=True)
 
 
 def lodo_neuronal(modelo, semillas):
-    """BiLSTM-CRF (paso3) o Transformer (paso12) con validación por entradas en los dominios de entrenamiento."""
+    """BiLSTM-CRF or Transformer, validated on reserved entries of the training domains."""
     if modelo == "bilstm":
-        import paso3_bilstm as m
+        import train_bilstm_crf as m
         out = OUT / "bilstm"
     else:
-        import paso12_transformer as m
+        import train_xlmr as m
         out = OUT / "transformer" / m.MODELO.replace("/", "__")
     for d in ("runs", "pred", "epocas"):
         (out / d).mkdir(parents=True, exist_ok=True)
-    m.OUT = out  # las funciones de cada módulo escriben en m.OUT
+    m.OUT = out  # each module writes its output to m.OUT
     oraciones, _ = m.cargar("acter")
     for dom in DOMINIOS:
         train = [o for o in oraciones if dominio(o["doc_id"]) != dom]
@@ -145,7 +144,7 @@ def lodo_neuronal(modelo, semillas):
         for seed in semillas:
             rid = f"lodo_acter_{dom}_s{seed}"
             if (out / "runs" / f"{rid}.json").exists():
-                print(f"  {rid}: ya hecho"); continue
+                print(f"  {rid}: already done"); continue
             meta = {"exp": "lodo", "modelo": modelo, "dominio": dom, "seed": seed, "n_tipos_nuevos": len(nuevos)}
             if modelo == "bilstm":
                 t0 = time.time()
@@ -155,7 +154,7 @@ def lodo_neuronal(modelo, semillas):
                 fila = {**meta, "n_oraciones_train": len(tr), "n_oraciones_val": len(va), "n_oraciones_test": len(test),
                         **info, **met, "segundos": round(time.time() - t0, 1)}
                 (out / "runs" / f"{rid}.json").write_text(json.dumps(fila, ensure_ascii=False, default=float))
-                print(f"[{rid}] BiLSTM F1 término={met['f1_termino']:.3f}", flush=True)
+                print(f"[{rid}] BiLSTM term F1={met['f1_termino']:.3f}", flush=True)
             else:
                 m.ejecutar(rid, train, test, nuevos, seed, True, m.MAX_EPOCAS, meta, out)
 
@@ -179,7 +178,7 @@ def main():
     if args[0] == "preparar":
         hecho = [p for p in (DATOS / "acter_bio_tokens_terms_only.csv", DATOS / "acter_bio_tokens_terms_only.csv.gz") if p.exists()]
         if hecho and "--origen" not in args:
-            print(f"ACTER ya preparado: {hecho[0].name}")
+            print(f"ACTER already prepared: {hecho[0].name}")
         else:
             preparar(Path(args[args.index("--origen") + 1]) if "--origen" in args else ORIGEN)
     elif args[0] == "lodo":

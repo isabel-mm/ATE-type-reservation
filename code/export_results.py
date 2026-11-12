@@ -1,57 +1,51 @@
 """
-paso14_exportar.py
-──────────────────
-Reúne TODOS los resultados en CSV, en <carpeta>/resultados_csv/. No entrena
-nada: lee los JSON de cada ejecución, las curvas por época y las predicciones
-token a token, y recalcula las particiones (mismo sorteo que los modelos) para
-los análisis de errores. Se puede ejecutar en cualquier momento, también con
-los experimentos a medias: exporta lo que haya.
+export_results.py
+─────────────────
+Collects ALL results as CSV files in <folder>/resultados_csv/ (or $SALIDA_CSV). It trains
+nothing: it reads the JSON file of every run, the per-epoch curves and the token-level
+predictions, and redraws the partitions (same draw as the models) for the error analyses.
+It can be run at any time, also with the experiments half done: it exports what there is.
 
-Salidas (resultados_csv/):
+Output:
 
-  01_ejecuciones_todas.csv        una fila por ejecución y modelo (CRF, BiLSTM-CRF,
-                                  XLM-R, clasificadores; EN, ES y ACTER; reserva,
-                                  validación cruzada y LODO), con TODAS las métricas:
-                                  TP/FP/FN/TN, P/R/F1 por etiqueta (B-T, I-T, O),
-                                  término (B-T+I-T) frente a no término, macro y
-                                  ponderada, por unidad exacta y parcial, y las
-                                  mismas restringidas a tipos reservados (res_) y
-                                  vistos (vis_); época elegida, segundos, etc.
-  02_resumen_reserva.csv          media, desviación típica y n de cada métrica
-                                  por modelo, corpus y nivel de reserva
-  03_resumen_cv.csv               ídem, validación cruzada
-  04_resumen_lodo.csv             ídem, ACTER leave-one-domain-out, por dominio
-  05_pruebas_estadisticas.csv     comparación de cada par de modelos, partición a
-                                  partición: diferencia, IC 95 %, tamaño del efecto,
-                                  Wilcoxon y t pareada, con corrección de Holm
-  05b..05f                        intervalos de confianza, LODO, ablación y
-                                  bootstrap por oraciones (ver LEEME.txt)
-  06_curvas_epocas.csv            pérdida y métricas de validación por época
-  07_analisis_por_ejecucion.csv   por ejecución de reserva: recuperación de tokens
-                                  reservados con y sin palabras fuera de
-                                  vocabulario, por franja de frecuencia, resultado
-                                  por aparición (exacta, por defecto, por exceso,
-                                  solapamiento, omitida) para reservadas y vistas,
-                                  monoléxicos y poliléxicos, tipología de errores
-                                  (con y sin el tipo «corpus»)
-  08_resumen_analisis.csv         media, desviación típica y n de 07
-  09_apariciones_reservadas.csv.gz una fila por aparición de término reservado en
-                                  la prueba, por ejecución: forma esperada, forma
-                                  predicha, resultado, longitud, frecuencia, OOV
-  10_falsos_positivos.csv.gz      una fila por unidad propuesta que no solapa
-                                  ningún término
-  11_por_tipo_reservado.csv       por tipo reservado y ejecución: apariciones,
-                                  reconocidas enteras, recuperación por token
-  12_inventario_frecuencias.csv   frecuencia de cada tipo y franja; reparto de
-                                  tipos y apariciones por franja
-  13_epoca_y_tiempos.csv          época elegida, épocas entrenadas y minutos
-  previos/                        resultados ya obtenidos antes (ablación,
-                                  configuración de tres clases, sensibilidad,
-                                  convergencia del CRF) y datos de distribución
-                                  (Zipf, saturación)
-  LEEME.txt                       descripción de cada fichero y columna clave
+  01_ejecuciones_todas.csv        one row per run and model (CRF, BiLSTM-CRF, XLM-R, token
+                                  classifiers; EN, ES and ACTER; reservation, cross-validation
+                                  and LODO) with ALL metrics: TP/FP/FN/TN and P/R/F1 per label
+                                  (B-T, I-T, O), term (B-T+I-T) against non-term, macro and
+                                  weighted, exact and partial span matching, and the same
+                                  restricted to reserved (res_) and seen (vis_) types; chosen
+                                  epoch, running time, etc.
+  02_resumen_reserva.csv          mean, standard deviation and n of every metric by model,
+                                  corpus and reservation level
+  03_resumen_cv.csv               the same for cross-validation
+  04_resumen_lodo.csv             the same for ACTER leave-one-domain-out, by domain
+  05_pruebas_estadisticas.csv     every pair of models compared partition by partition:
+                                  difference, 95% CI, effect size, Wilcoxon and paired t-test,
+                                  with Holm's correction
+  05b..05f                        confidence intervals, LODO, ablation and sentence-level
+                                  bootstrap (see README.txt)
+  06_curvas_epocas.csv            loss and validation metrics per epoch
+  07_analisis_por_ejecucion.csv   per reservation run: recall of reserved tokens with and
+                                  without out-of-vocabulary words and by frequency band, outcome
+                                  of every occurrence (exact, under-extended, over-extended,
+                                  overlapping, missed) for reserved and seen terms, single- and
+                                  multi-word terms, error typology (with and without "corpus")
+  08_resumen_analisis.csv         mean, standard deviation and n of 07
+  09_apariciones_reservadas.csv.gz one row per occurrence of a reserved term in the test set,
+                                  per run: expected form, predicted form, outcome, length,
+                                  frequency, OOV
+  10_falsos_positivos.csv.gz      one row per proposed unit that overlaps no term
+  11_por_tipo_reservado.csv       per reserved type and run: occurrences, occurrences
+                                  recognised in full, token recall
+  12_inventario_frecuencias.csv   frequency and frequency band of every type; types and
+                                  occurrences per band
+  13_epoca_y_tiempos.csv          chosen epoch, trained epochs and minutes
+  previos/                        earlier CRF results (ablation, separate entity labels,
+                                  sensitivity, convergence) and distribution data (Zipf,
+                                  saturation)
+  README.txt                      what each file and key column contains
 
-Uso:  python paso14_exportar.py
+Usage:  python export_results.py
 """
 from __future__ import annotations
 
@@ -71,7 +65,7 @@ import pandas as pd
 warnings.filterwarnings("ignore")
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
-import paso3_bilstm as B  # noqa: E402  (cargar, particion_reserva, separar_validacion)
+import train_bilstm_crf as B  # noqa: E402  (cargar, particion_reserva, separar_validacion)
 
 RAIZ = HERE.parent
 RES = Path(os.environ.get("RESULTADOS", RAIZ / "resultados"))
@@ -91,7 +85,7 @@ def banda(n):
     return BANDAS[-1][0]
 
 
-# ─────────────────────────── 1. ejecuciones ───────────────────────────
+# ─────────────────────────── 1. runs ───────────────────────────
 
 def leer_runs(carpeta: Path, modelo: str, extra=None):
     filas = []
@@ -132,7 +126,7 @@ def ejecuciones():
     primero = ["modelo", "exp", "lang", "pct", "seed", "fold", "dominio", "id_ejecucion"]
     df = df[[c for c in primero if c in df] + [c for c in df.columns if c not in primero]]
     df.to_csv(OUT / "01_ejecuciones_todas.csv", index=False)
-    print(f"  01: {len(df)} ejecuciones")
+    print(f"  01: {len(df)} runs")
     return df
 
 
@@ -149,7 +143,7 @@ def resumenes(df):
         r = g.groupby(claves)[num].agg(["mean", "std", "count"])
         r.columns = [f"{a}_{b}" for a, b in r.columns]
         r = r.loc[:, [c for c in r.columns if not r[c].isna().all()]]
-        if exp == "lodo":  # media de los cuatro dominios
+        if exp == "lodo":  # mean of the four domains
             m = g.groupby(["modelo", "dominio"])[num].mean().groupby("modelo").mean()
             m.columns = [f"{c}_mean" for c in m.columns]
             m["dominio"] = "MEDIA"
@@ -157,7 +151,7 @@ def resumenes(df):
         else:
             r = r.reset_index()
         r.to_csv(OUT / nombre, index=False)
-        print(f"  {nombre[:2]}: {len(r)} filas")
+        print(f"  {nombre[:2]}: {len(r)} rows")
 
 
 def holm(p):
@@ -173,7 +167,7 @@ def holm(p):
 
 
 def _par(x, y):
-    """Estadísticos de una comparación emparejada (y - x)."""
+    """Statistics of a paired comparison (y - x)."""
     from scipy.stats import t as tdist, ttest_rel, wilcoxon
     d = (y - x)
     n = len(d)
@@ -191,7 +185,7 @@ def _par(x, y):
         out["p_wilcoxon"] = wilcoxon(d).pvalue if np.any(d != 0) and n > 1 else np.nan
     except ValueError:
         out["p_wilcoxon"] = np.nan
-    # tamaño del efecto no paramétrico: correlación biserial de rangos emparejada
+    # non-parametric effect size: paired rank-biserial correlation
     nz = d[d != 0]
     if len(nz):
         from scipy.stats import rankdata
@@ -214,8 +208,9 @@ def _holm_por(r, claves, cols=("p_wilcoxon", "p_t_pareada")):
 
 
 def pruebas(df):
-    """Comparación de cada par de modelos, partición a partición (reserva) o pliegue a pliegue (CV).
-    Holm: por par de modelos y métrica, sobre las 8 comparaciones lengua-nivel (EN+ES) o los 4 niveles (ACTER)."""
+    """Compares every pair of models partition by partition (reservation) or fold by fold (CV).
+    Holm's correction per pair of models and metric, over the 8 language-level comparisons (EN+ES)
+    or the 4 levels (ACTER)."""
     filas = []
     for exp, clave_rep, niveles in (("reserva", "seed", NIVELES), ("cv", "fold", [None])):
         g = df[(df.exp == exp) & df[clave_rep].notna()] if clave_rep in df else pd.DataFrame()
@@ -242,11 +237,11 @@ def pruebas(df):
     r["grupo_holm"] = np.where(r.lang == "acter", "acter", "en+es")
     r = _holm_por(r, ["protocolo", "modelo_a", "modelo_b", "metrica", "grupo_holm"])
     r.to_csv(OUT / "05_pruebas_estadisticas.csv", index=False)
-    print(f"  05: {len(r)} comparaciones")
+    print(f"  05: {len(r)} comparisons")
 
 
 def intervalos(df):
-    """Media, desviación típica, error típico e IC del 95 % (t de Student) de las métricas principales."""
+    """Mean, standard deviation, standard error and 95% CI (Student's t) of the main metrics."""
     from scipy.stats import t as tdist
     filas = []
     for (modelo, exp, lang, pct), g in df.groupby(["modelo", "exp", "lang", df["pct"].fillna(-1)], dropna=False):
@@ -265,12 +260,12 @@ def intervalos(df):
                           "ic95_sup": v.mean() + q * se if n > 1 else np.nan, "min": v.min(), "max": v.max()})
     if filas:
         pd.DataFrame(filas).to_csv(OUT / "05b_intervalos_confianza.csv", index=False)
-        print(f"  05b: {len(filas)} intervalos")
+        print(f"  05b: {len(filas)} intervals")
 
 
 def pruebas_lodo(df):
-    """ACTER LODO: modelos neuronales (5 semillas por dominio) frente al CRF (determinista):
-    t de una muestra contra el valor del CRF en cada dominio, y comparación de las medias por dominio."""
+    """ACTER LODO: neural models (5 seeds per domain) against the CRF (deterministic): one-sample
+    t-test against the CRF score in each domain, and comparison of the domain means."""
     from scipy.stats import ttest_1samp
     g = df[df.exp == "lodo"]
     if g.empty or "CRF" not in set(g.modelo):
@@ -296,13 +291,13 @@ def pruebas_lodo(df):
         return
     r = _holm_por(r, ["modelo", "metrica"], cols=("p_t_una_muestra",))
     r.to_csv(OUT / "05c_pruebas_lodo.csv", index=False)
-    print(f"  05c: {len(r)} comparaciones LODO")
+    print(f"  05c: {len(r)} LODO comparisons")
 
 
 def pruebas_ablacion():
-    """Ablación del CRF (resultados previos): para cada familia, lengua y nivel, t de una muestra y
-    Wilcoxon sobre las diez diferencias (ΔF1 de término y Δ recuperación de reservados), con Holm
-    sobre los 72 contrastes (9 familias x 2 lenguas x 4 niveles) de cada medida; y la versión con CV."""
+    """CRF ablation: for each family, language and level, one-sample t-test and Wilcoxon over the
+    ten differences (Δ term F1 and Δ reserved recall), with Holm's correction over the 72 tests
+    (9 families x 2 languages x 4 levels) of each measure; and the same under CV."""
     from scipy.stats import ttest_1samp, wilcoxon
     filas = []
     for fichero, clave in (("crf_ablacion_todas.csv", "pct"), ("crf_ablacv_todas.csv", None)):
@@ -334,7 +329,7 @@ def pruebas_ablacion():
         return
     r = _holm_por(r, ["protocolo", "medida"], cols=("p_t_una_muestra", "p_wilcoxon"))
     r.to_csv(OUT / "05d_pruebas_ablacion.csv", index=False)
-    print(f"  05d: {len(r)} contrastes de ablación")
+    print(f"  05d: {len(r)} ablation tests")
 
 
 def curvas():
@@ -349,10 +344,10 @@ def curvas():
             trozos.append(d)
     if trozos:
         pd.concat(trozos, ignore_index=True).to_csv(OUT / "06_curvas_epocas.csv", index=False)
-        print(f"  06: {len(trozos)} curvas")
+        print(f"  06: {len(trozos)} curves")
 
 
-# ─────────────────────────── 2. análisis de errores ───────────────────────────
+# ─────────────────────────── 2. error analysis ───────────────────────────
 
 def spans(labels):
     out, ini = [], None
@@ -367,7 +362,7 @@ def spans(labels):
 
 
 def archivos_pred(lang, pct, seed):
-    """Predicciones de cada modelo para una partición de reserva."""
+    """Predictions of each model for a reservation partition."""
     cand = {"CRF": RES / "crf" / "pred" / f"reserva_{lang}_p{pct}_s{seed}_todas.csv.gz",
             "BiLSTM-CRF": RES / "bilstm" / "pred" / f"reserva_{lang}_p{pct}_s{seed}.csv.gz"}
     for sub in (RES / "transformer").glob("*") if (RES / "transformer").exists() else []:
@@ -379,8 +374,8 @@ B_BOOT = int(os.environ.get("BOOTSTRAP", 1000))
 
 
 def bootstrap_particion(conteos, lang, pct, seed):
-    """Bootstrap pareado por oraciones (mismas oraciones remuestreadas para los dos modelos):
-    diferencia de F1 de término y de recuperación de reservados, IC del 95 % y p bilateral."""
+    """Paired sentence-level bootstrap (the same resampled sentences for both models):
+    difference in term F1 and in reserved recall, 95% CI and two-sided p."""
     filas = []
     modelos = sorted(conteos)
     if len(modelos) < 2:
@@ -416,8 +411,8 @@ def bootstrap_particion(conteos, lang, pct, seed):
 
 
 def spearman_frecuencia(tipos):
-    """Correlación de Spearman entre la frecuencia de cada tipo reservado y su recuperación
-    (media de las particiones en que aparece), por modelo, corpus y nivel."""
+    """Spearman correlation between the frequency of each reserved type and its recall
+    (mean over the partitions where it occurs), by model, corpus and level."""
     from scipy.stats import spearmanr
     if tipos.empty:
         return
@@ -445,24 +440,24 @@ def analisis_errores():
             continue
         oraciones, entradas = B.cargar(lang)
         por_clave = {(str(o["doc_id"]), str(o["sentence_id"])): o for o in oraciones}
-        # frecuencia de cada tipo = número de apariciones anotadas en todo el corpus
+        # type frequency = number of annotated occurrences in the whole corpus
         freq = Counter()
         for o in oraciones:
             for a, b in spans(o["labels"]):
                 if o["entradas"][a]:
                     freq[o["entradas"][a]] += 1
         tot = sum(freq.values())
-        # todas las formas anotadas en el corpus (para la precisión por tipo y los anidados válidos)
+        # all annotated forms in the corpus (for type precision and valid nested terms)
         formas_corpus = {" ".join(o["tokens"][a:b]) for o in oraciones for a, b in spans(o["labels"])}
         for e, n in freq.items():
             filas_inv.append({"lang": lang, "entrada": e, "apariciones": n, "franja": banda(n)})
-        print(f"  {lang}: {len(tareas)} particiones con predicciones")
+        print(f"  {lang}: {len(tareas)} partitions with predictions")
         for pct, seed in tareas:
             train, test, reservadas = B.particion_reserva(oraciones, entradas, pct, seed)
             tr, _ = B.separar_validacion(train, seed, por_entradas=True)
             vocab = {t for o in tr for t in o["tokens"]}
-            conteos = {}   # modelo -> matriz (oraciones x [tp, fp, fn, tokens_res, aciertos_res])
-            # año de publicación del documento (en el identificador: "EN::2023_...") para el control de contaminación
+            conteos = {}   # model -> matrix (sentences x [tp, fp, fn, reserved tokens, reserved hits])
+            # publication year of the document (in its identifier, "EN::2023_...") for the contamination check
             anyo = np.array([int(m.group(1)) if (m := re.search(r"::(\d{4})_", str(o["doc_id"]))) else 0 for o in test])
             tipos_test = {o["entradas"][a] for o in test for a, b in spans(o["labels"]) if o["entradas"][a]}
             formas_test = {" ".join(o["tokens"][a:b]) for o in test for a, b in spans(o["labels"])}
@@ -475,7 +470,7 @@ def analisis_errores():
                     pmap[(d, s)][int(i)] = p
                 c = Counter()
                 tipos_ok, formas_pred = set(), set()
-                tok = Counter()          # recuperación por token reservado: (grupo, acierto)
+                tok = Counter()          # recall per reserved token: (group, hit)
                 por_tipo = defaultdict(lambda: Counter())
                 for k_or, o in enumerate(test):
                     clave = (str(o["doc_id"]), str(o["sentence_id"]))
@@ -513,7 +508,7 @@ def analisis_errores():
                         if resultado == "exacta" and e:
                             tipos_ok.add(e)
                         if resultado == "por_defecto" and all(" ".join(o["tokens"][x:y]) in formas_corpus for x, y in solapes):
-                            c[f"{grupo}_por_defecto_termino_anotado"] += 1   # p. ej. "corpus" en "corpus linguistics"
+                            c[f"{grupo}_por_defecto_termino_anotado"] += 1   # e.g. "corpus" in "corpus linguistics"
                         c[f"{grupo}_{forma}_n"] += 1
                         c[f"{grupo}_{forma}_exacta"] += resultado == "exacta"
                         if not res:
@@ -562,7 +557,7 @@ def analisis_errores():
                     n = tok[(g2, "n")]
                     fila[f"res_tokens_{g2}"] = n
                     fila[f"res_recall_token_{g2}"] = tok[(g2, "ok")] / n if n else np.nan
-                # ── por tipo (como TermEval): términos distintos encontrados y formas propuestas correctas
+                # ── by type (as in TermEval): distinct terms found and correct proposed forms
                 tipos_res = tipos_test & reservadas
                 fila["tipo_n_gold"] = len(tipos_test)
                 fila["tipo_recall"] = len(tipos_ok & tipos_test) / len(tipos_test) if tipos_test else np.nan
@@ -577,7 +572,7 @@ def analisis_errores():
                 for grupo in ("res", "vis"):
                     n = c[f"{grupo}_por_defecto"]
                     fila[f"{grupo}_por_defecto_prop_termino_anotado"] = c[f"{grupo}_por_defecto_termino_anotado"] / n if n else np.nan
-                # ── contaminación: textos hasta 2019 frente a textos desde 2020 (posteriores a XLM-R)
+                # ── contamination: texts up to 2019 against texts from 2020 onwards (after XLM-R)
                 for periodo, mascara in (("hasta2019", (anyo > 0) & (anyo < 2020)), ("desde2020", anyo >= 2020)):
                     cs = cuentas[mascara].sum(0)
                     fila[f"f1_termino_{periodo}"] = 2 * cs[0] / (2 * cs[0] + cs[1] + cs[2]) if (2 * cs[0] + cs[1] + cs[2]) else np.nan
@@ -603,7 +598,7 @@ def analisis_errores():
                                        "recall_token": cc["tokens_ok"] / cc["tokens"]})
             filas_boot.extend(bootstrap_particion(conteos, lang, pct, seed))
     if not filas_run:
-        print("  (sin predicciones de reserva todavía)")
+        print("  (no reservation predictions yet)")
         return
     df = pd.DataFrame(filas_run)
     df.to_csv(OUT / "07_analisis_por_ejecucion.csv", index=False)
@@ -617,7 +612,7 @@ def analisis_errores():
     if filas_boot:
         b = pd.DataFrame(filas_boot)
         b.to_csv(OUT / "05e_bootstrap_por_particion.csv", index=False)
-        # resumen: en cuántas particiones la diferencia es significativa en cada sentido
+        # summary: in how many partitions the difference is significant in each direction
         res = b.groupby(["modelo_a", "modelo_b", "metrica", "lang", "pct"]).agg(
             particiones=("seed", "count"), diferencia_media=("diferencia_b_menos_a", "mean"),
             signif_b_mejor=("p_bootstrap", lambda v: int(((v < 0.05) & (b.loc[v.index, "diferencia_b_menos_a"] > 0)).sum())),
@@ -630,7 +625,7 @@ def analisis_errores():
     resumen["prop_apariciones"] = resumen["apariciones"] / resumen.groupby("lang")["apariciones"].transform("sum")
     inv.to_csv(OUT / "12_inventario_frecuencias.csv", index=False)
     resumen.reset_index().to_csv(OUT / "12b_inventario_por_franja.csv", index=False)
-    print(f"  07-12: {len(df)} análisis, {len(filas_ap)} apariciones reservadas, {len(filas_fp)} falsos positivos")
+    print(f"  07-12: {len(df)} analyses, {len(filas_ap)} reserved occurrences, {len(filas_fp)} false positives")
 
 
 def tiempos(df):
@@ -648,55 +643,58 @@ def previos():
         if dest.exists():
             shutil.rmtree(dest)
         shutil.copytree(PREVIOS, dest)
-        print(f"  previos: {sum(1 for _ in dest.rglob('*.csv'))} ficheros")
+        print(f"  previos: {sum(1 for _ in dest.rglob('*.csv'))} files")
 
 
-LEEME = """Resultados del artículo (todos en CSV; .csv.gz = CSV comprimido)
+LEEME = """Results of the paper (all in CSV; .csv.gz = compressed CSV). Column names are in Spanish;
+this file explains them.
 
-Claves comunes: modelo (CRF, BiLSTM-CRF, XLM-R o clasificador), exp (reserva, cv, lodo),
-lang (en, es, acter), pct (porcentaje de tipos reservados), seed (partición 0-9), fold
-(pliegue de la validación cruzada), dominio (ACTER LODO).
+Common keys: modelo (CRF, BiLSTM-CRF, XLM-R or a token classifier), exp (reserva = type
+reservation, cv = cross-validation, lodo = leave-one-domain-out), lang (en, es, acter), pct
+(percentage of reserved types), seed (partition 0-9), fold (cross-validation fold), dominio
+(ACTER domain, LODO).
 
-Prefijos de métricas: tp_/fp_/fn_/tn_ recuentos; p_/r_/f1_ precisión, recuperación, F1.
-Sufijos: _bt (B-T), _it (I-T), _o (O), _termino (B-T+I-T frente a O; métrica principal),
-_macro, _global (ponderada), _span_exacto / _span_parcial (por unidad completa).
-res_*: las mismas métricas solo sobre los tokens de tipos reservados (nunca vistos);
-vis_*: sobre el resto. En LODO, res_ = tipos ausentes de los dominios de entrenamiento.
+Metric prefixes: tp_/fp_/fn_/tn_ counts; p_/r_/f1_ precision, recall, F1.
+Suffixes: _bt (B-T), _it (I-T), _o (O), _termino (B-T+I-T against O; the main metric, term F1),
+_macro, _global (weighted), _span_exacto / _span_parcial (exact / partial span matching).
+res_*: the same metrics on the tokens of reserved (never seen) types only; vis_*: on the rest.
+In LODO, res_ = types absent from the training domains.
 
-07/08 análisis por ejecución: res_/vis_prop_exacta|por_defecto|por_exceso|solapamiento|omitida
-(resultado de cada aparición), *_mono/_poli_prop_exacta (delimitación exacta de monoléxicos y
-poliléxicos), res_recall_token_sin_oov|con_oov (palabras fuera del vocabulario de
-entrenamiento), res_recall_token_<franja> (frecuencia del tipo), err_* (tipología de errores
-sobre reservados + falsos positivos), errsc_* (ídem sin el tipo «corpus», como en la tesis).
-OOV: alguna palabra del término no aparece en el entrenamiento (sin el conjunto de validación).
-Frecuencia del tipo: apariciones anotadas en todo el corpus.
+07/08, analysis per run: res_/vis_prop_exacta|por_defecto|por_exceso|solapamiento|omitida
+(outcome of each occurrence: exact, under-extended, over-extended, overlapping, missed),
+*_mono/_poli_prop_exacta (exact delimitation of single- and multi-word terms),
+res_recall_token_sin_oov|con_oov (without / with words absent from training),
+res_recall_token_<band> (frequency band of the type), err_* (error typology on reserved terms
+plus false positives), errsc_* (the same without the type "corpus").
+OOV: some word of the term does not occur in training (validation set excluded).
+Type frequency: annotated occurrences in the whole corpus.
 
-Pruebas estadísticas (diferencia siempre = modelo_b - modelo_a):
-05  pares de modelos, partición a partición (reserva, 10 particiones) o pliegue a pliegue (CV):
-    diferencia media, IC 95 % (t), d de Cohen pareada, correlación biserial de rangos, victorias,
-    Wilcoxon y t pareada; Holm por protocolo, par de modelos y métrica sobre las 8 comparaciones
-    lengua-nivel (EN+ES) o los 4 niveles (ACTER).
-05b media, desviación típica, error típico e IC 95 % de cada métrica por modelo, corpus y nivel.
-05c ACTER LODO: cada modelo neuronal (5 semillas) frente al CRF (determinista) por dominio,
-    t de una muestra con Holm.
-05d ablación del CRF: t de una muestra y Wilcoxon sobre las 10 diferencias de cada familia,
-    lengua y nivel (ΔF1 de término y Δ recuperación de reservados), Holm sobre los 72 contrastes.
-05e/05f bootstrap pareado por oraciones dentro de cada partición (1000 remuestras): diferencia de
-    F1 de término y de recuperación de reservados, IC 95 % y p; 05f cuenta en cuántas particiones
-    es significativa en cada sentido.
-11b Spearman entre la frecuencia de cada tipo reservado y su recuperación.
-07 además: tipo_* = evaluación por tipo, como en TermEval (tipo_recall: términos distintos de la
-prueba con al menos una aparición reconocida entera; tipo_precision_test/_corpus: formas propuestas
-distintas que son formas anotadas en la prueba / en todo el corpus); *_por_defecto_prop_termino_anotado:
-de las delimitaciones por defecto, cuántas proponen a su vez un término anotado (p. ej. "corpus" en
-"corpus linguistics"), para valorar el efecto de anotar solo la cadena más larga; *_hasta2019 /
-*_desde2020: F1 y recuperación de reservados según el año del documento (XLM-R no pudo ver en su
-preentrenamiento los textos publicados desde 2020).
+Statistical tests (the difference is always modelo_b - modelo_a):
+05  pairs of models, partition by partition (reservation, 10 partitions) or fold by fold (CV):
+    mean difference, 95% CI (t), paired Cohen's d, rank-biserial correlation, wins, Wilcoxon
+    and paired t-test; Holm's correction per protocol, pair of models and metric over the 8
+    language-level comparisons (EN+ES) or the 4 levels (ACTER).
+05b mean, standard deviation, standard error and 95% CI of each metric by model, corpus and level.
+05c ACTER LODO: each neural model (5 seeds) against the CRF (deterministic) per domain,
+    one-sample t-test with Holm's correction.
+05d CRF ablation: one-sample t-test and Wilcoxon over the 10 differences of each family,
+    language and level (Δ term F1 and Δ reserved recall), Holm over the 72 tests.
+05e/05f paired sentence-level bootstrap within each partition (1000 resamples): difference in
+    term F1 and in reserved recall, 95% CI and p; 05f counts in how many partitions it is
+    significant in each direction.
+11b Spearman correlation between the frequency of each reserved type and its recall.
+07 also: tipo_* = type-level evaluation, as in TermEval (tipo_recall: distinct test terms with
+at least one occurrence recognised in full; tipo_precision_test/_corpus: distinct proposed forms
+that are annotated forms in the test set / in the whole corpus); *_por_defecto_prop_termino_anotado:
+share of under-extensions that propose an annotated term themselves (e.g. "corpus" in "corpus
+linguistics"), to assess the effect of annotating only the longest sequence; *_hasta2019 /
+*_desde2020: F1 and reserved recall by the publication year of the document (XLM-R cannot have
+seen texts published from 2020 onwards during pretraining).
 """
 
 
 def main():
-    print(f"Exportando a {OUT}")
+    print(f"Exporting to {OUT}")
     df = ejecuciones()
     resumenes(df)
     if not df.empty:
@@ -708,8 +706,8 @@ def main():
     curvas()
     analisis_errores()
     previos()
-    (OUT / "LEEME.txt").write_text(LEEME, encoding="utf-8")
-    print("Exportación terminada.")
+    (OUT / "README.txt").write_text(LEEME, encoding="utf-8")
+    print("Export finished.")
 
 
 if __name__ == "__main__":

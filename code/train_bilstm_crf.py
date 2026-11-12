@@ -1,34 +1,31 @@
 """
-paso3_bilstm.py
+train_bilstm_crf.py
 ───────────────
-Modelo neuronal (BiLSTM-CRF) con la arquitectura de la tesis
-(bilstm_crf_deploy/bilstm_crf_span_completo.py): embeddings de palabra de
-128 dimensiones entrenados desde cero, BiLSTM de 256 unidades por dirección,
-capa CRF, Adam (lr 0,001), lotes de 16 oraciones, sobremuestreo ×4 de las
-oraciones con término y recorte de gradiente a 5,0.
+BiLSTM-CRF: 128-dimensional word embeddings learnt from scratch, a BiLSTM with
+256 units per direction and a CRF layer; Adam (learning rate 0.001), batches of
+16 sentences, sentences containing a term oversampled x4, gradient clipping at 5.0.
 
-Cambio de protocolo: la época ya no se elige mirando el conjunto de prueba ni
-se toma la última sin más. Dentro del entrenamiento se reserva un 10 % de las
-entradas de término (sus oraciones forman la validación, con términos que el
-modelo no ve al entrenar, igual que en la prueba); tras cada época se mide el
-F1 de término en validación, se guarda el mejor modelo y se para cuando lleva PACIENCIA épocas
-sin mejorar (máximo 50). El conjunto de prueba se evalúa una sola vez, con el
-mejor modelo según validación.
+The training epoch is chosen on a validation set, never on the test set: 10% of
+the term entries left in training are set aside, and their sentences form the
+validation set, so that it contains terms the model has not seen, as the test
+set does. After each epoch the term F1 on validation is measured, the best model
+is kept, and training stops after PACIENCIA epochs without improvement (at most
+50). The test set is evaluated once, with that model.
 
-Experimentos:
-  reserva   reserva de entradas 10/20/30/50 %, semillas de partición 0, 1, 2
-            (las mismas particiones que las tres primeras semillas del CRF)
-  cv        validación cruzada estándar de 5 pliegues (particiones aleatorias)
+Experiments:
+  reserva   type reservation at 10/20/30/50%, partition seeds given with --semillas
+            (the same partitions as the CRF)
+  cv        standard five-fold cross-validation (random partitions)
 
-Guarda en $RESULTADOS/bilstm/: runs/<id>.json (todas las métricas, también
-restringidas a entradas reservadas res_* y vistas vis_*), pred/<id>.csv.gz
-(predicciones token a token) y epocas/<id>.csv (pérdida y métricas de
-validación por época). Reanudable.
+Output in $RESULTADOS/bilstm/: runs/<id>.json (all metrics, also restricted to
+reserved entries, res_*, and to seen ones, vis_*), pred/<id>.csv.gz (token-level
+predictions) and epocas/<id>.csv (loss and validation metrics per epoch).
+Runs that already have a JSON file are skipped.
 
-Uso:  python paso3_bilstm.py reserva [--lang en] [--semillas 0,1,2] [--niveles 20,10,30,50]
-      python paso3_bilstm.py cv
-      python paso3_bilstm.py consolidar
-      python paso3_bilstm.py reserva --rapido      (prueba: 1 nivel, 2 épocas)
+Usage:  python train_bilstm_crf.py reserva [--lang en] [--semillas 0,1,2] [--niveles 20,10,30,50]
+        python train_bilstm_crf.py cv
+        python train_bilstm_crf.py consolidar
+        python train_bilstm_crf.py reserva --rapido      (quick check: one level, two epochs)
 """
 from __future__ import annotations
 
@@ -48,14 +45,14 @@ from torchcrf import CRF as TorchCRF
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
-from metricas import guardar_predicciones, metricas_completas  # noqa: E402
+from metrics import guardar_predicciones, metricas_completas  # noqa: E402
 
 DATOS = Path(os.environ.get("DATOS_GENERADOS", HERE.parent / "datos_generados"))
 OUT = Path(os.environ.get("RESULTADOS", HERE.parent / "resultados")) / "bilstm"
 for d in ("runs", "pred", "epocas"):
     (OUT / d).mkdir(parents=True, exist_ok=True)
 
-# Dispositivo: CUDA (Colab) > MPS (Mac) > CPU; DISPOSITIVO=cpu|mps|cuda lo fuerza.
+# Device: CUDA > MPS (Mac) > CPU; set DISPOSITIVO=cpu|mps|cuda to force one.
 DEVICE = torch.device(os.environ.get("DISPOSITIVO") or ("cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu"))
 OVERSAMPLE = 4
 BATCH = 16
@@ -76,15 +73,15 @@ class BiLSTMCRF(nn.Module):
         self.crf = TorchCRF(num_tags, batch_first=True)
 
     def forward(self, x, tags=None, mask=None):
-        # Las oraciones de un lote se rellenan hasta la más larga; se empaquetan para
-        # que la LSTM (sobre todo en la dirección derecha-izquierda) ignore el relleno.
+        # Sentences in a batch are padded to the longest one and packed, so that the
+        # LSTM (especially the right-to-left direction) ignores the padding.
         largos = mask.sum(1).cpu()
         emb = nn.utils.rnn.pack_padded_sequence(self.embedding(x), largos, batch_first=True, enforce_sorted=False)
         salida, _ = self.lstm(emb)
         salida, _ = nn.utils.rnn.pad_packed_sequence(salida, batch_first=True, total_length=x.size(1))
         emissions = self.fc(salida)
         if tags is not None:
-            # Pérdida media por oración (REDUCCION=sum recupera la suma de la versión anterior)
+            # Mean loss per sentence (REDUCCION=sum gives the summed loss instead)
             return -self.crf(emissions, tags, mask=mask, reduction=os.environ.get("REDUCCION", "mean"))
         return self.crf.decode(emissions, mask=mask)
 
@@ -92,7 +89,7 @@ class BiLSTMCRF(nn.Module):
 def cargar(lang):
     cols = ["doc_id", "sentence_id", "token_id", "token", "label_bio", "entrada"]
     ruta = DATOS / f"{lang}_bio_tokens_terms_only.csv"
-    if not ruta.exists() and Path(str(ruta) + ".gz").exists():  # datos comprimidos
+    if not ruta.exists() and Path(str(ruta) + ".gz").exists():  # compressed data
         ruta = Path(str(ruta) + ".gz")
     df = pd.read_csv(ruta, usecols=cols, low_memory=False)
     df = df.sort_values(["doc_id", "sentence_id", "token_id"]).reset_index(drop=True)
@@ -109,7 +106,7 @@ def cargar(lang):
 
 
 def particion_reserva(oraciones, entradas, pct, seed):
-    """Mismo sorteo que el CRF (crf_base.split_by_type_holdout): pd.Series.sample."""
+    """Same draw as the CRF (crf_base.split_by_type_holdout): pd.Series.sample."""
     n = max(1, int(len(entradas) * pct / 100))
     reservadas = set(pd.Series(entradas).sample(n=n, random_state=seed).values)
     train, test = [], []
@@ -119,13 +116,13 @@ def particion_reserva(oraciones, entradas, pct, seed):
 
 
 def codificar(oraciones, vocab):
-    """Cada oración completa como dos listas de enteros (tokens y etiquetas), sin recortar."""
+    """Each whole sentence as two lists of integers (tokens and labels), without truncation."""
     return [(np.array([vocab.get(t, 1) for t in o["tokens"]], dtype=np.int64),
              np.array([LABELS[l] for l in o["labels"]], dtype=np.int64)) for o in oraciones]
 
 
 def lote(datos, idx):
-    """Rellena un lote hasta la longitud de su oración más larga."""
+    """Pads a batch to the length of its longest sentence."""
     largo = max(len(datos[i][0]) for i in idx)
     X = np.zeros((len(idx), largo), dtype=np.int64)
     Y = np.zeros((len(idx), largo), dtype=np.int64)
@@ -147,7 +144,7 @@ def predecir(model, datos):
 
 
 def secuencias(oraciones, preds):
-    """Etiquetas gold y predichas por oración completa."""
+    """Gold and predicted labels for each whole sentence."""
     yt, yp = [], []
     for o, p in zip(oraciones, preds):
         yt.append(o["labels"])
@@ -190,7 +187,7 @@ def entrenar(train, val, seed, rid, max_epocas):
         log.append({"epoca": epoca, "perdida_media": float(np.mean(perdidas)),
                     **{f"val_{k}": v for k, v in mv.items()}, "segundos": round(time.time() - t0, 1)})
         pd.DataFrame(log).to_csv(OUT / "epocas" / f"{rid}.csv", index=False)
-        print(f"    época {epoca}: pérdida={np.mean(perdidas):.2f}  val F1 término={mv['f1_termino']:.3f}  "
+        print(f"    epoch {epoca}: loss={np.mean(perdidas):.2f}  val term F1={mv['f1_termino']:.3f}  "
               f"({time.time()-t0:.0f}s)", flush=True)
         if mv["f1_termino"] > mejor_f1:
             mejor_f1, mejor_epoca, sin_mejora = mv["f1_termino"], epoca, 0
@@ -204,12 +201,12 @@ def entrenar(train, val, seed, rid, max_epocas):
 
 
 def separar_validacion(train, seed, por_entradas):
-    """Validación para elegir la época.
-    · Reserva (por_entradas=True): se reserva a su vez un 10 % de las entradas de
-      término presentes en el entrenamiento; sus oraciones forman la validación.
-      Así la validación mide lo mismo que la prueba, el reconocimiento de términos
-      no vistos, y la parada no premia la memorización.
-    · Validación cruzada estándar: 10 % de oraciones al azar, como su prueba."""
+    """Validation set used to choose the epoch.
+    · Type reservation (por_entradas=True): 10% of the term entries in the training
+      set are reserved in turn, and their sentences form the validation set. It thus
+      measures the same thing as the test set, the recognition of unseen terms, and
+      early stopping does not reward memorisation.
+    · Standard cross-validation: 10% of the sentences at random, like its test set."""
     rng = np.random.RandomState(seed)
     if not por_entradas:
         idx = rng.permutation(len(train))
@@ -245,7 +242,7 @@ def run(lang, exp, pct=None, seed=0, fold=None, max_epocas=MAX_EPOCAS, datos=Non
     rid = f"reserva_{lang}_p{pct}_s{seed}" if exp == "reserva" else f"cv_{lang}_f{fold}"
     dest = OUT / "runs" / f"{rid}.json"
     if dest.exists():
-        print(f"  {rid}: ya hecho", flush=True)
+        print(f"  {rid}: already done", flush=True)
         return
     t0 = time.time()
     oraciones, entradas = datos
@@ -257,7 +254,7 @@ def run(lang, exp, pct=None, seed=0, fold=None, max_epocas=MAX_EPOCAS, datos=Non
         tr, te = list(StratifiedKFold(5, shuffle=True, random_state=42).split(np.zeros(len(y)), y))[fold - 1]
         train, test, reservadas = [oraciones[i] for i in tr], [oraciones[i] for i in te], None
     train, val = separar_validacion(train, seed, por_entradas=(exp == "reserva"))
-    print(f"\n[{rid}] train={len(train)} val={len(val)} test={len(test)} oraciones · {DEVICE}", flush=True)
+    print(f"\n[{rid}] train={len(train)} val={len(val)} test={len(test)} sentences · {DEVICE}", flush=True)
     model, vocab, info = entrenar(train, val, seed, rid, max_epocas)
     m = evaluar(model, vocab, test, reservadas, rid)
     fila = {"exp": exp, "lang": lang, "pct": pct, "seed": seed, "fold": fold,
@@ -265,21 +262,21 @@ def run(lang, exp, pct=None, seed=0, fold=None, max_epocas=MAX_EPOCAS, datos=Non
             "n_entradas_sorteables": len(entradas), "n_reservadas": len(reservadas) if reservadas else None,
             **info, **m, "segundos": round(time.time() - t0, 1)}
     dest.write_text(json.dumps(fila, ensure_ascii=False, default=float))
-    # Libera la memoria del modelo antes de la siguiente ejecución (en MPS se acumulaba)
+    # Free the model's memory before the next run (it builds up on MPS)
     import gc
     gc.collect()
     if DEVICE.type == "mps":
         torch.mps.empty_cache()
     elif DEVICE.type == "cuda":
         torch.cuda.empty_cache()
-    print(f"[{rid}] F1 término={m['f1_termino']:.3f} (época {info['epoca_elegida']}) · "
+    print(f"[{rid}] term F1={m['f1_termino']:.3f} (epoch {info['epoca_elegida']}) · "
           f"{(time.time()-t0)/60:.1f} min", flush=True)
 
 
 def consolidar():
     filas = [json.loads(p.read_text()) for p in sorted((OUT / "runs").glob("*.json"))]
     if not filas:
-        print("No hay resultados todavía.")
+        print("No results yet.")
         return
     df = pd.DataFrame(filas)
     for exp, g in df.groupby("exp"):
@@ -290,7 +287,7 @@ def consolidar():
         r = g.groupby(["lang", "pct"])[num].agg(["mean", "std", "count"])
         r.columns = [f"{a}_{b}" for a, b in r.columns]
         r.reset_index().to_csv(OUT / "bilstm_reserva_resumen.csv", index=False)
-    print(f"Consolidado: {len(df)} ejecuciones -> {OUT}")
+    print(f"Merged {len(df)} runs -> {OUT}")
 
 
 def main():
@@ -309,7 +306,7 @@ def main():
     niveles = [int(x) for x in args[args.index("--niveles") + 1].split(",")] if "--niveles" in args else NIVELES
     for lang in langs:
         datos = cargar(lang)
-        print(f"{lang}: {len(datos[0])} oraciones, {len(datos[1])} entradas de término sorteables", flush=True)
+        print(f"{lang}: {len(datos[0])} sentences, {len(datos[1])} term entries that can be reserved", flush=True)
         if exp == "reserva":
             for seed in (semillas[:1] if rapido else semillas):
                 for pct in ([20] if rapido else niveles):

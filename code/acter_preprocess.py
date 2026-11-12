@@ -1,17 +1,16 @@
 """
-Preprocesa ACTER EN (4 dominios, anotación IO sin entidades nombradas) al
-mismo formato de tokens que nuestro corpus, para validación externa del
-CRF (20 rasgos) y el BiLSTM-CRF.
+Converts ACTER EN (four domains, IO annotation without named entities) to the token
+format of our corpus, for the external validation.
 
-- Lee los TSV token\tIO, reconstruye oraciones (línea en blanco = separador)
-- Convierte IO -> BIO (I tras O o inicio = B-T; I tras I = I-T)
-- Procesa con spaCy en_core_web_lg SOBRE LOS TOKENS ORIGINALES (Doc pre-tokenizado,
-  sin re-tokenizar) para extraer los mismos rasgos lingüísticos que nuestro extractor
-- Las columnas estadísticas (freq_global, document_frequency, contextual_diversity,
-  tf_idf) se inicializan a 0: el pipeline sin-fuga las recalcula desde train
-- lemma_pos_*_prob se calculan sobre el propio ACTER (propiedad léxica, no de término)
+- Reads the token\tIO TSV files and rebuilds the sentences (a blank line separates them).
+- Converts IO to BIO (I after O or at the start = B-T; I after I = I-T).
+- Runs spaCy en_core_web_lg ON THE ORIGINAL TOKENS (pre-tokenised Doc, no
+  re-tokenisation) to obtain the same linguistic features as for our corpus.
+- The statistical columns (freq_global, document_frequency, contextual_diversity,
+  tf_idf) are set to 0: the models recompute them from the training partition.
+- lemma_pos_*_prob are computed on ACTER itself (a lexical property, not a term one).
 
-Salida: acter_en_bio_tokens.csv (con columna 'domain' para LODO)
+Output: acter_en_bio_tokens.csv (with a 'domain' column for LODO)
 """
 from pathlib import Path
 import pandas as pd
@@ -27,7 +26,7 @@ ANN_SUBPATH = "annotated/annotations/sequential_annotations/io_annotations/witho
 nlp = spacy.load("en_core_web_lg", disable=["ner"])
 
 def read_tsv_sentences(path: Path):
-    """Devuelve lista de oraciones; cada oración es lista de (token, io_label)."""
+    """Returns a list of sentences, each a list of (token, io_label)."""
     sents, cur = [], []
     for line in path.read_text(encoding="utf-8").splitlines():
         if not line.strip():
@@ -113,7 +112,7 @@ for domain in DOMAINS:
 
 df = pd.DataFrame(rows)
 
-# Probabilidades POS dominante por lema (propiedad léxica)
+# Part-of-speech probabilities per lemma (a lexical property)
 def pos_prob(lemma, pos):
     c = lemma_pos_counts.get(str(lemma).lower())
     if not c:
@@ -131,6 +130,6 @@ out = HERE / "acter_en_bio_tokens.csv"
 df.to_csv(out, index=False)
 
 terms = df[df.label_bio != "O"]
-print(f"\nTotal: {len(df):,} tokens | {df.doc_id.nunique()} docs | 4 dominios")
-print(f"Tokens término: {len(terms):,} ({len(terms)/len(df)*100:.1f}%) | tipos únicos: {terms.token_lower.nunique():,}")
-print(f"✅ Guardado: {out.name}", flush=True)
+print(f"\nTotal: {len(df):,} tokens | {df.doc_id.nunique()} docs | 4 domains")
+print(f"Term tokens: {len(terms):,} ({len(terms)/len(df)*100:.1f}%) | unique types: {terms.token_lower.nunique():,}")
+print(f"Saved: {out.name}", flush=True)

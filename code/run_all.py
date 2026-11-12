@@ -1,140 +1,85 @@
 """
-ejecutar_articulo.py
-────────────────────
-Todos los experimentos del artículo, en dos líneas que corren a la vez:
+run_all.py
+──────────
+Runs every experiment in the paper and then exports all results to CSV.
 
-  Línea CPU (procesador)                 Línea GPU (tarjeta gráfica)
-  C1  ACTER: preparar + CRF reserva/LODO   G1  XLM-R, reserva del 20 %, EN y ES
-  C2  Clasificadores por token (10 y 20 %, G2  BiLSTM-CRF, reserva del 20 % (semillas 3-9)
-      10 semillas, y validación cruzada)   G3  XLM-R, reserva del 10/30/50 %
-                                           G4  BiLSTM-CRF, reserva del 10/30/50 %
-                                           G5  XLM-R, validación cruzada
-                                           G6  ACTER: BiLSTM-CRF y XLM-R (reserva y LODO)
+The steps run one after another; each script skips the runs whose JSON file
+already exists, so the whole thing can be stopped and relaunched at any time.
+The CRF and the token classifiers only need a CPU; the BiLSTM-CRF and
+XLM-RoBERTa are much faster on a GPU.
 
-El CRF en EN/ES no se vuelve a entrenar: sus 90 ejecuciones (las de la tesis, con
-predicciones y tipos reservados) vienen ya en resultados/crf/.
+Usage:
+  python run_all.py              all experiments, then the CSV export
+  python run_all.py --quick      quick check of the pipeline (~15 min, numbers are meaningless)
+  python run_all.py export       only export the existing results to CSV
 
-Cuando terminan las dos, exporta TODO a resultados_csv/ (paso14_exportar.py).
-Reanudable: si se corta, se vuelve a lanzar y se salta lo ya hecho.
-
-Uso:
-  EJECUTAR.bat (doble clic, Windows)       instala, prueba y lo ejecuta todo
-  python ejecutar_articulo.py              todo (las dos líneas en paralelo) y exportación
-  python ejecutar_articulo.py --prueba     comprobación rápida (~10-15 min)
-  python ejecutar_articulo.py exportar     solo exportar lo que haya a resultados_csv/
-  python ejecutar_articulo.py cpu | gpu    solo una de las dos líneas
+Environment variables: DATOS_GENERADOS (token files, default ../datos_generados),
+RESULTADOS (raw results, default ../resultados), SALIDA_CSV (CSV export).
 """
 import os
 import subprocess
 import sys
-import threading
 import time
 from pathlib import Path
 
-RAIZ = Path(__file__).resolve().parent
-S = RAIZ
+HERE = Path(__file__).resolve().parent
 PY = sys.executable
-TODAS = "0,1,2,3,4,5,6,7,8,9"
-NUEVAS = "3,4,5,6,7,8,9"
+ALL_SEEDS = "0,1,2,3,4,5,6,7,8,9"
 
-CPU = [
-    ("C1", ["paso13_acter.py", "preparar"]),
-    ("C1", ["paso2_crf.py", "reserva", "--lang", "acter"]),
-    ("C1", ["paso13_acter.py", "lodo", "--modelos", "crf"]),
-    ("C2", ["paso6_clasificadores.py", "--niveles", "20,10", "--semillas", TODAS]),
+STEPS = [
+    # feature-based CRF: reservation, separate entity labels, ablation, random CV
+    ["train_crf.py", "todo", "--ablacion-completa", "--todos-niveles"],
+    ["train_crf.py", "ablacv"],
+    # token classifiers with the same features
+    ["train_token_classifiers.py", "--niveles", "10,20", "--semillas", ALL_SEEDS],
+    # BiLSTM-CRF (and its character-level variant)
+    ["train_bilstm_crf.py", "reserva", "--niveles", "10,20,30,50", "--semillas", ALL_SEEDS],
+    ["train_bilstm_crf.py", "cv"],
+    ["train_bilstm_crf_char.py", "reserva", "--niveles", "20", "--semillas", "0,1,2,3,4"],
+    # XLM-RoBERTa
+    ["train_xlmr.py", "reserva", "--niveles", "10,20,30,50", "--semillas", ALL_SEEDS],
+    ["train_xlmr.py", "cv"],
+    # ACTER: type reservation and leave-one-domain-out
+    ["acter_experiments.py", "preparar"],
+    ["train_crf.py", "reserva", "--lang", "acter"],
+    ["train_bilstm_crf.py", "reserva", "--lang", "acter", "--niveles", "20", "--semillas", ALL_SEEDS],
+    ["train_xlmr.py", "reserva", "--lang", "acter", "--niveles", "20", "--semillas", ALL_SEEDS],
+    ["acter_experiments.py", "lodo", "--modelos", "crf,bilstm,transformer"],
 ]
-GPU = [
-    ("G1", ["paso12_transformer.py", "reserva", "--niveles", "20", "--semillas", TODAS]),
-    ("G2", ["paso3_bilstm.py", "reserva", "--niveles", "20", "--semillas", NUEVAS]),
-    ("G3", ["paso12_transformer.py", "reserva", "--niveles", "10,30,50", "--semillas", TODAS]),
-    ("G4", ["paso3_bilstm.py", "reserva", "--niveles", "10,30,50", "--semillas", NUEVAS]),
-    ("G5", ["paso12_transformer.py", "cv"]),
-    ("G6", ["paso3_bilstm.py", "reserva", "--lang", "acter", "--semillas", TODAS]),
-    ("G6", ["paso12_transformer.py", "reserva", "--lang", "acter", "--semillas", TODAS]),
-    ("G6", ["paso13_acter.py", "lodo", "--modelos", "bilstm,transformer"]),
+QUICK = [
+    ["train_xlmr.py", "reserva", "--lang", "es", "--rapido"],
+    ["train_bilstm_crf.py", "reserva", "--lang", "es", "--rapido", "--epocas", "1"],
+    ["train_crf.py", "reserva", "--lang", "es", "--rapido"],
 ]
-PRUEBA = [("P", ["paso12_transformer.py", "reserva", "--lang", "es", "--rapido"]),
-          ("P", ["paso3_bilstm.py", "reserva", "--lang", "es", "--rapido", "--epocas", "1"]),
-          ("P", ["paso13_acter.py", "lodo", "--modelos", "crf"]),
-          ("P", ["paso14_exportar.py"])]
 
 
-def entorno(extra=None):
-    env = dict(os.environ)
-    env.setdefault("PYTHONIOENCODING", "utf-8")
-    env.setdefault("PYTHONUTF8", "1")  # en Windows, leer y escribir siempre en UTF-8
-    env.setdefault("MODELO", "xlm-roberta-base")
-    env.setdefault("PYTHONUNBUFFERED", "1")
-    env.update(extra or {})
-    return env
-
-
-def lanzar(paso, cmd, env, log=None):
-    linea = f"\n=== [{paso}] {' '.join(cmd)}  ({time.strftime('%d/%m %H:%M')})"
-    print(linea, flush=True)
+def run(cmd, env):
+    print(f"\n=== {' '.join(cmd)}  ({time.strftime('%d/%m %H:%M')})", flush=True)
     t0 = time.time()
-    if log is None:
-        # Pantalla y articulo.log a la vez
-        with open(RAIZ / "articulo.log", "a", encoding="utf-8") as f:
-            f.write(linea + "\n")
-            proc = subprocess.Popen([PY, str(S / cmd[0])] + cmd[1:], cwd=S, env=env, stdout=subprocess.PIPE,
-                                    stderr=subprocess.STDOUT, text=True, encoding="utf-8", errors="replace", bufsize=1)
-            for l in proc.stdout:
-                print(l, end="", flush=True)
-                f.write(l)
-                f.flush()
-            proc.wait()
-        r = proc
-    else:
-        with open(log, "a", encoding="utf-8") as f:
-            f.write(linea + "\n")
-            f.flush()
-            r = subprocess.run([PY, str(S / cmd[0])] + cmd[1:], cwd=S, env=env, stdout=f, stderr=subprocess.STDOUT)
-    fin = f"=== [{paso}] fin: {(time.time()-t0)/60:.0f} min, {'correcto' if r.returncode == 0 else 'ERROR (código %d)' % r.returncode}"
-    print(fin, flush=True)
-    with open(log or RAIZ / "articulo.log", "a", encoding="utf-8") as f:
-        f.write(fin + "\n")
-    return r.returncode
-
-
-def ejecutar_linea(pasos, env, log=None):
-    fallos = 0
-    for paso, cmd in pasos:
-        if lanzar(paso, cmd, env, log):
-            fallos += 1
-            print(f"    El paso {paso} ha fallado; sigo con el siguiente. Al relanzar se reintenta.", flush=True)
-    return fallos
+    code = subprocess.run([PY, str(HERE / cmd[0])] + cmd[1:], cwd=HERE, env=env).returncode
+    status = "ok" if code == 0 else f"FAILED (exit code {code})"
+    print(f"=== {cmd[0]}: {(time.time() - t0) / 60:.0f} min, {status}", flush=True)
+    return code
 
 
 def main():
     args = sys.argv[1:]
-    if "--prueba" in args:
-        env = entorno({"RESULTADOS": str(RAIZ / "resultados_prueba"), "SALIDA_CSV": str(RAIZ / "resultados_prueba" / "csv"),
-                       "EPOCAS_RAPIDO": "1"})
-        if ejecutar_linea(PRUEBA, env):
-            sys.exit("\nLa prueba ha fallado: revisa el mensaje de error de arriba y send it to the authors.")
-        print("\nPrueba correcta (las cifras de la prueba no significan nada). "
-              "Borra la carpeta resultados_prueba y lanza: python ejecutar_articulo.py")
+    env = dict(os.environ, PYTHONIOENCODING="utf-8", PYTHONUNBUFFERED="1")
+    env.setdefault("MODELO", "xlm-roberta-base")
+    if "export" in args:
+        run(["export_results.py"], env)
         return
-    env = entorno()
-    if "exportar" in args:
-        lanzar("EXP", ["paso14_exportar.py"], env)
+    if "--quick" in args:
+        quick = HERE.parent / "results_quick_check"
+        env.update(RESULTADOS=str(quick), SALIDA_CSV=str(quick / "csv"))
+        failed = sum(run(cmd, env) != 0 for cmd in QUICK)
+        print("\nQuick check failed: see the error above." if failed else
+              f"\nQuick check passed. Delete {quick.name}/ and run: python run_all.py")
         return
-    solo = "cpu" if "cpu" in args else "gpu" if "gpu" in args else None
-    hilo = None
-    if solo == "cpu":
-        ejecutar_linea(CPU, env)
-    elif solo is None:
-        print("La línea CPU corre en segundo plano; su salida va a log_cpu.txt", flush=True)
-        hilo = threading.Thread(target=ejecutar_linea, args=(CPU, env, RAIZ / "log_cpu.txt"))
-        hilo.start()
-    if solo in (None, "gpu"):
-        ejecutar_linea(GPU, env)
-    if hilo is not None:
-        print("\nLínea GPU terminada; esperando a que acabe la línea CPU (ver log_cpu.txt)...", flush=True)
-        hilo.join()
-    lanzar("EXP", ["paso14_exportar.py"], env)
-    print("\nTerminado. Return to the authors: resultados_csv/, resultados/, articulo.log y log_cpu.txt.")
+    failed = [cmd[0] for cmd in STEPS if run(cmd, env) != 0]
+    run(["export_results.py"], env)
+    if failed:
+        print("\nSome steps failed and can be relaunched (finished runs are skipped):", ", ".join(failed))
 
 
 if __name__ == "__main__":

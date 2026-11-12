@@ -1,12 +1,12 @@
 """
-analisis_char_oov.py
+char_oov_analysis.py
 ────────────────────
-BiLSTM-CRF+char frente a BiLSTM-CRF, CRF y XLM-R en la reserva del 20 % (semillas 0-4):
-recuperación por token de los términos reservados, separando las apariciones que
-contienen alguna palabra ausente del entrenamiento (OOV, misma definición que
-paso14_exportar.py) de las que solo tienen palabras conocidas.
+BiLSTM-CRF+char compared with the BiLSTM-CRF, the CRF and XLM-R at 20% reservation
+(seeds 0-4): token recall of reserved terms, separating the occurrences that contain a
+word absent from training (OOV, as defined in export_results.py) from those whose words
+are all known.
 
-Uso:  python analisis_char_oov.py CARPETA_COMBINADOS
+Usage:  python char_oov_analysis.py RESULTS_FOLDER
 """
 import os
 import sys
@@ -18,7 +18,7 @@ import pandas as pd
 
 os.environ.setdefault("DATOS_GENERADOS", str(Path(__file__).resolve().parent.parent / "datos_generados"))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-import paso3_bilstm as B  # noqa: E402
+import train_bilstm_crf as B  # noqa: E402
 
 RES = Path(sys.argv[1])
 MODELOS = {"CRF": RES / "crf" / "pred", "BiLSTM-CRF": RES / "bilstm" / "pred",
@@ -26,7 +26,7 @@ MODELOS = {"CRF": RES / "crf" / "pred", "BiLSTM-CRF": RES / "bilstm" / "pred",
            "XLM-R": RES / "transformer" / "xlm-roberta-base" / "pred"}
 
 
-def spans(labels):   # idéntica a paso14_exportar.spans
+def spans(labels):   # same as export_results.spans
     out, ini = [], None
     for i, l in enumerate(list(labels) + ["O"]):
         if l == "B-T" or l == "O" or (l == "I-T" and ini is None):
@@ -48,7 +48,7 @@ for lang in ("en", "es"):
         for modelo, carpeta in MODELOS.items():
             f = carpeta / f"reserva_{lang}_p20_s{seed}.csv.gz"
             if not f.exists():
-                f = carpeta / f"reserva_{lang}_p20_s{seed}_todas.csv.gz"   # CRF con todos los rasgos
+                f = carpeta / f"reserva_{lang}_p20_s{seed}_todas.csv.gz"   # CRF with all features
             if not f.exists():
                 continue
             pred = pd.read_csv(f, usecols=["doc_id", "sentence_id", "i", "pred"], keep_default_na=False,
@@ -75,4 +75,4 @@ df = pd.DataFrame(filas)
 salida = Path(__file__).resolve().parent.parent / "results" / "17_bilstm_char_oov.csv"
 df.to_csv(salida, index=False)
 print(df.groupby(["lang", "modelo"])[["recall_con_oov", "recall_sin_oov"]].agg(["mean", "count"]).round(3))
-print("Guardado en", salida)
+print("Saved to", salida)

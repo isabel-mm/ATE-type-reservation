@@ -1,30 +1,29 @@
 """
-paso1_generar_bio.py
+build_bio_annotation.py
 ────────────────────
-Genera los ficheros BIO a nivel de token de los dos subcorpus:
+Builds the token-level BIO files of the two subcorpora:
 
-  1. repara los artefactos del PDF (clean(), el mismo método que the glossary);
-  2. analiza el texto con spaCy (por defecto los modelos transformer que cita
-     la tesis: en_core_web_trf / es_dep_news_trf);
-  3. proyecta sobre el texto todas las formas de las 261 entradas de the glossary
-     (flexión, variantes, siglas, préstamos), sin solapamientos;
-  4. calcula para cada token las mismas columnas de rasgos que el fichero BIO
-     anterior (tesis/bio_token_ml.py), de modo que los scripts del CRF y del
-     BiLSTM-CRF funcionan sin cambios.
+  1. repairs the PDF conversion artefacts (clean(), as in the glossary);
+  2. parses the text with spaCy (by default the transformer pipelines
+     en_core_web_trf / es_dep_news_trf);
+  3. marks in the text every form of the 261 glossary entries (inflection,
+     variants, acronyms, loanwords), without overlaps;
+  4. computes for every token the feature columns used by the CRF and the
+     BiLSTM-CRF scripts.
 
-Salidas (en $DATOS_GENERADOS, por defecto ../datos_generados):
-  {lang}_bio_tokens.csv             anotación completa: B-T/I-T (términos),
-                                    B-E/I-E (entidades) y O
-  {lang}_bio_tokens_terms_only.csv  solo términos: las entidades pasan a O
-  {lang}_resumen_anotacion.csv      apariciones por entrada (comprobación)
+Output (in $DATOS_GENERADOS, ../datos_generados by default):
+  {lang}_bio_tokens.csv             full annotation: B-T/I-T (terms),
+                                    B-E/I-E (entities) and O
+  {lang}_bio_tokens_terms_only.csv  terms only: entities become O
+  {lang}_resumen_anotacion.csv      occurrences per entry (for checking)
 
-Columnas añadidas respecto al BIO anterior:
-  entrada  slug de la entrada de the glossary del span (unidad de la reserva de tipos)
-  clase    T (término) / E (entidad) / O
+Columns specific to this annotation:
+  entrada  slug of the glossary entry of the span (the unit of type reservation)
+  clase    T (term) / E (entity) / O
 
-Uso:  python paso1_generar_bio.py en
-      python paso1_generar_bio.py es
-      SPACY_EN=en_core_web_sm python paso1_generar_bio.py en --docs 3   (prueba rápida)
+Usage:  python build_bio_annotation.py en
+        python build_bio_annotation.py es
+        SPACY_EN=en_core_web_sm python build_bio_annotation.py en --docs 3   (quick check)
 """
 from __future__ import annotations
 
@@ -56,8 +55,8 @@ CHUNK_CHARS = 50_000
 
 
 def normalize(text: str, lang: str) -> str:
-    """Igual que en el BIO anterior: minúsculas y, en español, sin tildes
-    (solo para token_lower y lemma; la columna token conserva las tildes)."""
+    """Lowercased and, in Spanish, without accents (only for token_lower and lemma;
+    the token column keeps them)."""
     text = text.lower()
     if lang == "es":
         text = unicodedata.normalize("NFD", text).encode("ascii", "ignore").decode("ascii")
@@ -65,7 +64,7 @@ def normalize(text: str, lang: str) -> str:
 
 
 def chunks(text: str, size: int = CHUNK_CHARS):
-    """Trocea en fragmentos de ~size caracteres cortando tras un punto; devuelve (inicio, fin)."""
+    """Splits the text into pieces of about `size` characters, cutting after a full stop; returns (start, end)."""
     start = 0
     while start < len(text):
         end = min(start + size, len(text))
@@ -85,7 +84,7 @@ def juilland_dispersion(freqs):
 
 
 def label_tokens(doc, offset, spans):
-    """Asigna a cada token del fragmento su etiqueta BIO y la entrada de the glossary."""
+    """Gives every token of the piece its BIO label and glossary entry."""
     labels = ["O"] * len(doc)
     entrada = [""] * len(doc)
     for s, e, slug, tipo in spans:
@@ -106,7 +105,7 @@ def process_language(lang: str, max_docs: int | None = None):
     gpu = False
     try:
         import torch
-        if torch.cuda.is_available():          # solo GPU NVIDIA (Colab); en el Mac, CPU
+        if torch.cuda.is_available():          # NVIDIA GPU only; otherwise CPU
             gpu = spacy.require_gpu()
     except ImportError:
         pass
@@ -117,8 +116,8 @@ def process_language(lang: str, max_docs: int | None = None):
     jobs, tipo, case_sensitive = load_jobs(DATOS / "glossary")
     matcher = Matcher(jobs, tipo, case_sensitive, lang)
     if matcher.conflictos:
-        print(f"[{lang}] aviso: {len(matcher.conflictos)} cadenas compartidas por dos entradas "
-              f"(se queda la primera): {matcher.conflictos[:5]}", flush=True)
+        print(f"[{lang}] warning: {len(matcher.conflictos)} strings shared by two entries "
+              f"(the first one is kept): {matcher.conflictos[:5]}", flush=True)
 
     paths = sorted((DATOS / "corpus" / lang).glob("*.txt"))[:max_docs]
     rows = []
@@ -198,7 +197,7 @@ def process_language(lang: str, max_docs: int | None = None):
         n_term = sum(1 for r in doc_rows if r["label_bio"] == "B-T")
         n_ent = sum(1 for r in doc_rows if r["label_bio"] == "B-E")
         print(f"[{lang}] {n_doc}/{len(paths)} {path.stem[:60]}: {len(doc_rows)} tokens, "
-              f"{n_term} términos, {n_ent} entidades ({time.time()-t0:.0f}s)", flush=True)
+              f"{n_term} terms, {n_ent} entities ({time.time()-t0:.0f}s)", flush=True)
 
     df = pd.DataFrame(rows)
     n_docs = len(paths)
@@ -230,8 +229,8 @@ def process_language(lang: str, max_docs: int | None = None):
     res = pd.DataFrame([{"entrada": s, "tipo": tipo.get(s, "?"), "apariciones": n}
                         for s, n in resumen.most_common()])
     res.to_csv(OUT / f"{lang}_resumen_anotacion.csv", index=False)
-    print(f"[{lang}] FIN: {len(df)} tokens · spans término={int((df.label_bio == 'B-T').sum())} "
-          f"entidad={int((df.label_bio == 'B-E').sum())} · entradas con apariciones: "
+    print(f"[{lang}] done: {len(df)} tokens · term spans={int((df.label_bio == 'B-T').sum())} "
+          f"entity spans={int((df.label_bio == 'B-E').sum())} · entries found: "
           f"T={sum(1 for s in resumen if tipo.get(s) == 'term')} E={sum(1 for s in resumen if tipo.get(s) == 'entity')} "
           f"· {time.time()-t0:.0f}s", flush=True)
 

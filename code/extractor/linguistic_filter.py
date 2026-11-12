@@ -71,8 +71,8 @@ _FUNCTION_LEMMAS: Dict[str, frozenset] = {
         "cada", "cualquier", "cualquiera",
         "otro", "otra", "mismo", "misma",
         "no", "ni", "ser", "estar", "haber", "tener",
-        # formas flexionadas que el etiquetador a veces toma por sustantivos
-        # (la de "es decir", por ejemplo)
+        # inflected forms that the tagger sometimes takes for nouns
+        # (as in "es decir", for instance)
         "es", "son", "era", "eran", "fue", "fueron", "sea", "sean",
         "ha", "han", "hay", "está", "están",
     }),

@@ -1,25 +1,24 @@
 """
-metricas.py
+metrics.py
 ───────────
-Todas las métricas de evaluación, con sus recuentos, para cualquier modelo:
+Evaluation metrics, with their counts, shared by all models:
 
-  · por etiqueta (B-T, I-T, O, y B-E/I-E si existen): TP, FP, FN, TN, soporte,
-    precisión, recuperación y F1;
-  · agrupado término frente a palabra (B-T/I-T frente a todo lo demás): TP, FP,
-    FN, TN, precisión, recuperación, F1, exactitud y especificidad. Es el
-    «F1 específico de término» de la tesis (f1_termino);
-  · medias macro y ponderada sobre las etiquetas presentes (f1_global =
-    ponderada, como en la tesis), y exactitud por token;
-  · a nivel de span de término: coincidencia exacta (mismo inicio y fin) y
-    parcial (solapamiento), con TP, FP, FN, precisión, recuperación y F1;
-    además, el desglose de los spans gold en exacto / parcial / perdido y el
-    número de spans predichos espurios.
+  · per label (B-T, I-T, O, and B-E/I-E when present): TP, FP, FN, TN, support,
+    precision, recall and F1;
+  · term against word (B-T and I-T merged against everything else): TP, FP, FN,
+    TN, precision, recall, F1, accuracy and specificity. This is the term F1 of
+    the paper (f1_termino);
+  · macro and weighted averages over the labels present (f1_global = weighted)
+    and token accuracy;
+  · term spans: exact (same start and end) and partial (overlapping) matching,
+    with TP, FP, FN, precision, recall and F1, plus the number of gold spans
+    found exactly, partially or not at all and of spurious predicted spans.
 
-Todas las claves llevan nombres explícitos (tp_bt, fp_termino, f1_span_exacto…)
-para poder volcarse tal cual a un CSV.
+Keys have explicit names (tp_bt, fp_termino, f1_span_exacto…) so that they can
+be written straight to a CSV.
 
-Además, guardar_predicciones() escribe las etiquetas gold y predichas token a
-token, para recalcular después cualquier métrica sin volver a entrenar.
+guardar_predicciones() writes the gold and predicted label of every token, so
+that any metric can be recomputed later without retraining.
 """
 from __future__ import annotations
 
@@ -49,7 +48,7 @@ def _aplanar(seqs):
 
 
 def spans_termino(labels):
-    """Spans de término (B-T I-T*) de una secuencia: [(inicio, fin_exclusivo)]."""
+    """Term spans (B-T I-T*) of a sequence as [(start, exclusive_end)]."""
     spans, start = [], None
     for i, lab in enumerate(labels):
         if lab == "B-T":
@@ -111,7 +110,7 @@ def metricas_span(y_true_seqs, y_pred_seqs) -> dict:
 
 
 def metricas_completas(y_true, y_pred) -> dict:
-    """y_true / y_pred: listas de secuencias (o listas planas) de etiquetas."""
+    """y_true / y_pred: lists of label sequences (or flat lists of labels)."""
     seqs = _es_secuencias(y_true)
     if seqs:
         y_true = [[str(x) for x in s] for s in y_true]
@@ -146,7 +145,7 @@ def metricas_completas(y_true, y_pred) -> dict:
     fn = sum(1 for a, b in zip(yt, yp) if es_t(a) and not es_t(b))
     tn = n - tp - fp - fn
     p, r, f = _prf(tp, fp, fn)
-    pn, rn, fn_ = _prf(tn, fn, fp)  # clase «palabra»
+    pn, rn, fn_ = _prf(tn, fn, fp)  # the "word" class
     out.update({"tp_termino": tp, "fp_termino": fp, "fn_termino": fn, "tn_termino": tn,
                 "p_termino": p, "r_termino": r, "f1_termino": f,
                 "p_palabra": pn, "r_palabra": rn, "f1_palabra": fn_,
@@ -158,8 +157,8 @@ def metricas_completas(y_true, y_pred) -> dict:
 
 
 def guardar_predicciones(path: Path, sentences_or_keys, y_true, y_pred, extra: dict | None = None):
-    """Escribe un CSV con una fila por token: doc, oración, posición, token, gold, pred
-    (+ columnas constantes de `extra`, p. ej. lengua, nivel y semilla)."""
+    """Writes a CSV with one row per token: document, sentence, position, token, gold, pred
+    (plus the constant columns in `extra`, e.g. language, level and seed)."""
     filas = []
     for s, yt, yp in zip(sentences_or_keys, y_true, y_pred):
         rows = s["rows"] if isinstance(s, dict) and "rows" in s else None

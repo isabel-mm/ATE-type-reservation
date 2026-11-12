@@ -1,12 +1,12 @@
 """
-analisis_fuentes.py
+source_composition.py
 ───────────────────
-¿Dependen los resultados del CRF de la composición desigual del corpus?
-Desglosa las predicciones ya guardadas (reserva, 10 semillas, 4 niveles) por
-grupos de documentos: tipo de texto, fuente dominante (EN: ICAME; ES: 2022),
-los 5 documentos más largos frente al resto, y promedio por documento (macro).
+Do the CRF results depend on the uneven composition of the corpus?
+Breaks down the stored predictions (type reservation, 10 seeds, 4 levels) by groups of
+documents: text type, dominant source (EN: ICAME; ES: 2022), the five longest documents
+against the rest, and the mean over documents (macro).
 
-Salida: resultados_provisionales/csv/15_fuentes_desglose.csv
+Output: results/15_fuentes_desglose.csv
 """
 import json
 import sys
@@ -17,11 +17,11 @@ import pandas as pd
 AQUI = Path(__file__).resolve().parent
 REPO = AQUI.parents[2]
 sys.path.insert(0, str(REPO / "colab_reanotacion" / "scripts"))
-from metricas import metricas_completas  # noqa: E402
+from metrics import metricas_completas  # noqa: E402
 
 CRF = REPO / "colab_reanotacion" / "resultados" / "crf"
 FUENTES = REPO.parent / "tesis-doctoral-datos" / "cap3_corpus"
-SALIDA = AQUI / "resultados_provisionales" / "csv" / "15_fuentes_desglose.csv"
+SALIDA = AQUI.parent / "results" / "15_fuentes_desglose.csv"
 TIPOS = {"artículo": "article", "capítulo de libro": "chapter", "libro": "book"}
 
 
@@ -57,21 +57,21 @@ def main():
                 reservadas = set(json.loads((CRF / "reservadas" / f"{rid}.json").read_text()))
                 sin = set(p.doc_id) - set(g)
                 if sin:
-                    print("ATENCIÓN, documentos sin grupo:", list(sin)[:3])
+                    print("WARNING, documents without a group:", list(sin)[:3])
                 base = {"lang": lang, "pct": pct, "seed": seed}
                 filas.append({**base, "criterio": "all", "grupo": "all", **medir(p, reservadas)})
                 for crit in ("tipo", "dominante", "tamaño"):
                     p["_g"] = p.doc_id.map(lambda x: g[x][crit])
                     for grupo, sub in p.groupby("_g"):
                         filas.append({**base, "criterio": crit, "grupo": grupo, **medir(sub, reservadas)})
-                # promedio por documento (cada documento pesa lo mismo)
+                # mean over documents (every document weighs the same)
                 por_doc = [medir(sub, reservadas) for _, sub in p.groupby("doc_id") if (sub.gold != "O").any()]
                 pdoc = pd.DataFrame(por_doc)
                 filas.append({**base, "criterio": "macro_doc", "grupo": "mean_doc",
                               "f1_termino": pdoc.f1_termino.mean(), "r_termino": pdoc.r_termino.mean(),
                               "res_recall_token": pdoc.res_recall_token.mean(), "tokens": len(p),
                               "res_tokens": len(pdoc)})
-            print(lang, pct, "hecho", flush=True)
+            print(lang, pct, "done", flush=True)
     df = pd.DataFrame(filas)
     df.to_csv(SALIDA, index=False)
     res = (df.groupby(["lang", "criterio", "grupo", "pct"])[["f1_termino", "res_recall_token"]]
