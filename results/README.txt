@@ -48,8 +48,9 @@ Additional files:
     documents) and averaged over documents.
 16  CRF trained on a training set balanced by document (equilibrado) or reduced at random to
     the same size (aleatorio).
-17  BiLSTM-CRF+char, BiLSTM-CRF, CRF and XLM-R at 20% reservation: token recall of reserved
-    terms with (con_oov) and without (sin_oov) a word absent from training.
+17  BiLSTM-CRF+char, BiLSTM-CRF, CRF and XLM-R at every reservation level (the draws run for
+    the character-level variant): token recall of reserved terms with (con_oov) and without
+    (sin_oov) a word absent from training.
 18  Unsupervised baseline: candidates ranked by C-value or NC-value (medida), with a list as
     long as the CRF's (k_como = CRF) or as another model's; tipo_recall, tipo_recall_reservados,
     tipo_precision_test and tipo_f1_test as in 07.

@@ -35,7 +35,7 @@ STEPS = [
     # BiLSTM-CRF (and its character-level variant)
     ["train_bilstm_crf.py", "reserva", "--niveles", "10,20,30,50", "--semillas", ALL_SEEDS],
     ["train_bilstm_crf.py", "cv"],
-    ["train_bilstm_crf_char.py", "reserva", "--niveles", "20", "--semillas", "0,1,2,3,4"],
+    ["train_bilstm_crf_char.py", "reserva", "--niveles", "10,20,30,50", "--semillas", "0,1,2,3,4"],
     # XLM-RoBERTa
     ["train_xlmr.py", "reserva", "--niveles", "10,20,30,50", "--semillas", ALL_SEEDS],
     ["train_xlmr.py", "cv"],

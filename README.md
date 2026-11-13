@@ -3,8 +3,7 @@
 Data, code and results for the paper *Do Term Extractors Learn Termhood? Evidence from Unseen
 Terms in English and Spanish* (under review). This copy is anonymised for review.
 
-> **Status:** all results reported in the paper are included. The BiLSTM-CRF+char runs at the
-> other reservation levels will be added during the review period.
+> **Status:** all results reported in the paper are included.
 
 ## Contents
 
