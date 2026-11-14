@@ -1,0 +1,22 @@
+% Compiles one of the TikZ diagrams of the paper as a cropped PDF.
+% Usage: pdflatex -jobname=fig_flujo "\def\fig{fig_flujo.tex}\input{standalone}"
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage{times}\renewcommand{\ttdefault}{cmtt}
+\usepackage[table]{xcolor}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{fontawesome5}
+\usetikzlibrary{positioning,arrows.meta,matrix,decorations.pathreplacing,fit}
+\newcommand{\Fone}{F\textsubscript{1}}
+\renewenvironment{figure}[1][]{}{}
+\renewenvironment{figure*}[1][]{}{}
+\renewcommand{\caption}[2][]{}
+\renewcommand{\label}[1]{}
+\pagestyle{empty}
+\begin{document}\setlength{\textwidth}{17cm}\setlength{\columnwidth}{8.15cm}
+\setbox0=\hbox{\fboxsep=3pt\fboxrule=0pt\fbox{\input{\fig}}}
+\pdfpagewidth=\wd0 \pdfpageheight=\dimexpr\ht0+\dp0\relax
+\hoffset=-1in \voffset=-1in \topmargin=0pt \headheight=0pt \headsep=0pt \oddsidemargin=0pt \evensidemargin=0pt \parindent=0pt \topskip=0pt
+\vbox to 0pt{\vss}\nointerlineskip\box0
+\end{document}

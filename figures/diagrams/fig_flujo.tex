@@ -1,0 +1,73 @@
+% Study workflow (Figure 2 of the paper)
+\begin{figure*}[t]
+\centering
+\resizebox{\textwidth}{!}{%
+\definecolor{coral}{HTML}{56B4E9}\definecolor{berenjena}{HTML}{D55E00}\definecolor{moradoosc}{HTML}{CC79A7}\definecolor{colcrf}{HTML}{0072B2}\definecolor{colbil}{HTML}{E69F00}\definecolor{colxlm}{HTML}{009E73}%
+\begin{tikzpicture}[
+  font=\rmfamily\footnotesize,
+  >={Stealth[length=2.2mm]},
+  etapa/.style={font=\rmfamily\bfseries\footnotesize, text=white, fill=#1, rounded corners=2pt,
+                minimum width=3.0cm, inner sep=3pt},
+  etapa/.default=black!70,
+  caja/.style={draw=black!45, fill=black!3, rounded corners=2pt, align=center,
+               minimum width=3.0cm, inner sep=3pt, text width=2.85cm},
+  cc/.style={caja, draw=coral!90!black, fill=coral!15},
+  cp/.style={caja, draw=berenjena, fill=berenjena!10},
+  ca/.style={caja, draw=moradoosc, fill=moradoosc!15},
+  modelo/.style={caja, line width=1.1pt},
+  producto/.style={caja, line width=1.3pt, draw=coral!70!black, fill=coral!35, text width=2.95cm},
+  flecha/.style={->, draw=black!55, line width=0.6pt},
+  node distance=2.2mm and 7mm
+]
+% ── Corpus ──
+\node[etapa=coral, text=black] (t1) {Corpus};
+\node[cc, below=1.5mm of t1] (c1) {100 full texts on Corpus Linguistics (2015--2025)};
+\node[cc, below=of c1] (c2) {EN: 50 texts, 1.45M tokens\\ ES: 50 texts, 0.95M tokens};
+\node[cc, below=of c2] (c3) {PDF extraction, cleaning, spaCy (\texttt{trf}) processing};
+
+% ── Annotation: three steps and two products (inventory and BIO corpus) ──
+\node[etapa=coral, text=black, right=of t1, xshift=19mm] (t2) {Annotation};
+\node[cc, below=3.5mm of t2] (a1) {1. Seed terms (CASS glossary, 38)};
+\node[cc, below=of a1] (a2) {2. Hybrid extraction (POS patterns + termhood)};
+\node[cc, below=of a2] (a3) {3. Full manual reading (Doccano)};
+\node[draw=coral!90!black, dashed, rounded corners=3pt, inner sep=2.2mm, fit=(a1)(a3)] (fases) {};
+\node[producto, below=7mm of a3] (a4) {\textcolor{coral!60!black}{\faList}\ \textbf{Validated}\\\textbf{term inventory}\\[1pt]261 entries\\(terms / entities)};
+\node[producto, below=4mm of a4] (a5) {\textcolor{coral!60!black}{\faTags}\ \textbf{Annotated}\\\textbf{corpus (\texttt{BIO})}\\[1pt]all forms projected\\onto the texts};
+\draw[flecha, line width=1.4pt, draw=coral!70!black] (fases.south) -- (a4.north);
+\draw[flecha, line width=1.4pt, draw=coral!70!black] (a4) -- (a5);
+
+% ── Protocol ──
+\node[etapa=berenjena, right=of t2, xshift=19mm] (t3) {Evaluation protocol};
+\node[cp, below=1.5mm of t3] (p1) {Sample $X\%$ of term entries\\ ($X$ = 10, 20, 30, 50; 10 draws)};
+\node[cp, below=of p1] (p2) {Test: sentences with a reserved entry\\ Train: all other sentences};
+\node[cp, below=of p2] (p3) {Validation: 10\% of training entries (epoch selection)};
+\node[cp, below=of p3] (p4) {Statistics and PMI computed on training only};
+\node[cp, dashed, below=of p4] (p5) {Contrast: random 5-fold CV};
+
+% ── Models ──
+\node[etapa=black!70, right=of t3, xshift=19mm] (t4) {Models};
+\node[modelo, draw=black!45, below=1.5mm of t4] (m1) {Token classifiers\\ (27 features, no sequence)};
+\node[modelo, draw=colcrf, fill=colcrf!12, below=of m1] (m2) {CRF\\ (27 features + sequence)};
+\node[modelo, draw=colbil, fill=colbil!12, below=of m2] (m3) {BiLSTM-CRF\\ (embeddings learnt from scratch)};
+\node[modelo, draw=colxlm, fill=colxlm!12, below=of m3] (m4) {XLM-RoBERTa\\ (pretrained, fine-tuned)};
+
+% ── Evaluation ──
+\node[etapa=moradoosc, right=of t4, xshift=19mm] (t5) {Analyses};
+\node[ca, below=1.5mm of t5] (e1) {Term \Fone, P, R; span \Fone{} (exact / partial)};
+\node[ca, below=of e1] (e2) {Recall on seen vs.\ reserved types (\texttt{B-T} / \texttt{I-T})};
+\node[ca, below=of e2] (e3) {OOV words, frequency bands, error typology};
+\node[ca, below=of e3] (e4) {Feature ablation (CRF) with reserved recall};
+\node[ca, below=of e4] (e5) {External validation: ACTER (reservation, LODO)};
+
+% ── Arrows ──
+\foreach \a/\b in {c1/c2, c2/c3, a1/a2, a2/a3, p1/p2, p2/p3, p3/p4}
+  \draw[flecha] (\a) -- (\b);
+\draw[flecha] (c3.east) -- ++(3.5mm,0) |- (a1.west);
+\draw[flecha] (a5.east) -- ++(3.5mm,0) |- (p1.west);
+\draw[flecha] (p2.east) -- ++(3.5mm,0) |- (m2.west);
+\draw[flecha] (m2.east) -- ++(3.5mm,0) |- (e2.west);
+\draw[densely dotted, draw=black!35] ([xshift=-1.5mm]m1.north west) rectangle ([xshift=1.5mm]m4.south east);
+\end{tikzpicture}}
+\caption{Overview of the study.}
+\label{fig:flujo}
+\end{figure*}

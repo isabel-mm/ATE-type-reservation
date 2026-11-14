@@ -1,51 +1,51 @@
 doc_id,language,year,authors,title,source,type
-EN-001,EN,2015,"Archer, D., Kyto, M., Baron, A., Rayson, P.",Guidelines for normalising Early Modern English,ICAME,artículo
-EN-002,EN,2015,"Ruhlemann, C., Bagoutdinov, A., O'Donnell, M. B.",Modest XPath and XQuery for corpora. Exploiting deep XML annotation,ICAME,artículo
-EN-003,EN,2016,"Hoglund, M., Syrjanen, K.",Corpus of Early American Literature,ICAME,artículo
-EN-004,EN,2016,"McEnery, T.",Keywords,,capítulo de libro
-EN-005,EN,2016,"Murphy, B., Riordan, E.",Corpus types and uses,,capítulo de libro
-EN-006,EN,2016,"Nevlainen, T., Vartianen, T., Saily, T., Kesaniemi, J., Dominowska, A., Ohman, E.",Language Change Database. A new online resource,ICAME,artículo
-EN-007,EN,2016,"Poesio, M., Pradhan, S., Recasens, M., Rodríguez, K., Versley, Y.",Annotated Corpora and Annotation Tools,,capítulo de libro
-EN-008,EN,2016,"Weisser, M.",Practical Corpus Linguistics. An Introduction to Corpus-Based Language Analysis,,libro
-EN-009,EN,2017,"Allen, W.",Making corpus data visible. Visualising text with research intermediaries,Corpora,artículo
-EN-010,EN,2017,"Desagulier, G.",Corpus Linguistics and Statistics with R,,libro
-EN-011,EN,2017,"Doval, I.",POS-tagging a bilingual parallel corpus. Methods and challenges,Research in Corpus Linguistics,artículo
-EN-012,EN,2017,"Fanego, T., Rodríguez-Puente, et al.",The Corpus of Historical English Law Reports.  A resource for analysis the development of English,ICAME,artículo
-EN-013,EN,2017,"Gries, S. T., Berez, A. L.",Linguistic Annotation in or for Corpus Linguistics,,capítulo de libro
-EN-014,EN,2017,"Weisser, M.",Annotating the ICE corpora pragmatically. Preliminary issues and steps,ICAME,artículo
-EN-015,EN,2018,"Rissanen, M.",Three problems connected with the use of diachronic corpora,ICAME,artículo
-EN-016,EN,2018,"Sekhar Dash, N., Arulmozi, S.","History, Features, and Typology of Language Corpora",,libro
-EN-017,EN,2018,"Simaki, V., Paradis, C., Kerren, A.",Evaluating stance-annotated sentences from the Brexit Blog Corpus. A quantitative linguistic analysis,ICAME,artículo
-EN-018,EN,2018,"Smith, N., Waters, C.",From broadcast archive to language corpus. Designing and investigating a sociohistorical corpus from Desert Island Discs,ICAME,artículo
-EN-019,EN,2019,"Alamri, B.",Baker and Egbert (eds). 2016.Triangulating Methodological Approaches in Corpus Linguistic Research,Corpora,artículo
-EN-020,EN,2019,"Collins, P., Yao, X.",AusBrown. A new diachronic corpus of Australian English,ICAME,artículo
-EN-021,EN,2019,"Petre, P., Anthonissen, L., et al.",Early Modern Multiloquent Authors. EMMA. Designin a large-scale corpus of individuals languages,ICAME,artículo
-EN-022,EN,2020,"Fernández-Montraveta, A., Curell, H., Vázquez, G., Castellón, I.",The TAGFACT annotator and editor. A versatile tool,Research in Corpus Linguistics,artículo
-EN-023,EN,2020,"Lefer, M. A.",Parallel corpora,,capítulo de libro
-EN-024,EN,2020,"Stefanowitsch, A.",Corpus Linguistics A guide to the methodology,,libro
-EN-025,EN,2021,"Cermakova, A., Jantunen, J., et al.",The International Comparable Corpus. Challenges in building multilingual spoken and written comparable corpora,Research in Corpus Linguistics,artículo
-EN-026,EN,2021,"Culpeper, J., Hardie, A., Demmen, J., Hughes, J., Timperley, M.",Supporting the corpus-based study of Shakespeare’s language. Enhancing a corpus of the First Folio,ICAME,artículo
-EN-027,EN,2021,"Gries, S. T.","A new approach to key keywords analysis. Using frequency, and now also dispersion",Research in Corpus Linguistics,artículo
-EN-028,EN,2021,"Hoffmann, S., Arndt-Lappe, S.","Better data for more researchers, using the audio features of BNCweb",ICAME,artículo
-EN-029,EN,2021,"Kretzschmar, W. A.",Complex systems for corpus linguists,ICAME,artículo
-EN-030,EN,2021,"Levisha, N.","Corpus-based typology. Applications, challenges and some solutions",,artículo
-EN-031,EN,2023,"Crosthwaite, P., Ningrum, S., Scweinberger, M.",Research trends in corpus linguistics,International Journal of Corpus Linguistics,artículo
-EN-032,EN,2022,Egbert,J. Biber_ D. y Gray_ B.,Designing and Evaluating Language Corpora,libro
-EN-033,EN,2022,McEnery,"T., Brezina, V.",Fundamental Principles of Corpus Linguistics,libro
-EN-034,EN,2022,"Vosiljonov, A.",Basic theoretical principles of corpus linguistics,Academicia Globe,artículo
-EN-035,EN,2023,"Barth, D., Schnell, S.",Understanding Corpus Linguistics,,libro
-EN-036,EN,2023,"Egbert, J., Biber, D.","Key feature analysis. A simple, yet powerful method for comparing text varieties",Corpora,artículo
-EN-037,EN,2023,"Fernández-Martínez, N. J.",The FGLOCTweet Corpus. An ENglish tweet-based corpus for fine-grained location-detection tasks,Research in Corpus Linguistics,artículo
-EN-038,EN,2023,"Hashimoto, B.",Corpus of Founding Era American English,Corpora,artículo
-EN-039,EN,2023,"Rodríguez-Puente, P., Hernández, D.",The Corpus of Contemporary English Legal Decisions,ICAME,artículo
-EN-040,EN,2023,"Simaki, V., Seitanidi, E., Paradis, C.",Evaluating stance annotation on Twitter data,Research in Corpus Linguistics,artículo
-EN-041,EN,2024,"Buschfeld, S., Leuckert, S., Weihs, C., Weilinghoff, A.",How real is the quantitative turn. Investigating statistics as the new normal in linguistics,ICAME,artículo
-EN-042,EN,2024,"McEnery, T., Brookes, G.",Corpus linguistics and the social sciences,Corpus Linguistics and Linguistic Theory,artículo
-EN-043,EN,2024,"Misir, H.",Design and construction of a social media corpus. Influencers speech in vlog,Research in Corpus Linguistics,artículo
-EN-044,EN,2024,"Troiani, G., Du Bois, J. W., Filchenko, A.",Corpus as a slice of life. Representing naturally occuring language and its speakers,Research in Corpus Linguistics,artículo
-EN-045,EN,2025,"Batchelor, J., Lee-Laminack, H.",An evaluation of the use of keyword analysis forkeyword-assisted topic modelling,Corpora,artículo
-EN-046,EN,2025,"Carcelén-Guerrero, A., Posio, P., Kachel, S., Uclés-Ramada, G.",CoLaGe. Corpus for the Study of Language and Gender in two varieties of spoken Spanish,Corpora,artículo
-EN-047,EN,2025,"Gries, S. T.",Against level-3-only analyses in corpus linguistics,ICAME,artículo
-EN-048,EN,2025,"Hashimoto, B., Nelson, K.",Recent trends in corpus design and reporting. A methodological synthesis,Research in Corpus Linguistics,artículo
-EN-049,EN,2025,"McEnery, T.",Twenty years of Corpora,Corpora,artículo
-EN-050,EN,2025,"Sonnig, L.",Advancing our understanding ofdispersion measures in corpus research,Corpora,artículo
+EN-001,EN,2015,"Archer, D., Kyto, M., Baron, A., Rayson, P.",Guidelines for normalising Early Modern English,ICAME,article
+EN-002,EN,2015,"Ruhlemann, C., Bagoutdinov, A., O'Donnell, M. B.",Modest XPath and XQuery for corpora. Exploiting deep XML annotation,ICAME,article
+EN-003,EN,2016,"Hoglund, M., Syrjanen, K.",Corpus of Early American Literature,ICAME,article
+EN-004,EN,2016,"McEnery, T.",Keywords,,book chapter
+EN-005,EN,2016,"Murphy, B., Riordan, E.",Corpus types and uses,,book chapter
+EN-006,EN,2016,"Nevlainen, T., Vartianen, T., Saily, T., Kesaniemi, J., Dominowska, A., Ohman, E.",Language Change Database. A new online resource,ICAME,article
+EN-007,EN,2016,"Poesio, M., Pradhan, S., Recasens, M., Rodríguez, K., Versley, Y.",Annotated Corpora and Annotation Tools,,book chapter
+EN-008,EN,2016,"Weisser, M.",Practical Corpus Linguistics. An Introduction to Corpus-Based Language Analysis,,book
+EN-009,EN,2017,"Allen, W.",Making corpus data visible. Visualising text with research intermediaries,Corpora,article
+EN-010,EN,2017,"Desagulier, G.",Corpus Linguistics and Statistics with R,,book
+EN-011,EN,2017,"Doval, I.",POS-tagging a bilingual parallel corpus. Methods and challenges,Research in Corpus Linguistics,article
+EN-012,EN,2017,"Fanego, T., Rodríguez-Puente, et al.",The Corpus of Historical English Law Reports.  A resource for analysis the development of English,ICAME,article
+EN-013,EN,2017,"Gries, S. T., Berez, A. L.",Linguistic Annotation in or for Corpus Linguistics,,book chapter
+EN-014,EN,2017,"Weisser, M.",Annotating the ICE corpora pragmatically. Preliminary issues and steps,ICAME,article
+EN-015,EN,2018,"Rissanen, M.",Three problems connected with the use of diachronic corpora,ICAME,article
+EN-016,EN,2018,"Sekhar Dash, N., Arulmozi, S.","History, Features, and Typology of Language Corpora",,book
+EN-017,EN,2018,"Simaki, V., Paradis, C., Kerren, A.",Evaluating stance-annotated sentences from the Brexit Blog Corpus. A quantitative linguistic analysis,ICAME,article
+EN-018,EN,2018,"Smith, N., Waters, C.",From broadcast archive to language corpus. Designing and investigating a sociohistorical corpus from Desert Island Discs,ICAME,article
+EN-019,EN,2019,"Alamri, B.",Baker and Egbert (eds). 2016.Triangulating Methodological Approaches in Corpus Linguistic Research,Corpora,article
+EN-020,EN,2019,"Collins, P., Yao, X.",AusBrown. A new diachronic corpus of Australian English,ICAME,article
+EN-021,EN,2019,"Petre, P., Anthonissen, L., et al.",Early Modern Multiloquent Authors. EMMA. Designin a large-scale corpus of individuals languages,ICAME,article
+EN-022,EN,2020,"Fernández-Montraveta, A., Curell, H., Vázquez, G., Castellón, I.",The TAGFACT annotator and editor. A versatile tool,Research in Corpus Linguistics,article
+EN-023,EN,2020,"Lefer, M. A.",Parallel corpora,,book chapter
+EN-024,EN,2020,"Stefanowitsch, A.",Corpus Linguistics A guide to the methodology,,book
+EN-025,EN,2021,"Cermakova, A., Jantunen, J., et al.",The International Comparable Corpus. Challenges in building multilingual spoken and written comparable corpora,Research in Corpus Linguistics,article
+EN-026,EN,2021,"Culpeper, J., Hardie, A., Demmen, J., Hughes, J., Timperley, M.",Supporting the corpus-based study of Shakespeare’s language. Enhancing a corpus of the First Folio,ICAME,article
+EN-027,EN,2021,"Gries, S. T.","A new approach to key keywords analysis. Using frequency, and now also dispersion",Research in Corpus Linguistics,article
+EN-028,EN,2021,"Hoffmann, S., Arndt-Lappe, S.","Better data for more researchers, using the audio features of BNCweb",ICAME,article
+EN-029,EN,2021,"Kretzschmar, W. A.",Complex systems for corpus linguists,ICAME,article
+EN-030,EN,2021,"Levisha, N.","Corpus-based typology. Applications, challenges and some solutions",,article
+EN-031,EN,2023,"Crosthwaite, P., Ningrum, S., Scweinberger, M.",Research trends in corpus linguistics,International Journal of Corpus Linguistics,article
+EN-032,EN,2022,Egbert,J. Biber_ D. y Gray_ B.,Designing and Evaluating Language Corpora,book
+EN-033,EN,2022,McEnery,"T., Brezina, V.",Fundamental Principles of Corpus Linguistics,book
+EN-034,EN,2022,"Vosiljonov, A.",Basic theoretical principles of corpus linguistics,Academicia Globe,article
+EN-035,EN,2023,"Barth, D., Schnell, S.",Understanding Corpus Linguistics,,book
+EN-036,EN,2023,"Egbert, J., Biber, D.","Key feature analysis. A simple, yet powerful method for comparing text varieties",Corpora,article
+EN-037,EN,2023,"Fernández-Martínez, N. J.",The FGLOCTweet Corpus. An ENglish tweet-based corpus for fine-grained location-detection tasks,Research in Corpus Linguistics,article
+EN-038,EN,2023,"Hashimoto, B.",Corpus of Founding Era American English,Corpora,article
+EN-039,EN,2023,"Rodríguez-Puente, P., Hernández, D.",The Corpus of Contemporary English Legal Decisions,ICAME,article
+EN-040,EN,2023,"Simaki, V., Seitanidi, E., Paradis, C.",Evaluating stance annotation on Twitter data,Research in Corpus Linguistics,article
+EN-041,EN,2024,"Buschfeld, S., Leuckert, S., Weihs, C., Weilinghoff, A.",How real is the quantitative turn. Investigating statistics as the new normal in linguistics,ICAME,article
+EN-042,EN,2024,"McEnery, T., Brookes, G.",Corpus linguistics and the social sciences,Corpus Linguistics and Linguistic Theory,article
+EN-043,EN,2024,"Misir, H.",Design and construction of a social media corpus. Influencers speech in vlog,Research in Corpus Linguistics,article
+EN-044,EN,2024,"Troiani, G., Du Bois, J. W., Filchenko, A.",Corpus as a slice of life. Representing naturally occuring language and its speakers,Research in Corpus Linguistics,article
+EN-045,EN,2025,"Batchelor, J., Lee-Laminack, H.",An evaluation of the use of keyword analysis forkeyword-assisted topic modelling,Corpora,article
+EN-046,EN,2025,"Carcelén-Guerrero, A., Posio, P., Kachel, S., Uclés-Ramada, G.",CoLaGe. Corpus for the Study of Language and Gender in two varieties of spoken Spanish,Corpora,article
+EN-047,EN,2025,"Gries, S. T.",Against level-3-only analyses in corpus linguistics,ICAME,article
+EN-048,EN,2025,"Hashimoto, B., Nelson, K.",Recent trends in corpus design and reporting. A methodological synthesis,Research in Corpus Linguistics,article
+EN-049,EN,2025,"McEnery, T.",Twenty years of Corpora,Corpora,article
+EN-050,EN,2025,"Sonnig, L.",Advancing our understanding ofdispersion measures in corpus research,Corpora,article

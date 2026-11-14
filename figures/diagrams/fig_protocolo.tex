@@ -1,0 +1,79 @@
+% The type-reservation protocol (Figure 4 of the paper; requires fontawesome5)
+\begin{figure*}[t]
+\centering
+\definecolor{visto}{HTML}{0072B2}\definecolor{reservado}{HTML}{D55E00}\definecolor{validacion}{HTML}{CC79A7}%
+\definecolor{colcrf}{HTML}{0072B2}\definecolor{colbil}{HTML}{E69F00}\definecolor{colxlm}{HTML}{009E73}%
+\definecolor{celeste}{HTML}{56B4E9}%
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+  font=\rmfamily\small,
+  >={Stealth[length=2.8mm]},
+  cab/.style={font=\rmfamily\bfseries\small, text=black!80, anchor=west},
+  icono/.style={font=\LARGE, anchor=east},
+  chip/.style={rounded corners=2pt, inner sep=2.5pt, font=\rmfamily\footnotesize\bfseries, text=white,
+               minimum height=5mm},
+  vis/.style={chip, fill=visto},
+  res/.style={chip, fill=reservado},
+  frase/.style={draw=black!25, fill=black!3, rounded corners=3pt, inner sep=3.5pt, minimum height=7mm,
+                text width=6.4cm, font=\rmfamily\footnotesize, anchor=west},
+  part/.style={rounded corners=4pt, line width=1.3pt, align=left, inner sep=5pt, text width=3.6cm,
+               font=\rmfamily\footnotesize},
+  modelo/.style={rounded corners=4pt, line width=1.3pt, inner sep=4pt, minimum height=8mm, text width=3.5cm,
+                 font=\rmfamily\footnotesize\bfseries, align=left},
+  flecha/.style={->, line width=1.2pt},
+  nota/.style={font=\rmfamily\footnotesize, text=black!65, align=center}
+]
+% ═══ 1. Glossary ═══
+\node[icono, text=visto] at (0.55, 4.25) {\faBook};
+\node[cab] at (0.65, 4.25) {Glossary entries};
+\node[vis] at (1.75, 3.45) {corpus};
+\node[vis] at (1.75, 2.85) {reference corpus};
+\node[res] at (1.75, 2.25) {\faEyeSlash\ keyness};
+\node[vis] at (1.75, 1.65) {corpus linguistics};
+\node[res] at (1.75, 1.05) {\faEyeSlash\ learner corpus};
+\node[vis] at (1.75, 0.45) {concordance};
+\node[vis] at (1.75, -0.15) {lemma};
+\node[nota] at (1.6, -1.15) {\textcolor{reservado}{\faRandom}\ \ draw $X$\% of the entries\\($X$ = 10, 20, 30, 50)};
+
+% ═══ 2. Sentences ═══
+\node[icono, text=black!60] at (4.55, 4.25) {\faAlignLeft};
+\node[cab] at (4.65, 4.25) {Sentences};
+\node[frase] (s1) at (4.0, 3.35) {a \tikz[baseline]\node[vis, anchor=base, minimum height=4mm, font=\rmfamily\scriptsize\bfseries]{reference corpus}; was compiled};
+\node[frase] (s2) at (4.0, 2.55) {\tikz[baseline]\node[vis, anchor=base, minimum height=4mm, font=\rmfamily\scriptsize\bfseries]{corpus linguistics}; relies on \tikz[baseline]\node[vis, anchor=base, minimum height=4mm, font=\rmfamily\scriptsize\bfseries]{concordance}; lines};
+\node[frase] (s3) at (4.0, 1.75) {each form is reduced to its \tikz[baseline]\node[vis, anchor=base, minimum height=4mm, font=\rmfamily\scriptsize\bfseries]{lemma};};
+\node[frase] (s4) at (4.0, 0.55) {\tikz[baseline]\node[res, anchor=base, minimum height=4mm, font=\rmfamily\scriptsize\bfseries]{keyness}; measures salience in a \tikz[baseline]\node[vis, anchor=base, minimum height=4mm, font=\rmfamily\scriptsize\bfseries]{corpus};};
+\node[frase] (s5) at (4.0, -0.25) {the \tikz[baseline]\node[res, anchor=base, minimum height=4mm, font=\rmfamily\scriptsize\bfseries]{learner corpus}; contains essays};
+\draw[decorate, decoration={brace, amplitude=5pt}, line width=1pt, draw=visto] (10.75, 3.7) -- (10.75, 1.4);
+\draw[decorate, decoration={brace, amplitude=5pt}, line width=1pt, draw=reservado] (10.75, 0.9) -- (10.75, -0.6);
+\node[nota, text=black!60] at (7.4, -1.15) {a sentence containing any reserved entry goes to the test set};
+
+% ═══ 3. Partitions ═══
+\node[part, draw=visto, fill=visto!8] (train) at (13.6, 3.35)
+  {{\Large\textcolor{visto}{\faGraduationCap}}\ \ \textbf{\textcolor{visto}{Training}}\\[2pt]seen terms only; statistics and PMI computed here};
+\node[part, draw=validacion, fill=validacion!12] (val) at (13.6, 1.55)
+  {{\Large\textcolor{validacion}{\faStopwatch}}\ \ \textbf{\textcolor{validacion!80!black}{Validation}}\\[2pt]10\% of the training entries; chooses the epoch};
+\node[part, draw=reservado, fill=reservado!8] (test) at (13.6, -0.3)
+  {{\Large\textcolor{reservado}{\faClipboardCheck}}\ \ \textbf{\textcolor{reservado}{Test}}\\[2pt]reserved + seen terms; recall measured separately};
+\draw[flecha, draw=visto] (11.05, 2.55) -- ++(0.3,0) |- (train.west);
+\draw[flecha, draw=reservado] (11.05, 0.15) -- ++(0.3,0) |- (test.west);
+\draw[flecha, draw=validacion, dashed] (train.south) -- (val.north);
+
+% ═══ 4. Models ═══
+\node[icono, text=black!70] at (17.15, 4.25) {\faRobot};
+\node[cab] at (17.25, 4.25) {Models (same partitions)};
+\node[modelo, draw=black!45, fill=black!4, anchor=west] (m1) at (16.9, 3.35) {{\large\textcolor{black!60}{\faTh}}\ \ Token classifiers};
+\node[modelo, draw=colcrf, fill=colcrf!10, anchor=west] (m2) at (16.9, 2.45) {{\large\textcolor{colcrf}{\faProjectDiagram}}\ \ CRF (27 features)};
+\node[modelo, draw=colbil, fill=colbil!12, anchor=west] (m3) at (16.9, 1.55) {{\large\textcolor{colbil}{\faNetworkWired}}\ \ BiLSTM-CRF};
+\node[modelo, draw=colxlm, fill=colxlm!12, anchor=west] (m4) at (16.9, 0.65) {{\large\textcolor{colxlm}{\faBrain}}\ \ XLM-RoBERTa};
+\draw[flecha, draw=visto] (train.east) -- (16.9, 0 |- train.east);
+\draw[flecha, draw=reservado] (m4.south) |- (test.east) node[pos=0.75, below, nota, font=\rmfamily\scriptsize] {evaluated once};
+
+% ═══ Legend ═══
+\node[nota, font=\rmfamily\small, text=black!75] at (10.8, -2.15)
+  {\textcolor{black!60}{\faRedo}\ \ 10 draws $\times$ 4 levels \qquad
+   \textcolor{black!60}{\faBalanceScale}\ \ paired tests on shared draws \qquad
+   \textcolor{reservado}{\faEyeSlash}\ \ reserved terms are never seen in training};
+\end{tikzpicture}}
+\caption{The type-reservation protocol. A proportion of the glossary entries is drawn at random; every sentence that contains a reserved entry goes to the test set, and the rest form the training set, from which a further 10\% of the entries is set aside for validation.}
+\label{fig:protocolo}
+\end{figure*}

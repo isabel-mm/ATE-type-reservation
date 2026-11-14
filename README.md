@@ -15,6 +15,26 @@ Terms in English and Spanish* (under review). This copy is anonymised for review
 | `data/partitions/` | For every corpus, reservation level (10/20/30/50%) and draw (seeds 0–9), the glossary entries reserved for the test set and those used for validation. |
 | `code/` | All the code (see below). |
 | `results/` | All metrics in CSV (see `results/README.txt`). |
+| `figures/` | Every figure of the paper in PDF (see below). |
+
+## Figures
+
+| File | Figure |
+|---|---|
+| `fig_distribucion.pdf` | 1. Rank–frequency distribution and terminological saturation |
+| `fig_flujo.pdf` | 2. Study workflow |
+| `fig_bio.pdf` | 3. The `BIO` scheme, with an example of a partial error |
+| `fig_protocolo.pdf` | 4. The type-reservation protocol |
+| `fig_reserva.pdf` | 5. Term F1 under type reservation |
+| `fig_recall.pdf` | 6. Recall of seen and reserved terms |
+| `fig_oov.pdf` | 7. Recall of reserved terms with and without unknown words |
+| `fig_ablacion.pdf` | 8. CRF feature ablation |
+| `fig_acter.pdf` | B1. ACTER, leave-one-domain-out |
+
+Figures 5–8 and B1 are drawn by `code/make_figures.py` from `results/`. Figures 2–4 are TikZ
+diagrams whose sources are in `figures/diagrams/`; each one compiles on its own with
+`pdflatex -jobname=fig_flujo "\def\fig{fig_flujo.tex}\input{standalone}"`. The TikZ diagrams
+were drafted with the assistance of an LLM and revised by the authors.
 
 ## Code
 
