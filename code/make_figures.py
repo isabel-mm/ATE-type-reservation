@@ -4,14 +4,15 @@ make_figures.py
 Draws the result figures of the paper from the CSV files in results/ (vector PDF, written
 next to this script, or to the folder given as first argument):
 
+  fig_distribucion.pdf  rank-frequency distribution and terminological saturation
   fig_reserva.pdf    term F1 under type reservation, by level
   fig_recall.pdf     recall of seen and reserved terms (B-T / I-T; by token and by type)
   fig_oov.pdf        recall of reserved terms with all words seen vs. some word unseen
   fig_ablacion.pdf   CRF feature ablation at 20% reservation (Δ term F1 and Δ reserved recall)
   fig_acter.pdf      ACTER, leave-one-domain-out
 
-The rank-frequency and saturation figure is not included: it is computed from the source
-texts, which cannot be redistributed.
+The data of the rank-frequency and saturation figure (results/23-25) were computed from the
+source texts, which cannot be redistributed; they are released without the words.
 
 Colours follow the Okabe-Ito palette (safe for colour blindness): CRF blue, BiLSTM-CRF
 orange, XLM-R green; English blue and Spanish vermilion.
@@ -176,7 +177,42 @@ def fig_acter():
     save(fig, "fig_acter")
 
 
+def fig_distribucion():
+    exps = pd.read_csv(RESULTS / "23_zipf_exponents.csv").set_index("lang")
+    rf = pd.read_csv(RESULTS / "24_rank_frequency.csv")
+    sat = pd.read_csv(RESULTS / "25_saturation.csv")
+    fig, ax = plt.subplots(1, 3, figsize=(6.6, 1.85))
+    for i, lang in enumerate(("en", "es")):
+        a = ax[i]
+        gen = rf[(rf.lang == lang) & (rf.kind == "all_words")]
+        ter = rf[(rf.lang == lang) & (rf.kind == "term_types")]
+        a.loglog(gen["rank"], gen.frequency / gen.frequency.sum(), color="#AAAAAA", lw=1.5,
+                 label=f"All words ($\\alpha$={exps.loc[lang, 'alpha_all_words']:.2f})")
+        a.loglog(ter["rank"], ter.frequency / ter.frequency.sum(), color=LANG[lang], lw=0, marker="o",
+                 ms=2.6, label=f"Term types ($\\alpha$={exps.loc[lang, 'alpha_term_types']:.2f})")
+        a.set_title(f"Rank–frequency ({lang.upper()})")
+        a.set_xlabel("Rank")
+        a.set_ylabel("Relative frequency" if i == 0 else "")
+        a.legend(loc="upper right", handlelength=1.2)
+    a = ax[2]
+    for lang, ls in (("en", "-"), ("es", "--")):
+        s = sat[sat.lang == lang]
+        a.fill_between(s.pct_tokens_read, s.pct_term_types_p05, s.pct_term_types_p95, color=LANG[lang],
+                       alpha=0.15, lw=0)
+        a.plot(s.pct_tokens_read, s.pct_term_types_mean, color=LANG[lang], ls=ls, lw=1.6, label=lang.upper())
+    a.axhline(80, color=INK2, lw=0.6, ls=":")
+    a.text(98, 76, "80%", ha="right", va="top", color=INK2, fontsize=6.5)
+    a.set_xlim(0, 100); a.set_ylim(0, 102)
+    a.set_title("Terminological saturation")
+    a.set_xlabel("% of corpus tokens")
+    a.set_ylabel("% of term types observed")
+    a.legend(loc="lower right")
+    fig.tight_layout(w_pad=1.2)
+    save(fig, "fig_distribucion")
+
+
 if __name__ == "__main__":
+    fig_distribucion()
     runs = reservation_runs()
     fig_reserva(runs)
     fig_recall(runs)

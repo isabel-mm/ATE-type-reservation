@@ -31,7 +31,7 @@ Terms in English and Spanish* (under review). This copy is anonymised for review
 | `fig_ablacion.pdf` | 8. CRF feature ablation |
 | `fig_acter.pdf` | B1. ACTER, leave-one-domain-out |
 
-Figures 5–8 and B1 are drawn by `code/make_figures.py` from `results/`. Figures 2–4 are TikZ
+Figures 1, 5–8 and B1 are drawn by `code/make_figures.py` from `results/`. Figures 2–4 are TikZ
 diagrams whose sources are in `figures/diagrams/`; each one compiles on its own with
 `pdflatex -jobname=fig_flujo "\def\fig{fig_flujo.tex}\input{standalone}"`. The TikZ diagrams
 were drafted with the assistance of an LLM and revised by the authors.
@@ -51,6 +51,7 @@ were drafted with the assistance of an LLM and revised by the authors.
 | `export_results.py` | Collects every run into the CSV files of `results/`, with statistical tests and error analyses. |
 | `baseline_memorisation.py`, `baseline_cvalue.py` | Memorisation baseline and unsupervised C-value/NC-value baseline under type reservation. |
 | `char_oov_analysis.py`, `oov_subword_analysis.py` | Reserved-term recall with and without unknown words (BiLSTM-CRF+char; XLM-R subword coverage). |
+| `oov_tests.py` | Wilcoxon tests on the recall lost with unknown words, and its Spearman correlation with reserved recall across draws. |
 | `source_composition.py`, `source_sensitivity.py` | Sensitivity of the results to the composition of the corpus. |
 | `make_figures.py` | Result figures of the paper, from `results/`. |
 | `run_all.py` | Runs every experiment in order and exports the results. |

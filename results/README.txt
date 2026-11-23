@@ -61,3 +61,13 @@ Additional files:
 21  Reserved occurrences with an unknown word, split by whether all its XLM-R subwords occur in
     training (oov_subpalabras_vistas) or not (oov_alguna_subpalabra_nueva): token recall of
     each model.
+22  Tests on reserved terms with unknown words (code/oov_tests.py): paired Wilcoxon test on the
+    loss of reserved recall with an unknown word, per model and against the CRF (statistic =
+    mean loss or mean difference), and Spearman correlation between the share of reserved
+    occurrences with an unknown word and reserved recall, both centred on their level mean
+    (statistic = rho).
+23  Zipf exponents of all words and of term types (and of term forms), with the number of types.
+24  Rank-frequency distributions of all words and of term types (rank and frequency only; the
+    words are not included).
+25  Terminological saturation: share of term types observed after reading each share of the
+    corpus tokens (mean and 5th/95th percentiles over random document orders).
