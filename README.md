@@ -5,6 +5,21 @@ Terms in English and Spanish* (under review). This copy is anonymised for review
 
 > **Status:** all results reported in the paper are included.
 
+## At a glance
+
+Supervised term extractors are usually evaluated on random partitions, where most test terms
+also occur in training. We keep a proportion of the glossary entries, with all their forms,
+out of training (*type reservation*) and measure how many of these unseen terms each model
+recognises.
+
+![The type-reservation protocol](figures/fig_protocolo.png)
+
+Under type reservation, term F1 drops by about 20 points with respect to random
+cross-validation, most of all for the models that best encode word identity. All models
+recognise most seen terms, but none recovers even half of the reserved ones.
+
+![Term F1 under random CV and type reservation, and recall of seen and reserved terms](figures/fig_overview.png)
+
 ## Contents
 
 | Folder | What it contains |
@@ -30,8 +45,9 @@ Terms in English and Spanish* (under review). This copy is anonymised for review
 | `fig_oov.pdf` | 7. Recall of reserved terms with and without unknown words |
 | `fig_ablacion.pdf` | 8. CRF feature ablation |
 | `fig_acter.pdf` | B1. ACTER, leave-one-domain-out |
+| `fig_overview.pdf` / `.png` | Summary figure of this README (not in the paper) |
 
-Figures 1, 5–8 and B1 are drawn by `code/make_figures.py` from `results/`. Figures 2–4 are TikZ
+Figures 1, 5–8, B1 and the summary figure are drawn by `code/make_figures.py` from `results/`. Figures 2–4 are TikZ
 diagrams whose sources are in `figures/diagrams/`; each one compiles on its own with
 `pdflatex -jobname=fig_flujo "\def\fig{fig_flujo.tex}\input{standalone}"`. The TikZ diagrams
 were drafted with the assistance of an LLM and revised by the authors.
