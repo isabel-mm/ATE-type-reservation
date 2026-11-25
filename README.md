@@ -23,7 +23,7 @@ recognise most seen terms, but none recovers even half of the reserved ones.
 | Folder | What it contains |
 |---|---|
 | `data/annotation/` | Token-level `BIO` annotation of the English and Spanish corpora (terms `B-T`/`I-T`, entities `B-E`/`I-E`, `O`), with document, sentence and token identifiers and the glossary entry of each annotated token. **The words themselves are not included**, because the source texts are under copyright. |
-| `data/glossary/` | The 261-entry bilingual glossary (152 terms, 109 entities) used to normalise and project the annotation. |
+| `data/term_inventory/` | The term inventory: the 261 entries (151 terms, 110 entities) used to normalise and project the annotation, with their English and Spanish forms. |
 | `data/sources/` | Bibliographic list of the 100 source publications (authors, year, title, source, text type). |
 | `data/partitions/` | For every corpus, reservation level (10/20/30/50%) and draw (seeds 0–9), the glossary entries reserved for the test set and those used for validation. |
 | `code/` | All the code (see below). |
@@ -94,4 +94,4 @@ and prepare it with `code/acter_preprocess.py`.
 
 ## Licence
 
-Code: MIT. Data (annotation, glossary, partitions, results): CC BY 4.0. *(To be confirmed.)*
+Code: MIT. Data (annotation, term inventory, partitions, results): CC BY 4.0.
