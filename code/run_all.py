@@ -31,7 +31,7 @@ STEPS = [
     ["train_crf.py", "todo", "--ablacion-completa", "--todos-niveles"],
     ["train_crf.py", "ablacv"],
     # token classifiers with the same features
-    ["train_token_classifiers.py", "--niveles", "10,20", "--semillas", ALL_SEEDS],
+    ["train_token_classifiers.py", "--niveles", "20", "--semillas", ALL_SEEDS],
     # BiLSTM-CRF (and its character-level variant)
     ["train_bilstm_crf.py", "reserva", "--niveles", "10,20,30,50", "--semillas", ALL_SEEDS],
     ["train_bilstm_crf.py", "cv"],

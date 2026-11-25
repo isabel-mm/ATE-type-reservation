@@ -71,3 +71,15 @@ Additional files:
     words are not included).
 25  Terminological saturation: share of term types observed after reading each share of the
     corpus tokens (mean and 5th/95th percentiles over random document orders).
+26  Exact delimitation of single-word (mono) and multi-word (poli) terms at 20% reservation, per
+    model and draw: share of the gold term spans of the test set predicted with exactly the same
+    boundaries (code/mwt_delimitation.py).
+27  Relaxed evaluation of under-extensions of reserved terms, per run (code/nested_credit.py):
+    prop_valid (share of under-extensions whose proposed forms are annotated terms), gain_all
+    (points of exact recall gained by crediting them), prop_seen (share of those nested terms
+    whose entry was seen in training) and gain_reserved (points gained crediting only nested
+    terms of reserved entries).
+28  BiLSTM-CRF+char: term F1, precision, recall and seen/reserved recall of every run.
+29  CRF sensitivity to the regularisation coefficients (c1, c2) at 20% reservation.
+30  CRF convergence: 200 against 1,000 L-BFGS iterations.
+31  CRF feature ablation, every run (familia = removed family; BASELINE = all features).

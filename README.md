@@ -3,8 +3,6 @@
 Data, code and results for the paper *Do Term Extractors Learn Termhood? Evidence from Unseen
 Terms in English and Spanish* (under review). This copy is anonymised for review.
 
-> **Status:** all results reported in the paper are included.
-
 ## At a glance
 
 Supervised term extractors are usually evaluated on random partitions, where most test terms
@@ -14,7 +12,7 @@ recognises.
 
 ![The type-reservation protocol](figures/fig_protocolo.png)
 
-Under type reservation, term F1 drops by about 20 points with respect to random
+Under type reservation, term F1 drops by 21 to 32 points with respect to random
 cross-validation, most of all for the models that best encode word identity. All models
 recognise most seen terms, but none recovers even half of the reserved ones.
 
@@ -67,6 +65,7 @@ were drafted with the assistance of an LLM and revised by the authors.
 | `export_results.py` | Collects every run into the CSV files of `results/`, with statistical tests and error analyses. |
 | `baseline_memorisation.py`, `baseline_cvalue.py` | Memorisation baseline and unsupervised C-value/NC-value baseline under type reservation. |
 | `char_oov_analysis.py`, `oov_subword_analysis.py` | Reserved-term recall with and without unknown words (BiLSTM-CRF+char; XLM-R subword coverage). |
+| `mwt_delimitation.py`, `nested_credit.py` | Exact delimitation of single- and multi-word terms, and relaxed evaluation of under-extensions. |
 | `oov_tests.py` | Wilcoxon tests on the recall lost with unknown words, and its Spearman correlation with reserved recall across draws. |
 | `source_composition.py`, `source_sensitivity.py` | Sensitivity of the results to the composition of the corpus. |
 | `make_figures.py` | Result figures of the paper, from `results/`. |

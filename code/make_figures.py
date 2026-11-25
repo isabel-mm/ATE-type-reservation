@@ -212,18 +212,18 @@ def fig_distribucion():
 
 
 def fig_overview():
-    """Summary figure for the README (also saved as PNG): term F1 under random CV and under
-    10% reservation (as in Table B1), and recall of seen and reserved terms at 20% (Table B2)."""
+    """Summary figure for the README (also saved as PNG): term F1 under random CV and under 20%
+    reservation (Table B1), and recall of seen and reserved terms at 20% (Table B2)."""
     d = pd.read_csv(RESULTS / "01_ejecuciones_todas.csv", low_memory=False)
     d = d[d.familia.isna() & d.lang.isin(["en", "es"]) & d.modelo.isin(MODELS)]
     cv = d[d.exp == "cv"].groupby(["lang", "modelo"]).f1_termino.mean()
-    r10 = d[(d.exp == "reserva") & (d.pct == 10)].groupby(["lang", "modelo"]).f1_termino.mean()
+    r20f = d[(d.exp == "reserva") & (d.pct == 20)].groupby(["lang", "modelo"]).f1_termino.mean()
     r20 = d[(d.exp == "reserva") & (d.pct == 20)].groupby(["lang", "modelo"])[["vis_r_termino", "res_r_termino"]].mean()
     fig, ax = plt.subplots(1, 2, figsize=(6.6, 2.1))
     x = np.arange(len(MODELS))
     w = 0.2
     for k, (lang, hatch) in enumerate((("en", None), ("es", "////"))):
-        for j, (serie, label, alpha) in enumerate(((cv, "random CV", 0.35), (r10, "type reservation", 1.0))):
+        for j, (serie, label, alpha) in enumerate(((cv, "random CV", 0.35), (r20f, "type reservation", 1.0))):
             off = (2 * k + j - 1.5) * w
             ax[0].bar(x + off, [serie[lang, m] for m in MODELS], width=w - 0.02, color=[COL[m] for m in MODELS],
                       alpha=alpha, hatch=hatch, edgecolor="white", lw=0.4)
@@ -231,7 +231,7 @@ def fig_overview():
         for col, alpha in (("vis_r_termino", 0.35), ("res_r_termino", 1.0)):
             ax[1].bar(x + off + (-0.09 if col.startswith("vis") else 0.09), [r20.loc[(lang, m), col] for m in MODELS],
                       width=0.16, color=[COL[m] for m in MODELS], alpha=alpha, hatch=hatch, edgecolor="white", lw=0.4)
-    ax[0].set_title("Term F$_1$: random CV vs. type reservation (10%)")
+    ax[0].set_title("Term F$_1$: random CV vs. 20% type reservation")
     ax[1].set_title("Recall at 20% reservation: seen vs. reserved terms")
     for a in ax:
         a.set_xticks(x); a.set_xticklabels(MODELS); a.set_ylim(0, 1.05); a.grid(axis="x", visible=False)
