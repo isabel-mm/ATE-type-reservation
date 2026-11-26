@@ -27,7 +27,7 @@ recognise most seen terms, but none recovers even half of the reserved ones.
 | `data/sources/` | Bibliographic list of the 100 source publications (authors, year, title, source, text type). |
 | `data/partitions/` | For every corpus, reservation level (10/20/30/50%) and draw (seeds 0–9), the glossary entries reserved for the test set and those used for validation. |
 | `code/` | All the code (see below). |
-| `results/` | All metrics in CSV (see `results/README.txt`). |
+| `results/` | All metrics in CSV (see `results/README.txt`). Effect sizes (paired Cohen's *d*), 95% confidence intervals and wins per draw for every comparison between models are in `results/05_pruebas_estadisticas.csv`. |
 | `figures/` | Every figure of the paper in PDF (see below). |
 
 ## Figures
